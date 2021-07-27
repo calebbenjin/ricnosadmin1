@@ -8,11 +8,11 @@ const Body = styled.div`
 `;
 
 const Title = styled.h1`
-  /* color: ${props => props.color ? props.color : 'red'} */
-  ${props => props.primary && css`
-    color: red;
+  color: ${props => props.color ? props.color : props.theme.colors.primary}
+  /* ${props => props.primary && css`
+    color: ${props => props.theme.colors.primary};
     font-size: 3rem;
-  `}
+  `} */
 `;
 
 const Button = styled.button`
@@ -26,7 +26,7 @@ const Button = styled.button`
   width: ${props => props.maxWidth ? props.maxWidth : ''};
   transition: ease 0.2s all;
   ${props => props.primary && css`
-    background: ${props => props.theme.primary.baseColor};
+    background: ${props => props.theme.colors.primary};
     font-size: 3rem;
   `}
 `;

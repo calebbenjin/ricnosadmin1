@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 
-export default function Container({ children, className}) {
+export default function Container({ children}) {
   return (
-    <Box className={className}>
+    <Box>
       {children}
     </Box>
   )

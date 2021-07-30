@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 
-export default function Card({ children }) {
+export default function Card({ children, className }) {
   return (
-    <CardBody>
+    <CardBody className={className}>
       {children}
     </CardBody>
   )
@@ -13,5 +13,6 @@ export default function Card({ children }) {
 const CardBody = styled.div`
   box-shadow: ${props => props.theme.shadows.shadow1};
   background: ${props => props.theme.colors.white};
-  padding: 20px;
+  border-radius: ${props => props.theme.radius};
+  width: 100%;
 `;

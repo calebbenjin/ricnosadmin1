@@ -2,7 +2,7 @@ import { Box, Heading, Container, Flex, Avatar, Text, Menu, MenuButton, MenuList
 import styled from 'styled-components'
 
 
-export default function UserAvatar({image, userName, userTitle, userEmail, size}) {
+export default function UserAvatar({image, userTitle, size}) {
   return (
     <AvatarContainer>
       <Avatar name={userTitle} className="avatar" src={image} size={size} />

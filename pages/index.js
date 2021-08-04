@@ -75,7 +75,7 @@ export default function HomePage() {
 
         <Section>
           <Grid2>
-            <ActivityLog />
+            <ActivityLog  />
             <SummaryLog />
           </Grid2>
         </Section>

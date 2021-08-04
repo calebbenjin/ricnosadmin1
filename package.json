@@ -12,6 +12,7 @@
     "@chakra-ui/react": "^1.6.5",
     "@emotion/react": "^11.4.0",
     "@emotion/styled": "^11.3.0",
+    "babel-plugin-styled-components": "^1.13.2",
     "framer-motion": "^4.1.17",
     "fusioncharts": "^3.17.0",
     "next": "11.0.1",

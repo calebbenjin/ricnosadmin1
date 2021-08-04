@@ -1,11 +1,18 @@
+import Link from 'next/link'
 import styled from 'styled-components'
+import ActiveLogCard from '../atoms/ActiveLogCard'
 
-export default function ActivityLog() {
+export default function ActivityLogCard() {
   return (
     <Box>
       <div className='header'>
         <h4>Activity Log</h4>
       </div>
+      <ActiveLogCard trackCode="876786728" status="complete order" date="august 20" />
+      <ActiveLogCard trackCode="876786728" status="complete order" date="august 20" />
+      <ActiveLogCard trackCode="876786728" status="complete order" date="august 20" />
+      <ActiveLogCard trackCode="876786728" status="complete order" date="august 20" />
+      <ActiveLogCard trackCode="876786728" status="complete order" date="august 20" />
     </Box>
   )
 }

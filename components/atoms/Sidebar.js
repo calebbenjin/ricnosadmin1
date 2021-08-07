@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import Link from '../atoms/Link'
 import styled from 'styled-components'
 import Container from './Container'
 import Logo from './Logo'

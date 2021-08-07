@@ -2,9 +2,9 @@ import Link from 'next/link'
 import styled from 'styled-components'
 import Container from './Container'
 
-export default function FooterComp() {
+export default function FooterComp({className}) {
   return (
-    <Footer>
+    <Footer className={className}>
       <div className="container">
         <p>&copy; 2021 Ricnoslogistics. All rights reserved</p>
         <div className='box'>
@@ -28,7 +28,7 @@ export default function FooterComp() {
 
 const Footer = styled.footer`
   background: ${(props) => props.theme.colors.primary};
-  padding: 20px 0;
+  padding: 15px 0;
   
   .container {
     display: flex;

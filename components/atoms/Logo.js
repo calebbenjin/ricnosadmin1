@@ -12,3 +12,17 @@ export default function Logo() {
     </div>
   )
 }
+
+
+export function LogoOne() {
+  return (
+    <div>
+      <Image
+        src="/logo.png"
+        alt="Picture of the author"
+        width={60}
+        height={60}
+      />
+    </div>
+  )
+}

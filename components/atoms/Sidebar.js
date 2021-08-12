@@ -23,7 +23,7 @@ export default function Sidebar() {
             <FaChartPie className='icon' /> Dashboard
           </a>
         </Link>
-        <Link href='/dashboard/orders'>
+        <Link href='/orders'>
           <a className='navLink'>
             <FaListUl className='icon' /> Orders
           </a>

@@ -18,4 +18,8 @@ const SecHeading = styled.div`
   color: ${props => props.theme.colors.primary};
   font-size: ${props => props.theme.fontSize.medium};
   /* font-weight: ${props => props.fontWeight ? props.fontWeight : '400'}; */
+
+  h2 {
+    font-weight: ${(props) => props.theme.fontWeight.bold};
+  }
 `;

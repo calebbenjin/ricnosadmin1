@@ -45,16 +45,16 @@ h4 {
   }
 }
 
-.btn {
-  background: red;
+.btnGreen {
+  background: green !important;
   color: #fff;
-  padding: 7px 30px;
-  border-radius: 6px;
-  transition: all 0.3s ease-in;
+}
+.btnGreen:hover {
+  background: #029b02 !important;
 }
 
-.btn:hover {
-  background: #b90505;
+.iconSize {
+  font-size: 1.2rem;
 }
 
 .imgBg {
@@ -85,9 +85,6 @@ h4 {
   border: solid 1px #ccc;
 }
 
-.termsLink {
-  color: #eee;
-}
 
 .selected {
   background: #131313;

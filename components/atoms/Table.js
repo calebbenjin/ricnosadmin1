@@ -1,7 +1,9 @@
 import React, { useState, useMemo, useEffect } from 'react'
 import DefaultColumnFilter from './DefaultColumFilter'
 import GlobalFilter from './GlobalFilters'
-import {  useTable, useFilters, useSortBy, useGlobalFilter } from 'react-table'
+import { useTable, useFilters, useSortBy, useGlobalFilter } from 'react-table'
+import styled from 'styled-components'
+import Link from 'next/link'
 
 export default function Table({ data, columns }) {
   const [tableData, setTableData] = useState([])
@@ -48,28 +50,25 @@ export default function Table({ data, columns }) {
     },
     useFilters,
     useGlobalFilter,
-    useSortBy,
+    useSortBy
   )
 
   return (
-    <div>
-      <table {...getTableProps()}>
+    <Container>
+      <div
+        colSpan={visibleColumns.length}
+        style={{
+          textAlign: 'left',
+        }}
+      >
+        <GlobalFilter
+          preGlobalFilteredRows={preGlobalFilteredRows}
+          globalFilter={state.globalFilter}
+          setGlobalFilter={setGlobalFilter}
+        />
+      </div>
+      <TableContainer {...getTableProps()}>
         <thead>
-
-        <tr>
-          <th
-            colSpan={visibleColumns.length}
-            style={{
-              textAlign: "left"
-            }}
-          >
-            <GlobalFilter
-              preGlobalFilteredRows={preGlobalFilteredRows}
-              globalFilter={state.globalFilter}
-              setGlobalFilter={setGlobalFilter}
-            />
-          </th>
-        </tr>
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
@@ -87,11 +86,10 @@ export default function Table({ data, columns }) {
               ))}
             </tr>
           ))}
-
-          
         </thead>
         <tbody {...getTableBodyProps()}>
           {rows.map((row, i) => {
+            console.log(row.cells[0].row)
             prepareRow(row)
             return (
               <tr {...row.getRowProps()}>
@@ -102,7 +100,43 @@ export default function Table({ data, columns }) {
             )
           })}
         </tbody>
-      </table>
-    </div>
+      </TableContainer>
+    </Container>
   )
 }
+
+const TableContainer = styled.table`
+  width: 100%;
+  background: #fff;
+  margin: 2rem 0;
+  text-align: center;
+  height: 100vh;
+  overflow: scroll;
+
+  thead {
+    box-shadow: ${(props) => props.theme.shadows.shadow1};
+    tr th {
+      padding-bottom: 20px;
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: solid 1px #ccc;
+      td {
+        padding: 1rem 0;
+      }
+    }
+
+    td {
+      align-items: justify;
+      &:nth-child(1) {
+        font-weight: ${(props) => props.theme.fontWeight.bold};
+      }
+    }
+  }
+`
+
+const Container = styled.div`
+  border-radius: 6px;
+`

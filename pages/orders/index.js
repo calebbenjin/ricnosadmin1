@@ -120,7 +120,7 @@ export default function OrdersPage() {
             <RiArrowLeftRightFill className='icon' /> Delivery
           </button>
         </FliterContainer>
-        {/* <Table columns={columns} data={data} /> */}
+        <Table columns={columns} data={data} />
     </Layout>
   )
 }

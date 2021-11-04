@@ -28,38 +28,38 @@ export default function Sidebar() {
             <FaListUl className='icon' /> Orders
           </a>
         </Link>
-        <Link href='/dashboard/message'>
+        <Link href='/message'>
           <a className='navLink'>
             <SiGooglemessages className='icon' /> Messages
           </a>
         </Link>
-        <Link href='/dashboard/support'>
+        <Link href='/support'>
           <a className='navLink'>
             <BiSupport className='icon' /> Support
           </a>
         </Link>
-        <Link href='/dashboard/support'>
+        <Link href='/finance'>
           <a className='navLink'>
             <BsBarChartFill className='icon' /> Finance
           </a>
         </Link>
-        <Link href='/dashboard/support'>
+        <Link href='/quote'>
           <a className='navLink'>
-            <FaUserTie className='icon' /> Qoute Request
+            <FaUserTie className='icon' /> Quote Request
           </a>
         </Link>
         <hr />
-        <Link href='/dashboard/policy'>
+        <Link href='/orders/offlineOrders'>
           <a className='navLink'>
             <RiWifiOffLine className='icon' /> Offline Order
           </a>
         </Link>
-        <Link href='/dashboard/policy'>
+        <Link href='/users'>
           <a className='navLink'>
             <FaUsers className='icon' /> Users
           </a>
         </Link>
-        <Link href='/dashboard/settings'>
+        <Link href='/settings'>
           <a className='navLink'>
             <FiSettings className='icon' /> Settings
           </a>

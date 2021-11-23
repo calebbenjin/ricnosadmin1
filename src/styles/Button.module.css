@@ -1,0 +1,129 @@
+.btnLink {
+  background: red;
+  border: solid 1px red;
+  padding: 7px 20px;
+  color: #fff;
+  text-decoration: none;
+  margin: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  border-radius: 6px;
+  transition: all 0.4s linear;
+  text-transform: uppercase;
+}
+.btnLink:hover {
+  background: #b60202;
+}
+
+
+
+.btn {
+  background: red;
+  border: solid 1px red;
+  padding: 10px 30px;
+  color: #fff;
+  margin: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.1rem;
+  white-space: nowrap;
+  border-radius: 6px;
+  transition: all 0.4s linear;
+  text-transform: uppercase;
+}
+.btn:hover {
+  background: #b60202;
+}
+
+.btn p{
+  margin-left: 10px;
+}
+
+.btnGreen {
+  background: green;
+  border: solid 1px green;
+  padding: 10px 30px;
+  color: #fff;
+  margin: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.1rem;
+  white-space: nowrap;
+  border-radius: 6px;
+  transition: all 0.4s linear;
+  text-transform: uppercase;
+}
+.btnGreen:hover {
+  background: #0ed10e;
+  border: solid 1px #0ed10e;
+  color: #161616;
+}
+
+.btnGreen p{
+  margin-left: 10px;
+}
+
+.btnDark {
+  color: #fff;
+  padding: 10px 20px;
+  background: #000;
+  max-width: 100%;
+  border-radius: 6px;
+  border: solid 1px #fff;
+  margin: 1rem 0;
+  white-space: nowrap;
+  text-align: center;
+  font-weight: 500;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: all 0.5s ease;
+}
+
+
+
+
+
+
+
+
+@media screen and (max-width: 768px) {
+  .btn {
+    background: red;
+    border: solid 1px red;
+    padding: 10px 30px;
+    display: block;
+    color: #fff;
+    margin: 1rem 0;
+    width: 100%;
+    display: inline;
+    white-space: nowrap;
+    border-radius: 6px;
+    transition: all 0.4s linear;
+    text-transform: uppercase;
+  }
+  
+  .button:hover {
+    background: #b60202;
+  }
+  
+  .btnDark {
+    color: #fff;
+    padding: 10px;
+    background: #000;
+    max-width: 100%;
+    border-radius: 6px;
+    margin: 1rem 0;
+    white-space: nowrap;
+    text-align: center;
+    font-weight: 500;
+    font-size: 0.8rem;
+    border: none;
+    text-decoration: none;
+    transition: all 0.5s ease;
+  }
+}

@@ -124,7 +124,7 @@ export default function UserPage() {
             </div>
 
             <div className="logoCard">
-              <img src="/ricnoslogo.png" className="logo" alt="Logo" />
+              <Image src="/ricnoslogo.png" className="logo" alt="Logo" />
               <div className="title">
                 <h3>Ricnos Logistic</h3>
                 <p>Premium</p>

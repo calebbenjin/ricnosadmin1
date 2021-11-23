@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import Heading from "../../../components/atoms/Heading";
-import Layout from "../../../components/organisms/Layout";
+// import Heading from "@/components/atoms/Heading";
+import Layout from "@/components/organisms/Layout";
 import styles from '@/styles/Chats.module.css'
 import { BsThreeDots } from 'react-icons/bs'
 import { MdAttachFile } from 'react-icons/md'

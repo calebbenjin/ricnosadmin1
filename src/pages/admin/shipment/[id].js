@@ -1,6 +1,6 @@
-import Container from 'src/components/atoms/Container'
-import Heading from 'src/components/atoms/Heading'
-import Layout from 'src/components/organisms/Layout'
+import Container from '@/components/atoms/Container'
+import Heading from '@/components/atoms/Heading'
+import Layout from '@/components/organisms/Layout'
 import {useRouter} from 'next/router'
 
 export default function ShipmentPage({ }) {

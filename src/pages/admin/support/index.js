@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import Button from 'src/components/atoms/Button'
-import Layout from 'src/components/organisms/Layout'
+import Button from '@/components/atoms/Button'
+import Layout from '@/components/organisms/Layout'
 import styles from '@/styles/support/Support.module.css'
 import { AiOutlinePlus } from 'react-icons/ai'
-import TicketChat from 'src/components/organisms/TicketChat'
-import LiveChat from 'src/components/organisms/LiveChat'
+import TicketChat from '@/components/organisms/TicketChat'
+import LiveChat from '@/components/organisms/LiveChat'
 
 export default function SupportPage() {
   const [attachedFile, setAttachedFile] = useState()

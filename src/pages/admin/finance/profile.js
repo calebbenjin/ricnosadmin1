@@ -1,4 +1,4 @@
-import Heading from '@/components/atoms/Heading'
+// import Heading from '@/components/atoms/Heading'
 import Container from '@/components/atoms/Container'
 import Layout from '@/components/organisms/Layout'
 import styled from 'styled-components'
@@ -9,7 +9,7 @@ export default function UserPage() {
   return (
     <Layout title='User Details'>
       <Container>
-        <Heading>User Page</Heading>
+        {/* <Heading>User Page</Heading> */}
         <ProfileContainer>
           <Profile>
             <div className='cardHead'>
@@ -83,7 +83,7 @@ export default function UserPage() {
             </div>
             <div className="userHead">
               <div className="head">
-                <img src="/user.png" className="roundedImg" alt="UserImage" />
+                {/* <img src="/user.png" className="roundedImg" alt="UserImage" /> */}
                 <h5>Benard Benedict</h5>
               </div>
               <Link href="/"><a className="icon">Link</a></Link>
@@ -124,7 +124,7 @@ export default function UserPage() {
             </div>
 
             <div className="logoCard">
-              <img src="/ricnoslogo.png" className="logo" alt="Logo" />
+              {/* <Image src="/ricnoslogo.png" className="logo" alt="Logo" /> */}
               <div className="title">
                 <h3>Ricnos Logistic</h3>
                 <p>Premium</p>

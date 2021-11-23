@@ -69,10 +69,10 @@ export default function Table({ data, columns }) {
       </div>
       <TableContainer {...getTableProps()}>
         <thead>
-          {headerGroups.map((headerGroup) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
-                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+          {headerGroups.map((headerGroup, idx) => (
+            <tr key={idx} {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map((column, idx) => (
+                <th key={idx} {...column.getHeaderProps(column.getSortByToggleProps())}>
                   {column.render('Header')}
                   {/* <div>{column.canFilter ? column.render("Filter") : null}</div> */}
                   <span>
@@ -90,11 +90,11 @@ export default function Table({ data, columns }) {
         <tbody {...getTableBodyProps()}>
           {rows.map((row, i) => {
             console.log(row.cells[0].row)
-            prepareRow(row)
+            prepareRow(row, idx)
             return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map((cell) => {
-                  return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+              <tr key={idx} {...row.getRowProps()}>
+                {row.cells.map((cell, idx) => {
+                  return <td key={idx} {...cell.getCellProps()}>{cell.render('Cell')}</td>
                 })}
               </tr>
             )

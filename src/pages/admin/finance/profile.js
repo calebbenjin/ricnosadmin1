@@ -1,4 +1,4 @@
-// import Heading from '@/components/atoms/Heading'
+import Heading from '@/components/atoms/Heading'
 import Container from '@/components/atoms/Container'
 import Layout from '@/components/organisms/Layout'
 import styled from 'styled-components'
@@ -9,7 +9,7 @@ export default function UserPage() {
   return (
     <Layout title='User Details'>
       <Container>
-        {/* <Heading>User Page</Heading> */}
+        <Heading>User Page</Heading>
         <ProfileContainer>
           <Profile>
             <div className='cardHead'>

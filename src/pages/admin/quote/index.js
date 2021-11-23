@@ -1,5 +1,5 @@
-import Heading from "../../../components/atoms/Heading";
-import Layout from "../../../components/organisms/Layout";
+import Heading from "@/components/atoms/Heading";
+import Layout from "@/components/organisms/Layout";
 
 export default function QuotePage() {
   return (

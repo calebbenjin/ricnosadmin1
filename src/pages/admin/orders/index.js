@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react'
+// import React, { useMemo, useState, useEffect } from 'react'
 import { BsPlus } from 'react-icons/bs'
 import { BiPrinter } from 'react-icons/bi'
 import { VscListFilter } from 'react-icons/vsc'
@@ -7,7 +7,7 @@ import { FaChartPie, FaListUl, FaUsers, FaUserTie } from 'react-icons/fa'
 import Button from '@/components/atoms/Button'
 import ButtonGreen from '@/components/atoms/ButtonGreen'
 import Container from '@/components/atoms/Container'
-import Table from '@/components/atoms/Table'
+// import Table from '@/components/atoms/Table'
 import Heading from '@/components/atoms/Heading'
 import Layout from '@/components/organisms/Layout'
 import styled from 'styled-components'
@@ -15,77 +15,77 @@ import { useRouter } from 'next/router'
 
 export default function OrdersPage() {
 
-  const data = [
-    { id: 1, trackNo: "QH46", date: "july 2020", item: "Bags", from: "Lagos Leki", to: "Port harcourt", status: "Active", price: 2000 },
-    { id: 2, trackNo: "QH45", date: "march 2020", item: "Bags", from: "Lagos Leki", to: "Port harcourt", status: "Completed", price: 2000 },
-    { id: 3, trackNo: "QH44", date: "july 2020", item: "Bags", from: "Lagos Leki", to: "Port harcourt", status: "Completed", price: 2000 },
-    { id: 4,trackNo: "QH43", date: "july 2020", item: "Bags", from: "Lagos Leki", to: "Port harcourt", status: "Cancelled", price: 2000 },
-    { id: 5, trackNo: "QH42", date: "july 2020", item: "Bags", from: "Warri", to: "Lagos", status: "Active", price: 2000 },
-    { id: 6, trackNo: "QH42", date: "july 2020", item: "Bags", from: "Warri", to: "Lagos", status: "Active", price: 2000 },
-    { id: 7, trackNo: "QH42", date: "july 2020", item: "Bags", from: "Warri", to: "Lagos", status: "Active", price: 2000 },
-    { id: 8, trackNo: "QH42", date: "july 2020", item: "Bags", from: "Kanu", to: "Calabar", status: "Active", price: 2000 },
-    { id: 9, trackNo: "QH42", date: "july 2020", item: "Bags", from: "Owerri", to: "Lagos", status: "Active", price: 2000 },
-    { id: 10, trackNo: "QH42", date: "july 2020", item: "Bags", from: "Jos", to: "Kastina", status: "Active", price: 2000 },
-  ];
+  // const data = [
+  //   { id: 1, trackNo: "QH46", date: "july 2020", item: "Bags", from: "Lagos Leki", to: "Port harcourt", status: "Active", price: 2000 },
+  //   { id: 2, trackNo: "QH45", date: "march 2020", item: "Bags", from: "Lagos Leki", to: "Port harcourt", status: "Completed", price: 2000 },
+  //   { id: 3, trackNo: "QH44", date: "july 2020", item: "Bags", from: "Lagos Leki", to: "Port harcourt", status: "Completed", price: 2000 },
+  //   { id: 4,trackNo: "QH43", date: "july 2020", item: "Bags", from: "Lagos Leki", to: "Port harcourt", status: "Cancelled", price: 2000 },
+  //   { id: 5, trackNo: "QH42", date: "july 2020", item: "Bags", from: "Warri", to: "Lagos", status: "Active", price: 2000 },
+  //   { id: 6, trackNo: "QH42", date: "july 2020", item: "Bags", from: "Warri", to: "Lagos", status: "Active", price: 2000 },
+  //   { id: 7, trackNo: "QH42", date: "july 2020", item: "Bags", from: "Warri", to: "Lagos", status: "Active", price: 2000 },
+  //   { id: 8, trackNo: "QH42", date: "july 2020", item: "Bags", from: "Kanu", to: "Calabar", status: "Active", price: 2000 },
+  //   { id: 9, trackNo: "QH42", date: "july 2020", item: "Bags", from: "Owerri", to: "Lagos", status: "Active", price: 2000 },
+  //   { id: 10, trackNo: "QH42", date: "july 2020", item: "Bags", from: "Jos", to: "Kastina", status: "Active", price: 2000 },
+  // ];
   
-  const columns = [
-    {
-      Header: ".",
-      columns: [
-        {
-          Header: "Track No",
-          accessor: "trackNo",
-          sortType: "basic",
-          filter: "text"
-        },
-        {
-          Header: "Date",
-          accessor: "date",
-          sortType: "basic",
-          filter: "text",
-        },
-        {
-          Header: "Item",
-          accessor: "item",
-          sortType: "basic",
-          filter: "text"
-        },
-        {
-          Header: "From",
-          accessor: "from",
-          sortType: "basic",
-          filter: "text"
-        },
-        {
-          Header: "To",
-          accessor: "to",
-          sortType: "basic",
-          filter: "text"
-        },
-        {
-          Header: "Status",
-          accessor: "status",
-          sortType: "basic",
-          filter: "text"
-        },
-        {
-          Header: "Price",
-          accessor: "price",
-          sortType: "basic",
-          filter: "text"
-        },
-        {
-          Header: "View",
-          // Cell: ({ cell }) => (
-          //   <button value={cell.id} onClick={() => handleRoute()}>
-          //     view {cell.id}
-          //   </button>
-          // )
-        }
-      ]
-    },
+  // const columns = [
+  //   {
+  //     Header: ".",
+  //     columns: [
+  //       {
+  //         Header: "Track No",
+  //         accessor: "trackNo",
+  //         sortType: "basic",
+  //         filter: "text"
+  //       },
+  //       {
+  //         Header: "Date",
+  //         accessor: "date",
+  //         sortType: "basic",
+  //         filter: "text",
+  //       },
+  //       {
+  //         Header: "Item",
+  //         accessor: "item",
+  //         sortType: "basic",
+  //         filter: "text"
+  //       },
+  //       {
+  //         Header: "From",
+  //         accessor: "from",
+  //         sortType: "basic",
+  //         filter: "text"
+  //       },
+  //       {
+  //         Header: "To",
+  //         accessor: "to",
+  //         sortType: "basic",
+  //         filter: "text"
+  //       },
+  //       {
+  //         Header: "Status",
+  //         accessor: "status",
+  //         sortType: "basic",
+  //         filter: "text"
+  //       },
+  //       {
+  //         Header: "Price",
+  //         accessor: "price",
+  //         sortType: "basic",
+  //         filter: "text"
+  //       },
+  //       {
+  //         Header: "View",
+  //         // Cell: ({ cell }) => (
+  //         //   <button value={cell.id} onClick={() => handleRoute()}>
+  //         //     view {cell.id}
+  //         //   </button>
+  //         // )
+  //       }
+  //     ]
+  //   },
     
-  ];
+  // ];
 
   const router = useRouter()
 
@@ -121,7 +121,7 @@ export default function OrdersPage() {
             <RiArrowLeftRightFill className='icon' /> Delivery
           </button>
         </FliterContainer>
-        <Table columns={columns} data={data} />
+        {/* <Table columns={columns} data={data} /> */}
     </Layout>
   )
 }

@@ -20,7 +20,7 @@ import {
 } from '@chakra-ui/react'
 import FormInput from '@/components/atoms/FormInput'
 
-export default function loginPage() {
+export default function LoginPage() {
   const [show, setShow] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 

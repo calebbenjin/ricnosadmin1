@@ -18,7 +18,6 @@ const HeadingStyle = styled.div`
   margin: 2rem 0;
   padding-bottom: 1rem;
   width: 100%;
-  background: red;
   border-bottom: solid 1px #333;
 
   h4 {

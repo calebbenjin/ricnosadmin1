@@ -40,7 +40,7 @@ export default {
     shadow1: '1px -1px 14px rgba(0, 0, 0, 0.1)',
     shadow2: '0px 5px 20px rgba(30, 30, 31, 0.2)',
   },
-  radius: '4px',
+  radius: '6px',
   grid2: '1fr 1fr',
   grid3: '1fr 1fr 1fr',
   grid4: '1fr 1fr 1fr 1fr',

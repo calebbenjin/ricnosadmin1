@@ -17,7 +17,7 @@ export default function Button({type, icon, loading, title, children}) {
     />
       <h6>{title}...</h6>
     </div>
-       : <>{icon} <p>{children}</p> </> }
+       : <>{icon} <span>{children}</span> </> }
     </button>
   )
 }

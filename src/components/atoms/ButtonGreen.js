@@ -16,7 +16,7 @@ export default function ButtonGreen({type, icon, loading, title, children}) {
     />
       <h2>{title}...</h2>
     </div>
-       : <>{icon} <p>{children}</p> </> }
+       : <>{icon} <span>{children}</span> </> }
     </button>
   )
 }

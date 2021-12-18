@@ -11,8 +11,9 @@ export default function Card({ children, className }) {
 
 
 const CardBody = styled.div`
-  box-shadow: ${props => props.theme.shadows.shadow1};
+  box-shadow: ${props => props.theme.shadows.shadow2};
   background: ${props => props.theme.colors.white};
   border-radius: ${props => props.theme.radius};
   width: 100%;
+  padding: 2rem;
 `;

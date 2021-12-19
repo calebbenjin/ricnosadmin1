@@ -1,0 +1,124 @@
+.flexContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+
+.sideNav {
+  height: 100%;
+  width: 100%;
+  
+}
+
+.sideNav .link {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #838383;
+  white-space: nowrap;
+}
+
+.bodyContainer {
+  width: 100%;
+  padding: 0;
+}
+
+.profileSetting {
+  height: 100%;
+  margin: 0 auto;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-around;
+  border-bottom: solid 2px #ccc;
+  margin: 0.5rem auto;
+}
+
+.link {
+  display: flex;
+  line-height: 3;
+  text-transform: capitalize;
+  font-weight: 500;
+  color: #333;
+  text-align: left;
+  padding: 0;
+  
+}
+
+.form {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.link:hover {
+  background: #e7e7e7cc;
+}
+
+.avatarBadge {
+  border: none !important;
+  right: 2rem;
+}
+
+.createBtn {
+  border: solid 2px #ac0505;
+  color: #ac0505;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.card {
+  border: solid 1px #ccc;
+  margin: 2rem 0;
+}
+
+@media screen and (min-width: 1022px) {
+
+  .flexContainer {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .bodyContainer {
+    width: 80%;
+    padding: 0 4rem;
+  }
+
+  .sideNav {
+    width: 20%;
+    height: 100vh;
+    position: sticky;
+    top: 0%;
+    border-right: solid 1px #ccc;
+    margin-top: 0rem;
+  }
+
+  .nav {
+    text-align: center;
+    display:flex;
+    flex-direction: column;
+    border: none;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .sideNav .link {
+    display: block;
+    line-height: 4;
+    border-top: solid 1px #ccc;
+    text-transform: capitalize;
+    font-weight: 700;
+    color: #333;
+    padding: 0 2rem;
+  }
+
+  .profileSetting {
+    width: 75%;
+  }
+
+  .createBtn {
+    border: solid 2px #ac0505;
+    color: #ac0505;
+    padding: 4px;
+    border-radius: 4px;
+  }
+}

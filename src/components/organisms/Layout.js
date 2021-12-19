@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import Footer from '../atoms/Footer'
+// import Footer from '../atoms/Footer'
 import Navbar from '../atoms/Navbar'
 import Sidebar from '../atoms/Sidebar'
 import Head from 'next/head'
@@ -17,7 +17,7 @@ export default function Layout({ keywords, description, title, children }) {
         <MainView>
           <Navbar />
           {children}
-          <Footer />
+          {/* <Footer /> */}
         </MainView>
       </Main>
     </>

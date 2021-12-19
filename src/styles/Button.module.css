@@ -44,11 +44,11 @@
 }
 
 .btnGreen {
-  background: green;
-  border: solid 1px green;
-  padding: 10px 30px;
+  background: #0DBA61;
+  border: solid 1px #0DBA61;
+  padding: 10px 40px;
   color: #fff;
-  margin: 0 1rem;
+  /* margin: 0 1rem; */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -59,9 +59,9 @@
   text-transform: uppercase;
 }
 .btnGreen:hover {
-  background: #0ed10e;
-  border: solid 1px #0ed10e;
-  color: #161616;
+  background: #0b8043;
+  border: solid 1px #0b8043;
+  color: #fff;
 }
 
 .btnGreen p{

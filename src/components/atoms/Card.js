@@ -15,5 +15,6 @@ const CardBody = styled.div`
   background: ${props => props.theme.colors.white};
   border-radius: ${props => props.theme.radius};
   width: 100%;
-  padding: 2rem;
+  padding: 1.5rem;
+  position: relative;
 `;

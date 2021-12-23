@@ -2,9 +2,9 @@ import styles from '@/styles/Button.module.css'
 import { Spinner } from '@chakra-ui/react'
 import style from '@/styles/loader.module.css'
 
-export default function Button({type, icon, loading, title, children}) {
+export default function Button({type, icon, loading, title, children, style}) {
   return (
-    <button type={type} className={styles.btn}>
+    <button type={type} className={styles.btn} style={style}>
       
       {loading ? <div className={style.card}>
       <Spinner

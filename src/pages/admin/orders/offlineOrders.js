@@ -106,12 +106,48 @@ export default function OfflineOrderPage() {
               </Grid>
               <hr />
               <Box mt="4">
-                <table>
-                    <tr>
-                      <th>ITEM</th>
-                    </tr>
-                </table>
+                <Flex justify='space-between' alignItems='center'>
+                  <th>ITEM</th>
+                  <th>QTY</th>
+                  <th>ITEM VALUE AMOUNT</th>
+                </Flex>
+                <Flex justify='space-between' alignItems='center' my="2">
+                  <td>Samsung TY67</td>
+                  <td>23</td>
+                  <td>NGN 23,000</td>
+                </Flex>
+                <Flex justify='space-between' alignItems='center' my="2">
+                  <td>Samsung TY67</td>
+                  <td>23</td>
+                  <td>NGN 23,000</td>
+                </Flex>
               </Box>
+              {/* Sub total table result */}
+              <Flex justify='end' alignItems='end' borderBottomWidth="1px" borderTopWidth="1px" my="4">
+                <Box width="50%" my="4">
+                  <Flex justify='space-between' alignItems='center' pb="2">
+                    <Text fontWeight='bold'>Amount</Text>
+                    <Text>NGN 23,000</Text>
+                  </Flex>
+                  <Flex justify='space-between' alignItems='center' pb="2">
+                    <Text fontWeight='bold'>Vat</Text>
+                    <Text>NGN 23,000</Text>
+                  </Flex>
+                  <Flex justify='space-between' alignItems='center' pb="2">
+                    <Text fontWeight='bold'>Pickup price</Text>
+                    <Text>NGN 23,000</Text>
+                  </Flex>
+                  <Flex justify='space-between' alignItems='center' pb="2">
+                    <Text fontWeight='bold'>Handling & Security</Text>
+                    <Text>NGN 0.000</Text>
+                  </Flex>
+
+                  <Flex justify='space-between' alignItems='center' borderTopWidth="1px" pt="2">
+                    <Text fontWeight='800' fontSize="lg">Total</Text>
+                    <Text fontWeight='800' fontSize="lg">NGN 0.000</Text>
+                  </Flex>
+                </Box>
+              </Flex>
             </Card>
           </Box>
           <Box width={['100%', '35%']} p='1rem'>

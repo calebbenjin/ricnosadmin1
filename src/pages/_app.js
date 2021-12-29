@@ -142,9 +142,9 @@ const GlobalStyle = ({ children }) => {
           table td:nth-of-type(2) {
             font-weight: 900;
           }
-          table td:nth-of-type(7) {
+          /* table td:nth-of-type(7) {
             color: green;
-          }
+          } */
           table td:first-of-type {
             display: none;
           }

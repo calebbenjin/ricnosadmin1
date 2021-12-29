@@ -1,20 +1,30 @@
-import React, { useEffect, useState } from 'react'
 import Container from '@/components/atoms/Container'
 import Layout from '@/components/organisms/Layout'
 import styled from 'styled-components'
-import Button from '@/components/atoms/Button'
 import Card from '@/components/atoms/Card'
-import ButtonGreen from '@/components/atoms/ButtonGreen'
+import UserCardInfo from '@/components/molecules/UserCardInfo'
+import Logs from '@/components/molecules/Logs'
+import { Button, Flex, Box, Heading, Text } from '@chakra-ui/react'
 import Link from 'next/link'
+import Logo from '@/components/atoms/Logo'
+import logo from '@/assets/logo1.svg'
+import Image from 'next/image'
+
 
 export default function OrdersPage() {
+
+
+  const handleClick = () => {
+    alert("Hello Coder")
+  }
+
   return (
     <Layout>
       <Container>
-        <Heading>
+        <Header>
           <h2 className='orderId'>Orders #00074</h2>
           <h5 className='date'>06.12.2021 at 10:14am</h5>
-        </Heading>
+        </Header>
 
         <OrderStatus>
           <div className='header'>
@@ -22,7 +32,7 @@ export default function OrdersPage() {
               <h2>Status</h2>
               <p>Pending</p>
             </div>
-            <Button>Print Invoice</Button>
+            <Button colorScheme='red'>Print Invoice</Button>
           </div>
           <div className='pickupContainer'>
             <div className='box'>
@@ -89,25 +99,201 @@ export default function OrdersPage() {
                   Lorem ipsum dolor sit, amet consectetur adipisicing elit.
                   Molestiae, aperiam?
                 </p>
-                <ButtonGreen>Deliver</ButtonGreen>
+                <Button colorScheme='green'>Deliver</Button>
               </div>
             </div>
           </div>
         </OrderStatus>
-          <SectionLayout>
-            <main>
+        <SectionLayout>
+          <Flex>
+            <Box width='70%' pr='4'>
               <Card>
-                <h4 className="card-title">Sender Details</h4>
+                <Heading size='md'>Sender Details</Heading>
+                <Flex alignItems="center" justifyContent="space-between" mt="4">
+                  <Box width="33%">
+                    <Heading size="sm" color="red">Name</Heading>
+                    <Text>John Doe</Text>
+                  </Box>
+                  <Box width="33%">
+                    <Heading size="sm" color="red">Email</Heading>
+                    <Text>Johndoe@gmail.com</Text>
+                  </Box>
+                  <Box>
+                    <Heading size="sm" color="red">Phone Number</Heading>
+                    <Text>+2374889387830</Text>
+                  </Box>
+                </Flex>
               </Card>
-            </main>
-            <aside></aside>
-          </SectionLayout>
+              <Box my="8">
+                <Card>
+                  <Heading size='md'>Shipment Data</Heading>
+                  <Flex alignItems="center" justifyContent="space-between" mt="4">
+                    <Box width="33%">
+                      <Heading size="sm" color="red">Recievers Name</Heading>
+                      <Text>John Doe</Text>
+                    </Box>
+                    <Box width="33%">
+                      <Heading size="sm" color="red">Email</Heading>
+                      <Text>Johndoe@gmail.com</Text>
+                    </Box>
+                    <Box>
+                      <Heading size="sm" color="red">Phone Number</Heading>
+                      <Text>+2374889387830</Text>
+                    </Box>
+                  </Flex>
+
+                  <Flex alignItems="center" justifyContent="space-between" mt="4">
+                    <Box width="33%">
+                      <Heading size="sm" color="red">Description</Heading>
+                      <Text>John Doe</Text>
+                    </Box>
+                    <Box width="33%">
+                      <Heading size="sm" color="red">Departure</Heading>
+                      <Text>Johndoe@gmail.com</Text>
+                    </Box>
+                    <Box>
+                      <Heading size="sm" color="red">Arrival</Heading>
+                      <Text>+2374889387830</Text>
+                    </Box>
+                  </Flex>
+
+                  <Flex alignItems="center" justifyContent="space-between" mt="4">
+                    <Box width="33%">
+                      <Heading size="sm" color="red">Address</Heading>
+                      <Text>John Doe</Text>
+                    </Box>
+                    <Box width="33%">
+                      <Heading size="sm" color="red">City</Heading>
+                      <Text>Johndoe@gmail.com</Text>
+                    </Box>
+                    <Box>
+                      <Heading size="sm" color="red">State</Heading>
+                      <Text>+2374889387830</Text>
+                    </Box>
+                  </Flex>
+
+                  <Flex alignItems="center" justifyContent="space-between" mt="4">
+                    <Box width="33%">
+                      <Heading size="sm" color="red">Delivery Method</Heading>
+                      <Text>John Doe</Text>
+                    </Box>
+                    <Box width="33%">
+                      <Heading size="sm" color="red">Region</Heading>
+                      <Text>Johndoe@gmail.com</Text>
+                    </Box>
+                    <Box>
+                      <Heading size="sm" color="red">Selected Ride</Heading>
+                      <Text>+2374889387830</Text>
+                    </Box>
+                  </Flex>
+
+                  <Text mt="8" color="gray" >Item(item 1)</Text>
+                  <Flex alignItems="center" justifyContent="space-between" mt="2">
+                    <Box width="33%">
+                      <Heading size="sm" color="red">Item Name</Heading>
+                      <Text>John Doe</Text>
+                    </Box>
+                    <Box width="33%">
+                      <Heading size="sm" color="red">Quantity</Heading>
+                      <Text>Johndoe@gmail.com</Text>
+                    </Box>
+                    <Box>
+                      <Heading size="sm" color="red">Weight</Heading>
+                      <Text>+2374889387830</Text>
+                    </Box>
+                  </Flex>
+
+                  <Flex alignItems="center" justifyContent="space-between" mt="4">
+                    <Box>
+                      <Heading size="sm" color="red">Item value</Heading>
+                      <Text>NGN 34, 000</Text>
+                    </Box>
+                  </Flex>
+                </Card>
+              </Box>
+              <Box my="8">
+                <Card>
+                  <Heading size="md">Order Summary</Heading>
+                  <Flex alignItems="center" justifyContent="space-between" my="6">
+                    <Text fontWeight="500">Subtotal<sup>(all items)</sup></Text>
+                    <Text>NGN 30000</Text>
+                  </Flex>
+                  <hr />
+                  <Flex alignItems="center" justifyContent="space-between" my="4">
+                    <Text fontWeight="500">Tax<sup>PDV20%(included)</sup></Text>
+                    <Text>NGN 300.00</Text>
+                  </Flex>
+                  <Flex alignItems="center" justifyContent="space-between" my="6">
+                    <Text fontWeight="500">Shipping Discount</Text>
+                    <Text>NGN 00.00</Text>
+                  </Flex>
+                  <Flex alignItems="center" justifyContent="space-between" my="8">
+                    <Heading size="sm">Total</Heading>
+                    <Heading size="sm">NGN 20.000</Heading>
+                  </Flex>
+                </Card>
+              </Box>
+              <Box>
+                <Card>
+                  <Heading size="md" mb="4">Document</Heading>
+                  <hr />
+
+                  <Flex alignItems="center" justifyContent="space-between" mt="4">
+                    <Box width="48%">
+                      <Card>
+                        <Image src={logo} alt="item" width="200" height="200" />
+                      </Card>
+                    </Box>
+                    <Box width="48%">
+                      <Card>
+                        <Image src={logo} alt="item" width="200" height="200" />
+                      </Card>
+                    </Box>
+                  </Flex>
+                </Card>
+              </Box>
+            </Box>
+            <Box width='30%' pl='4'>
+              <UserCardInfo
+                title='Pickup Angent'
+                img='https://bit.ly/sage-adebayo'
+                username='Segun Adebayo'
+                orders='5'
+                url="/"
+                phone="+234(803) 00 0000"
+                address="No 9 lacfog plaza, Kilometer 16, East west road. Choba."
+                handleClick={handleClick}
+              />
+              <Card>
+                <Flex alignItems='center' mt='4'>
+                  <Box p='4' borderRadius='md' mr='10' boxShadow='md'>
+                    <Logo src={logo} />
+                  </Box>
+                  <Box>
+                    <Text fontSize='lg'>Ricno Logistics</Text>
+                    <Text>Premium</Text>
+                  </Box>
+                </Flex>
+              </Card>
+              <Box my="4">
+                <UserCardInfo
+                  title='Delivery Agent'
+                  img='https://bit.ly/sage-adebayo'
+                  username='Segun Adebayo'
+                  orders='5'
+                />
+              </Box>
+
+              <Logs/>
+            </Box>
+          </Flex>
+        </SectionLayout>
       </Container>
     </Layout>
   )
 }
 
-const Heading = styled.div`
+const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -120,7 +306,7 @@ const Heading = styled.div`
     font-size: 1.2rem !important;
     color: #333333;
   }
-`;
+`
 
 const SectionLayout = styled.div`
   margin: 3rem 0;
@@ -128,7 +314,7 @@ const SectionLayout = styled.div`
     font-weight: 700;
     font-size: 2rem;
   }
-`;
+`
 const OrderStatus = styled.div`
   box-shadow: ${(props) => props.theme.shadows.shadow2};
   background: ${(props) => props.theme.colors.white};
@@ -183,7 +369,7 @@ const OrderStatus = styled.div`
       font-weight: 700;
     }
     .edit {
-      color: #2068D5;
+      color: #2068d5;
       font-weight: 600;
     }
   }

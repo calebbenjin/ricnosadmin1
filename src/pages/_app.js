@@ -95,7 +95,7 @@ const GlobalStyle = ({ children }) => {
           .resTable {
             overflow-x: auto;
             overflow-y: scroll;
-            margin-bottom: 5rem;
+            margin-top: 2rem;
           }
 
           table {
@@ -123,7 +123,7 @@ const GlobalStyle = ({ children }) => {
           }
 
           table thead {
-            box-shadow: 10px 5px 4px rgba(0, 0, 0, 0.15);
+            box-shadow: 1px -1px 15px rgba(0, 0, 0, 0.1);
           }
 
           table th {
@@ -142,7 +142,7 @@ const GlobalStyle = ({ children }) => {
           table td:nth-of-type(2) {
             font-weight: 900;
           }
-          table td:nth-of-type(8) {
+          table td:nth-of-type(7) {
             color: green;
           }
           table td:first-of-type {

@@ -46,7 +46,7 @@ export default function FinanceTable({ data }) {
                 <td style={{ color: 'green' }}>{users.status}</td>
               )}
               <td>
-                <Link href={`orders/${users.id}`}>
+                <Link href={`finance/${users.id}`}>
                   <a>View</a>
                 </Link>
               </td>

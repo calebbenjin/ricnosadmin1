@@ -1,15 +1,11 @@
 import React, { useState } from 'react'
-import { BsPlus } from 'react-icons/bs'
-import { BiPrinter } from 'react-icons/bi'
 import { FaListUl } from 'react-icons/fa'
 import Container from '@/components/atoms/Container'
 import Heading from '@/components/atoms/Heading'
 import FinanceTable from '@/components/atoms/FinanceTable'
 import Layout from '@/components/organisms/Layout'
-import styled from 'styled-components'
-import { useRouter } from 'next/router'
 
-export default function OrdersPage() {
+export default function FinancePage() {
   const [q, setQ] = useState('');
   const [filterBtn, setFilterBtn] = useState(['A']);
 
@@ -24,13 +20,10 @@ export default function OrdersPage() {
     { id: 8, fullname: "Rose Jerry", department: "Rider", requestAmount: 300, date: "july 2020", status: "cancelled" },
   ];
 
-  const router = useRouter()
-
   return (
     <Layout>
       <Container>
         <Heading title="My Finance" icon={<FaListUl />} />
-
         <input
             style={{ background: '#fff !important', width: '50%;' }}
             type="text"
@@ -39,20 +32,7 @@ export default function OrdersPage() {
             onChange={(e) => setQ(e.target.value)}
           />
       </Container>
-        
         <FinanceTable data={data} />
     </Layout>
   )
 }
-
-const BtnContainer = styled.div`
-  display: flex;
-  align-items: center;
-`
-
-const SubHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 1rem 0;
-`

@@ -1,8 +1,9 @@
-import '@/styles/globals.css'
-import { ThemeProvider } from 'styled-components'
-import theme from '@/styles/theme'
-import { ChakraProvider, CSSReset } from '@chakra-ui/react'
-import { Global, css } from '@emotion/react'
+import '@/styles/globals.css';
+import { ThemeProvider } from 'styled-components';
+import theme from '@/styles/theme';
+import { ChakraProvider, CSSReset } from '@chakra-ui/react';
+import { Global, css } from '@emotion/react';
+import { AuthProvider } from '@/context/AuthContext';
 
 const GlobalStyle = ({ children }) => {
   return (
@@ -222,18 +223,20 @@ const GlobalStyle = ({ children }) => {
       />
       {children}
     </>
-  )
-}
+  );
+};
 
 function MyApp({ Component, pageProps }) {
   return (
-    <ThemeProvider theme={theme}>
-      <ChakraProvider>
-        <GlobalStyle />
-        <Component {...pageProps} />
-      </ChakraProvider>
-    </ThemeProvider>
-  )
+    <AuthProvider>
+      <ThemeProvider theme={theme}>
+        <ChakraProvider>
+          <GlobalStyle />
+          <Component {...pageProps} />
+        </ChakraProvider>
+      </ThemeProvider>
+    </AuthProvider>
+  );
 }
 
-export default MyApp
+export default MyApp;

@@ -12,6 +12,7 @@
       "@/context/*": ["context/*"],
       "@/public/*": ["public/*"],
       "@/api/*": ["api/*"],
+      "@/helpers/*": ["helpers/*"]
     }
   }
 }

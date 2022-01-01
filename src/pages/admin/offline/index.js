@@ -36,10 +36,10 @@ export default function OfflineOrderPage() {
               <Input type="text" id="recieversName" id="recieversName" name="recieversName" placeholder="Recievers Name" />
             </FormControl>
             <FormControl>
-              <Input type="text" id="phone" id="phone" name="phone" placeholder="Phone Number" />
+              <Input type="text" id="recieversphone" id="recieversphone" name="recieversphone" placeholder="Phone Number" />
             </FormControl>
             <FormControl>
-              <Input type="email" id="email" id="email" name="email" placeholder="Email" />
+              <Input type="email" id="recieversemail" id="recieversemail" name="recieversemail" placeholder="Email" />
             </FormControl>
           </Grid>
           <Grid gridTemplateColumns='repeat(3, 1fr)' gap="5" mt="4">

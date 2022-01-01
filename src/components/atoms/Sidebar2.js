@@ -49,7 +49,7 @@ export default function Sidebar() {
           </a>
         </Link>
         <hr />
-        <Link href='/staff/orders/offlineOrders'>
+        <Link href='/staff/offline/'>
           <a className='navLink'>
             <RiWifiOffLine className='icon' /> Offline Order
           </a>

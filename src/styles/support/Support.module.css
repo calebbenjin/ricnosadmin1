@@ -18,6 +18,10 @@
   margin: 0 1rem;
 }
 
+.leftSide button:focus {
+  color: red;
+}
+
 .main {
   display: grid;
   grid-template-columns: 30% 55% 15%;

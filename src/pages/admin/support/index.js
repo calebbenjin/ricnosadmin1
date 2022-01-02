@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import Button from '@/components/atoms/Button'
+import {Button} from '@chakra-ui/react'
 import Layout from '@/components/organisms/Layout'
 import styles from '@/styles/support/Support.module.css'
 import { AiOutlinePlus } from 'react-icons/ai'
@@ -29,7 +29,7 @@ export default function SupportPage() {
           <button classNAn onClick={handleTicket}>Tickets</button>
           <button onClick={handleLiveChat}>Live Chats</button>
         </div>
-        <Button icon={<AiOutlinePlus />} text='Create Ticket' />
+        <Button colorScheme="red" leftIcon={<AiOutlinePlus />}>Create ticket</Button>
       </header>
       {showTicket && <TicketChat />}
       {showLiveChat && <LiveChat />}

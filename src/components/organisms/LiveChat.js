@@ -185,19 +185,6 @@ export default function LiveChatPage({ }) {
               </a>
             </Link>
           </div>
-
-          <h4 className='title'>Attached file</h4>
-          <div className={styles.comment}>
-            <form>
-            <textarea
-                value=''
-                name=''
-                id=''
-                className={styles.textarea}
-                placeholder='Add comment...'
-              ></textarea>
-            </form>
-          </div>
         </article>
         <aside className={styles.asideNav}>
           <h4>TICKETS STATUS</h4>

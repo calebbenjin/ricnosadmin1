@@ -151,7 +151,7 @@ export default function TicketChatPage({ }) {
                 placeholder='Type a message here...'
               ></textarea>
               <div className={styles.footer}>
-                <h4>Icon</h4>
+                <h4></h4>
                 <div className={styles.container}>
                   <div className='fileInput'>
                     <input type='file' className='custom-file-input' />
@@ -186,7 +186,7 @@ export default function TicketChatPage({ }) {
             </Link>
           </div>
 
-          <h4 className='title'>Attached file</h4>
+          <h4 className='title'>Comment</h4>
           <div className={styles.comment}>
             <form>
             <textarea

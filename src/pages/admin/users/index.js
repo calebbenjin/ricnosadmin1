@@ -1,6 +1,4 @@
 import React, { useState } from 'react'
-import { BsPlus } from 'react-icons/bs'
-import { BiPrinter } from 'react-icons/bi'
 import { FaListUl, FaUsers } from 'react-icons/fa'
 import Container from '@/components/atoms/Container'
 import Heading from '@/components/atoms/Heading'

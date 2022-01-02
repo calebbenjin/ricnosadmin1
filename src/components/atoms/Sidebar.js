@@ -2,7 +2,7 @@ import Link from './Link'
 import styled from 'styled-components'
 import Container from './Container'
 import Logo from './Logo'
-import { FaChartPie, FaListUl, FaUsers, FaUserTie } from 'react-icons/fa'
+import { FaChartPie, FaListUl, FaUsers, FaUserTie, FaTh } from 'react-icons/fa'
 import { SiGooglemessages } from 'react-icons/si'
 import { FiSettings, FiLogOut } from 'react-icons/fi'
 import { BsBarChartFill } from 'react-icons/bs'
@@ -57,6 +57,11 @@ export default function Sidebar() {
         <Link href='/admin/users'>
           <a className='navLink'>
             <FaUsers className='icon' /> Users
+          </a>
+        </Link>
+        <Link href='/admin/manage'>
+          <a className='navLink'>
+            <FaTh className='icon' /> Manage site
           </a>
         </Link>
         <Link href='/admin/settings'>

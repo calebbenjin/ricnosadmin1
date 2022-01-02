@@ -64,6 +64,11 @@ export default function Sidebar() {
             <FiSettings className='icon' /> Settings
           </a>
         </Link>
+        <Link href='/manage'>
+          <a className='navLink'>
+            <FiSettings className='icon' /> Manage site
+          </a>
+        </Link>
       </SideNav>
     </SideView>
   )

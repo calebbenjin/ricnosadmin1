@@ -6,8 +6,6 @@ import { FaShareAlt, FaLongArrowAltRight, FaUser } from 'react-icons/fa'
 import { AiOutlinePrinter } from 'react-icons/ai'
 import { VscCalendar } from 'react-icons/vsc'
 import Header from '@/components/atoms/Heading'
-import Image from 'next/image'
-import Logo from '@/components/atoms/Logo'
 import Link from "next/link"
 
 

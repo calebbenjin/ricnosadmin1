@@ -81,8 +81,6 @@ export default function UsersPage() {
           </tbody>
         </table>
       </div>
-        
-        {/* <DataTable data={data} /> */}
     </Layout>
   )
 }

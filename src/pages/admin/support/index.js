@@ -26,7 +26,7 @@ export default function SupportPage() {
     <Layout>
       <header className={styles.header}>
         <div className={styles.leftSide}>
-          <button classNAn onClick={handleTicket}>Tickets</button>
+          <button onClick={handleTicket}>Tickets</button>
           <button onClick={handleLiveChat}>Live Chats</button>
         </div>
         <Button colorScheme="red" leftIcon={<AiOutlinePlus />}>Create ticket</Button>

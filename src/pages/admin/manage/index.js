@@ -156,10 +156,9 @@ export default function ManageSite() {
 
         <Box my="4">
           <InputGroup size="lg" bg="white">
-            <InputLeftElement
-              pointerEvents='none'
-              children={<BiSearchAlt2 style={{fontSize: "1.3rem", marginLeft: "1rem", color: "gray"}} />}
-            />
+            <InputLeftElement pointerEvents='none'>
+              <BiSearchAlt2 style={{fontSize: "1.3rem", marginLeft: "1rem", color: "gray"}} />
+            </InputLeftElement>
             <Input type='text' placeholder='Search' pl="3rem" _focus={{paddingLeft: "3rem"}} />
           </InputGroup>
         </Box>

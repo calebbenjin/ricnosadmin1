@@ -170,7 +170,7 @@ export default function OfflineOrderPage() {
           </Box>
           <Box width={['100%', '35%']} p='1rem'>
             <Card style={{ textAlign: 'center' }}>
-              <Link href="/message">
+              <Link href="/message" passHref>
                 <Button
                   colorScheme='red'
                   width='100%'
@@ -197,19 +197,19 @@ export default function OfflineOrderPage() {
               <hr />
 
               <Grid gridTemplateColumns='repeat(2, 1fr)' gap='10' my='5'>
-                <Link href="/settings">
+                <Link href="/settings" passHref>
                   <Button colorScheme='green' py='6'>
                     Edit
                   </Button>
                 </Link>
-                <Link href="/support">
+                <Link href="/support" passHref>
                   <Button colorScheme='green' py='6'>
                     Send Mail
                   </Button>
                 </Link>
               </Grid>
 
-              <Link href="/settings/">
+              <Link href="/settings/" passHref>
                 <Button
                   colorScheme='red'
                   width='100%'

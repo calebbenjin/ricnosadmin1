@@ -76,7 +76,7 @@ export default function ManageSite() {
         <hr />
 
         <Flex my="10" h="60vh">
-          <Box width="30%" px="5" style={{borderRight: "solid 1px #cccc"}} style={{overflowX: "scroll"}}>
+          <Box width="30%" px="5"  style={{overflowX: "scroll", borderRight: "solid 1px #cccc"}}>
             <Heading size="sm" color="gray">Send email</Heading>
             <Heading size="md" my="5">Recipients</Heading>
 

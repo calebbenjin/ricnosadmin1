@@ -9,9 +9,10 @@ export default function Button({
   title,
   children,
   style,
+  onClick,
 }) {
   return (
-    <button type={type} className={styles.btn} style={style}>
+    <button onClick={onClick} type={type} className={styles.btn} style={style}>
       {loading ? (
         <div className={loaderStyle.card}>
           <Spinner

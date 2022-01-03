@@ -1,65 +1,54 @@
-import Card from "../atoms/Card";
-import styled from 'styled-components'
-import { Flex, Box, Text, Heading, Avatar, Button } from "@chakra-ui/react"
-import { BsThreeDotsVertical } from 'react-icons/bs'
-import { VscCalendar } from 'react-icons/vsc'
-import Link from "next/link"
+import Card from '../atoms/Card';
+import styled from 'styled-components';
+import { Flex, Box, Text, Heading, Avatar, Button } from '@chakra-ui/react';
+import { BsThreeDotsVertical } from 'react-icons/bs';
+import { VscCalendar } from 'react-icons/vsc';
+import Link from 'next/link';
 
-export default function ActiveLog() {
+export default function ActiveLog({ trackerData }) {
+  const trackers = Object.keys(trackerData).map((key) => {
+    let obj = {
+      tracker_data: [trackerData[key]],
+      tracker_date: key,
+    };
+
+    return obj;
+  });
+
+  // console.log(trackers[0].tracker_data[0][0]);
+
   return (
-    <Box mt='4'>
+    <Box mt="4">
       <Card>
-        <Flex justify='space-between' mb='8' alignItems='center'>
-          <Heading size='sm'>Active Log</Heading>
+        <Flex justify="space-between" mb="8" alignItems="center">
+          <Heading size="sm">Active Log</Heading>
           <BsThreeDotsVertical />
         </Flex>
 
-        <ActiveLogCard>
-          <VscCalendar className='lineTab' />
-          <Flex alignItems='center' justifyContent='space-between'>
-            <Heading size='sm'>Planned Pickup</Heading>
-            <Link href='/'>
-              <a className='link'>Edit</a>
-            </Link>
-          </Flex>
-          <Text mt='2'>
-            No 9 lacfog plaza, Kilometer 16, East west road. Choba.
-          </Text>
-        </ActiveLogCard>
-        <ActiveLogCard>
-          <VscCalendar className='lineTab' />
-          <Flex alignItems='center' justifyContent='space-between'>
-            <Heading size='sm'>Office Pickup</Heading>
-            <Link href='/'>
-              <a className='link'>Edit</a>
-            </Link>
-          </Flex>
-          <Text mt='2'>
-            No 9 lacfog plaza, Kilometer 16, East west road. Choba.
-          </Text>
-        </ActiveLogCard>
-        <ActiveLogCard>
-          <VscCalendar className='lineTab' />
-          <Flex alignItems='center' justifyContent='space-between'>
-            <Heading size='sm'>Airport Pickup</Heading>
-            <Link href='/'>
-              <a className='link'>Edit</a>
-            </Link>
-          </Flex>
-          <Text mt='2'>
-            No 9 lacfog plaza, Kilometer 16, East west road. Choba.
-          </Text>
-        </ActiveLogCard>
+        {trackers.map((tracker) => (
+          <ActiveLogCard key={tracker.tracker_date}>
+            <VscCalendar className="lineTab" />
+            <Flex alignItems="center" justifyContent="space-between">
+              <Heading size="sm">
+                {tracker.tracker_data[0][0].order_status}
+              </Heading>
+              <Link href="/">
+                <a className="link">Edit</a>
+              </Link>
+            </Flex>
+            <Text mt="2">{tracker.tracker_data[0][0].location}</Text>
+          </ActiveLogCard>
+        ))}
+
         <EditButton>
-          <Link href='/'>
+          <Link href="/">
             <a>Edit active log</a>
           </Link>
         </EditButton>
       </Card>
     </Box>
-  )
+  );
 }
-
 
 const ActiveLogCard = styled.div`
   position: relative;

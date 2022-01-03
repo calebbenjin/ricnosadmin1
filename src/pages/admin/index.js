@@ -19,30 +19,6 @@ import { parseCookies } from '@/helpers/index';
 import { API_URL } from '@/lib/index';
 import AuthContext from '@/context/AuthContext';
 
-const data = [
-  {
-    id: 1,
-    itemName: 'Bag',
-    quantity: 34,
-    amount: 300,
-    location: 'Choba',
-  },
-  {
-    id: 2,
-    itemName: 'Shoe',
-    quantity: 3,
-    amount: 6500,
-    location: 'Aluu',
-  },
-  {
-    id: 3,
-    itemName: 'Cloth',
-    quantity: 30,
-    amount: 69500,
-    location: 'Port Harcourt',
-  },
-];
-
 export default function HomePage() {
   const { user } = useContext(AuthContext);
 
@@ -83,9 +59,13 @@ export default function HomePage() {
 
         <Section>
           <ActiveShipments>
-            {data.map((items) => (
-              <ShipmentCard key={items.id} data={items} />
-            ))}
+            {user.active_orders.length > 0 ? (
+              user.active_orders.map((order) => (
+                <ShipmentCard key={order.id} data={order} />
+              ))
+            ) : (
+              <p>No active orders</p>
+            )}
           </ActiveShipments>
         </Section>
 
@@ -111,24 +91,9 @@ export async function getServerSideProps({ req }) {
     };
   }
 
-  var myHeaders = new Headers();
-  myHeaders.append('Accept', 'application/json');
-  myHeaders.append('Authorization', `Bearer ${token}`);
-
-  var requestOptions = {
-    method: 'GET',
-    headers: myHeaders,
-    redirect: 'follow',
-  };
-
-  const res = await fetch(`${API_URL}`, requestOptions);
-  const data = await res.json();
-
-  console.log(data);
-
   return {
     props: {
-      orders: data,
+      data: null,
     },
   };
 }

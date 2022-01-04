@@ -1,19 +1,30 @@
-import styled from 'styled-components'
-import ActiveLogCard from '../atoms/ActiveLogCard'
+import { useContext } from 'react';
+import styled from 'styled-components';
+import ActiveLogCard from '../atoms/ActiveLogCard';
+import AuthContext from '@/context/AuthContext';
 
 export default function ActivityLogCard() {
+  const { user } = useContext(AuthContext);
+
   return (
     <Box>
-      <div className='header'>
+      <div className="header">
         <h4>Activity Log</h4>
       </div>
-      <ActiveLogCard trackCode="876786728" status="complete order" date="august 20" />
-      <ActiveLogCard trackCode="876786728" status="complete order" date="august 20" />
-      <ActiveLogCard trackCode="876786728" status="complete order" date="august 20" />
-      <ActiveLogCard trackCode="876786728" status="complete order" date="august 20" />
-      <ActiveLogCard trackCode="876786728" status="complete order" date="august 20" />
+      {user.Activity_logs.length > 0 ? (
+        user.Activity_logs.map((log) => (
+          <ActiveLogCard
+            key={log.reference_id}
+            trackCode={log.reference_id}
+            status={log.action}
+            date={log.date}
+          />
+        ))
+      ) : (
+        <p>No activity log</p>
+      )}
     </Box>
-  )
+  );
 }
 
 const Box = styled.div`
@@ -21,7 +32,7 @@ const Box = styled.div`
   overflow-y: scroll;
   padding: 30px;
   background: #fff;
-  box-shadow: ${props => props.theme.shadows.shadow1};
+  box-shadow: ${(props) => props.theme.shadows.shadow1};
   border-radius: 6px;
   .header {
     border-bottom: solid 1px ${(props) => props.theme.colors.grey};
@@ -33,4 +44,4 @@ const Box = styled.div`
       padding-bottom: 1rem;
     }
   }
-`
+`;

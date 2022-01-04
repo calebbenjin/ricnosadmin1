@@ -102,8 +102,8 @@ export default function LoginPage() {
       <FooterComp className='footer' />
     </Box>
   )
-}
 
+}
 
 const Box = styled.div`
   height: 100vh;

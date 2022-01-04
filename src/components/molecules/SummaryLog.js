@@ -1,50 +1,54 @@
-import styled from 'styled-components'
-import { BsThreeDots, BsArrowUp, BsArrowDown } from 'react-icons/bs'
-import Card from '../atoms/Card'
+import { useContext } from 'react';
+import styled from 'styled-components';
+import { BsThreeDots, BsArrowUp, BsArrowDown } from 'react-icons/bs';
+import Card from '../atoms/Card';
+import AuthContext from '@/context/AuthContext';
 
 export default function SummaryLog() {
+  const { user } = useContext(AuthContext);
+
   return (
     <Box>
-      <div className='header'>
+      <div className="header">
         <h4>Summary</h4>
       </div>
 
-      <div className='flex'>
-        <Card className='card'>
+      <div className="flex">
+        <Card className="card">
           <h4>Total users</h4>
-          <h3>450</h3>
-          <p className='text'>
-            <BsArrowUp className='icon' />
+          <h3>{user.user_count}</h3>
+          <p className="text">
+            <BsArrowUp className="icon" />
             2.3 less than week{' '}
           </p>
         </Card>
-        <Card className='card'>
+        <Card className="card">
           <h4>Total Agent</h4>
-          <h3>450</h3>
-          <p className='text'>
-            <BsArrowUp className='icon' />
+          <h3>{user.agent_count}</h3>
+          <p className="text">
+            <BsArrowUp className="icon" />
             1.4 less than week
           </p>
         </Card>
       </div>
 
       <TotalOrder>
-        <h4>Total Orders</h4> <h3>2083</h3>{' '}
-        <p className='text'>
-          <BsArrowUp className='icon' /> 1.4 
-        </p> 
+        <h4>Total Orders</h4> <h3>{user.order_count}</h3>{' '}
+        <p className="text">
+          <BsArrowUp className="icon" /> 1.4
+        </p>
         less than week
       </TotalOrder>
 
       <TotalOrder>
-        <h4>Total Delivery</h4> <h3>2011</h3>{' '}
-        <p className='text'>
-          <BsArrowUp className='icon' /> 1.4 
-        </p> 
+        <h4>Total Delivery</h4> <h3>{user.total_delivery}</h3>{' '}
+        <p className="text">
+          <BsArrowUp className="icon" /> 1.4
+        </p>
         less than week
       </TotalOrder>
     </Box>
-  )
+  );
 }
 
 const Box = styled.div`
@@ -88,11 +92,10 @@ const Box = styled.div`
         display: flex;
         align-items: center;
         justify-content: center;
-        
       }
     }
   }
-`
+`;
 
 const TotalOrder = styled.div`
   background: ${(props) => props.theme.colors.black};
@@ -119,4 +122,4 @@ const TotalOrder = styled.div`
     color: ${(props) => props.theme.colors.success};
     margin-right: 5px;
   }
-`
+`;

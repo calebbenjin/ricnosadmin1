@@ -1,5 +1,5 @@
 import React from 'react';
-import Link from "next/link"
+import Link from 'next/link';
 
 export default function DataTable({ data }) {
   const columns = data[0] && Object.keys(data[0]);
@@ -10,9 +10,9 @@ export default function DataTable({ data }) {
         <thead>
           <tr>
             <th data-label="Date" scope="col"></th>
-            <th data-label="Date" scope="col">
+            {/* <th data-label="Date" scope="col">
               Date
-            </th>
+            </th> */}
             <th data-label="Track No" scope="col">
               Track No
             </th>
@@ -40,13 +40,19 @@ export default function DataTable({ data }) {
           {data.map((order) => (
             <tr key={order.id}>
               <td></td>
-              <td>{order.date}</td>
-              <td>{order.trackNo}</td>
-              <td>{order.item}</td>
-              <td>{order.from}</td>
-              <td>{order.to}</td>
-              {order.status === "pending" ? <td style={{color: "darkyellow"}}>{order.status}</td> : order.status === "cancelled" ? <td style={{color: "red"}}>{order.status}</td> : <td style={{color: "green"}}>{order.status}</td> }
-              <td>NGN{order.price}</td>
+              {/* <td>{order.date}</td> */}
+              <td>{order.tracking_id}</td>
+              <td>{order.display_item}</td>
+              <td>{order.pickup}</td>
+              <td>{order.destination}</td>
+              {order.status === 'pending' ? (
+                <td style={{ color: 'darkyellow' }}>{order.status}</td>
+              ) : order.status === 'cancelled' ? (
+                <td style={{ color: 'red' }}>{order.status}</td>
+              ) : (
+                <td style={{ color: 'green' }}>{order.status}</td>
+              )}
+              <td>NGN{order.amount}</td>
               <td>
                 <Link href={`orders/${order.id}`}>
                   <a>View</a>

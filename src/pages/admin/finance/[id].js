@@ -1,23 +1,30 @@
-import Heading from '@/components/atoms/Heading'
+import Header from '@/components/atoms/Heading'
 import Container from '@/components/atoms/Container'
 import Layout from '@/components/organisms/Layout'
+import { FaUser } from 'react-icons/fa'
 import styled from 'styled-components'
+import { Button, Flex, Box, Heading, Text, Avatar } from '@chakra-ui/react'
 import Image from 'next/image'
-import { Link } from '@material-ui/core'
+import Link from 'next/link'
+import { BsThreeDotsVertical } from 'react-icons/bs'
+import { FaLongArrowAltRight } from 'react-icons/fa'
+import { VscCalendar } from 'react-icons/vsc'
+import Logo from '@/components/atoms/Logo'
+import logo from '@/assets/logo1.svg'
 
 export default function UserPage() {
   return (
     <Layout title='User Details'>
       <Container>
-        <Heading>User Page</Heading>
+        <Header title="User Details" icon={<FaUser />} />
         <ProfileContainer>
           <Profile>
             <div className='cardHead'>
               <Title>#RQ878989</Title>
-              <div className='buttons'>
-                <button className="btn">Active</button>
-                <button>Pending</button>
-              </div>
+              <Box>
+                <Button mr="4" colorScheme="green">Active</Button>
+                <Button color="gold">Pending</Button>
+              </Box>
             </div>
             <div className='cardImage'>
               <div className="imgCard">
@@ -63,56 +70,65 @@ export default function UserPage() {
               </ul>
             </div>
 
-            <div className='requestedAmount'>
-              <p>Account Requested</p>
-              <h2>NGN150.000</h2>
-            </div>
+            <Flex alignItems="center" justifyContent="center" my="10">
+              <Text frontWeight="bold" color="red" mr="10">Account Requested</Text>
+              <Heading size="md">NGN150.000</Heading>
+            </Flex>
 
             <div className='actionsBtns'>
               <div>
-                <button className='btn'>Approve request</button>
-                <button>Cancel request</button>
+                <Button colorScheme="green" mr="4">Approve request</Button>
+                <Button colorScheme="red">Cancel request</Button>
               </div>
-              <button>Approve Manually</button>
+              <Button colorScheme="yellow">Approve Manually</Button>
             </div>
           </Profile>
+
           <ProfileCard>
-            <div className="cardHead">
-              <Title>Profile</Title>
-              <h3>Icon</h3>
-            </div>
-            <div className="userHead">
-              <div className="head">
-                {/* <img src="/user.png" className="roundedImg" alt="UserImage" /> */}
-                <h5>Benard Benedict</h5>
-              </div>
-              <Link href="/"><a className="icon">Link</a></Link>
-            </div>
-            <div className="loation">
-              <p className="icon">icon</p>
-              <p>Region- Port Harcourt City</p>
-            </div>
-            <div className="contactInfo">
-              <Title>Contact Info</Title>
-              <ul className="listBody">
-                <li>
-                  <p className="icon">icon</p>
-                  <h5>Benardbenedict@gmail.com</h5>
-                </li>
-                <li>
-                  <p className="icon">icon</p>
-                  <h5>+234 5889 9783</h5>
-                </li>
-              </ul>
-            </div>
+          <Flex justify='space-between' mb="2" alignItems='center'>
+            <Heading size='sm'>Profile</Heading>
+            <BsThreeDotsVertical />
+          </Flex>
+          <hr />
+            <Flex justify='space-between' alignItems='center' mt='2'>
+              <Box my='4'>
+                <Flex alignItems='center'>
+                  <Avatar
+                    size='md'
+                    name='Segun Adebayo'
+                    mr='4'
+                    src='https://bit.ly/sage-adebayo'
+                  />
+                  <Text isTruncated>Segun Adebayo</Text>
+                </Flex>
+              </Box>
+              <Link href="/" passHref>
+                <a><FaLongArrowAltRight className="icon" /></a>
+              </Link>       
+            </Flex>
+            <hr />
+            <Flex justify='space-between' alignItems='center'>
+              <Box my='4'>
+                <Flex alignItems='center'>
+                  <VscCalendar className="icon" />
+                  <Text ml="2">5 Orders</Text>
+                </Flex>
+              </Box>
+            </Flex>
+            <hr />
+
+            <Box my='4'>
+              <Heading size='sm'>Contact Info</Heading>
+              <Text my='4'>+2344650986</Text>
+              <Text>No 9 lacfog plaza, Kilometer 16, East west road. Choba.</Text>
+            </Box>
+            <hr />
 
             <div className="userCard">
-              <Title>Education</Title>
+              <Heading size="sm">Education</Heading>
 
-              <ul>
-                <li>No 9 lacfog plaza, Kilometer 16, East west road. Choba.</li>
-                <li>No 9 lacfog plaza, Kilometer 16, East west road. Choba.</li>
-              </ul>
+              <Text>No 9 lacfog plaza, Kilometer 16, East west road. Choba.</Text>
+              <Text>No 9 lacfog plaza, Kilometer 16, East west road. Choba.</Text>
             </div>
             <div className="userCard">
               <Title>Residential Detail</Title>
@@ -122,14 +138,17 @@ export default function UserPage() {
                 <li>No 9 lacfog plaza, Kilometer 16, East west road. Choba.</li>
               </ul>
             </div>
-
-            <div className="logoCard">
-              {/* <Image src="/ricnoslogo.png" className="logo" alt="Logo" /> */}
-              <div className="title">
-                <h3>Ricnos Logistic</h3>
-                <p>Premium</p>
-              </div>
-            </div>
+            <Box>
+              <Flex alignItems='center' mt='4'>
+                <Box p='4' borderRadius='md' mr='10' boxShadow='md'>
+                  <Logo src={logo} />
+                </Box>
+                <Box>
+                  <Text fontSize='lg'>Ricno Logistics</Text>
+                  <Text>Premium</Text>
+                </Box>
+              </Flex>
+            </Box> 
           </ProfileCard>
         </ProfileContainer>
       </Container>
@@ -146,7 +165,6 @@ const ProfileContainer = styled.div`
 
 const Profile = styled.div`
   width: 70%;
-  height: 95vh;
   box-shadow: ${(props) => props.theme.shadows.shadow1};
   padding: 20px;
   background: #fff;
@@ -222,26 +240,10 @@ const Profile = styled.div`
     align-items: center;
     justify-content: space-between;
 
-    button {
-      padding: 10px 20px;
-      background: #333;
-      color: #fff;
-      border-radius: 6px;
-    }
     .btn {
       margin-right: 1rem;
     }
   }
-
-  button {
-      padding: 8px 20px;
-      background: #333;
-      color: #fff;
-      border-radius: 6px;
-    }
-    .btn {
-      margin-right: 1rem;
-    }
 `
 
 const ProfileCard = styled.div`

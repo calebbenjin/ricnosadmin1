@@ -13,7 +13,7 @@ export default function OfflinePage() {
   return (
     <Layout>
       <Container>
-        <Header title="My Orders" icon={<FaListUl />} />
+        <Header title="Offline Order" icon={<FaListUl />} />
 
         <form onSubmit={handleSubmit}>
           <Heading size="sm" mb="4">Personal Data</Heading>

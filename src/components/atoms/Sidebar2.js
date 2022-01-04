@@ -18,7 +18,7 @@ export default function Sidebar() {
         </div>
       </Container>
       <SideNav>
-        <Link href='/staff/'>
+        <Link href='/staff/dashboard'>
           <a className='navLink'>
             <FaChartPie className='icon' /> Dashboard
           </a>
@@ -49,7 +49,7 @@ export default function Sidebar() {
           </a>
         </Link>
         <hr />
-        <Link href='/staff/offline/'>
+        <Link href='/staff/offline'>
           <a className='navLink'>
             <RiWifiOffLine className='icon' /> Offline Order
           </a>
@@ -62,11 +62,6 @@ export default function Sidebar() {
         <Link href='/settings'>
           <a className='navLink'>
             <FiSettings className='icon' /> Settings
-          </a>
-        </Link>
-        <Link href='/manage'>
-          <a className='navLink'>
-            <FiSettings className='icon' /> Manage site
           </a>
         </Link>
       </SideNav>

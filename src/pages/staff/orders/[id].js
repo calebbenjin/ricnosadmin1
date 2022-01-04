@@ -3,12 +3,13 @@ import Layout from '@/components/organisms/Layout2'
 import styled from 'styled-components'
 import Card from '@/components/atoms/Card'
 import UserCardInfo from '@/components/molecules/UserCardInfo'
-import SelectRider from '@/components/molecules/SelectRiders'
+import Logs from '@/components/molecules/Logs'
 import { Button, Flex, Box, Heading, Text } from '@chakra-ui/react'
 import Link from 'next/link'
 import Logo from '@/components/atoms/Logo'
 import logo from '@/assets/logo1.svg'
 import Image from 'next/image'
+
 
 export default function OrdersPage() {
 
@@ -20,7 +21,10 @@ export default function OrdersPage() {
   return (
     <Layout>
       <Container>
-        <Header title="Offline Checkout" />
+        <Header>
+          <h2 className='orderId'>Orders #00074</h2>
+          <h5 className='date'>06.12.2021 at 10:14am</h5>
+        </Header>
 
         <OrderStatus>
           <div className='header'>
@@ -229,6 +233,25 @@ export default function OrdersPage() {
                   </Flex>
                 </Card>
               </Box>
+              <Box>
+                <Card>
+                  <Heading size="md" mb="4">Document</Heading>
+                  <hr />
+
+                  <Flex alignItems="center" justifyContent="space-between" mt="4">
+                    <Box width="48%">
+                      <Card>
+                        <Image src={logo} alt="item" width="200" height="200" />
+                      </Card>
+                    </Box>
+                    <Box width="48%">
+                      <Card>
+                        <Image src={logo} alt="item" width="200" height="200" />
+                      </Card>
+                    </Box>
+                  </Flex>
+                </Card>
+              </Box>
             </Box>
             <Box width='30%' pl='4'>
               <UserCardInfo
@@ -260,28 +283,10 @@ export default function OrdersPage() {
                   orders='5'
                 />
               </Box>
+
+              <Logs/>
             </Box>
           </Flex>
-          <SelectRider />
-          <Box mt="20" width="70%">
-            <Card>
-              <Heading size="md" mb="4">Document</Heading>
-              <hr />
-
-              <Flex alignItems="center" justifyContent="space-between" mt="4">
-                <Box width="48%">
-                  <Card>
-                    <Image src={logo} alt="item" width="200" height="200" />
-                  </Card>
-                </Box>
-                <Box width="48%">
-                  <Card>
-                    <Image src={logo} alt="item" width="200" height="200" />
-                  </Card>
-                </Box>
-              </Flex>
-            </Card>
-          </Box>
         </SectionLayout>
       </Container>
     </Layout>

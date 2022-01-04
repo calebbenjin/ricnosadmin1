@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useRouter } from 'next/router'
 import FooterComp from '@/components/atoms/Footer'
@@ -6,19 +6,14 @@ import { LogoOne } from '@/components/atoms/Logo'
 import { useForm } from 'react-hook-form'
 import { BsEye } from 'react-icons/bs'
 import Button from '@/components/atoms/Button'
-import Link from 'next/link'
 import {
   FormControl,
   FormErrorMessage,
   Input,
   FormLabel,
   InputGroup,
-  InputRightElement,
-  Flex,
-  Checkbox,
-  Spacer,
+  InputRightElement
 } from '@chakra-ui/react'
-import FormInput from '@/components/atoms/FormInput'
 
 export default function LoginPage() {
   const [show, setShow] = useState(false)
@@ -37,7 +32,7 @@ export default function LoginPage() {
   const onSubmit = (data) => {
     console.log(data)
     setIsLoading(true)
-    router.push('/dashboard')
+    router.push('/staff/dashboard')
   }
 
   return (
@@ -49,8 +44,7 @@ export default function LoginPage() {
         <div className='imgBg'></div>
         <div className='formContainer'>
           <div className='form'>
-            <h3 className='loginTitle'>Staff Dashboard</h3>
-            <h3 className='loginTitle'>Login</h3>
+            <h3 className='loginTitle'>Login Staff Portal</h3>
             {isLoading ? (
               <div className='modal'>
                 <p>Pls Wait the system is verifing your account</p>
@@ -96,7 +90,9 @@ export default function LoginPage() {
 
               <p className='term'>Terms of service
               </p>
-              <Button type='submit' loading={isLoading}>LOGIN</Button>
+              <div className="btnContainer">
+                <Button type='submit' loading={isLoading} title="LOADING">LOGIN</Button>
+              </div>
             </form>
           </div>
         </div>
@@ -115,6 +111,13 @@ const Box = styled.div`
   .layoutContainer {
     display: flex;
     justify-content: space-between;
+  }
+
+  .btnContainer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .imgBg {

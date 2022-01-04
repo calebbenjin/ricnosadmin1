@@ -18,7 +18,7 @@ export default function Sidebar() {
         </div>
       </Container>
       <SideNav>
-        <Link href='/admin'>
+        <Link href='/admin/dashboard'>
           <a className='navLink'>
             <FaChartPie className='icon' /> Dashboard
           </a>

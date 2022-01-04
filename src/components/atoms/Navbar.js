@@ -15,7 +15,7 @@ export default function Navbar() {
     <Nav>
       <Container>
         <div className="flex">
-          <h3>Search Form</h3>
+          <h3></h3>
           <nav className="nav">
             <Link href="/">
               <a className="bell link">
@@ -31,13 +31,13 @@ export default function Navbar() {
             </Link>
             <div className="avatar">
               <div className="userInfo">
-                <h4>{user.name}</h4>
-                <p>{user.email}</p>
+                {/* <h4>{user.name}</h4>
+                <p>{user.email}</p> */}
               </div>
               <UserAvatar
-                userTitle={user.name}
-                userName={user.name}
-                // image="https://bit.ly/ryan-florence"
+                // userTitle={user.name}
+                // userName={user.name}
+                image="https://bit.ly/ryan-florence"
                 size="md"
               />
               <Dropdown />

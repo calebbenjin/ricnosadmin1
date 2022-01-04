@@ -3,7 +3,7 @@ import Container from '@/components/atoms/Container'
 import Layout from '@/components/organisms/Layout2'
 import styled from 'styled-components'
 import Image from 'next/image'
-import { Link } from '@material-ui/core'
+import Link from 'next/link'
 
 export default function UserPage() {
   return (

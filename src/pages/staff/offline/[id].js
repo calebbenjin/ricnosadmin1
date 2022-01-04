@@ -13,7 +13,6 @@ import Image from 'next/image'
 
 export default function OrdersPage() {
 
-
   const handleClick = () => {
     alert("Hello Coder")
   }

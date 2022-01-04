@@ -1,41 +1,44 @@
-import React, { useState } from 'react'
-import Container from './Container'
-import styled from 'styled-components'
-import { FaBell, FaEnvelope } from 'react-icons/fa'
-import Link from 'next/link'
-import UserAvatar from './UserAvatar'
-import Dropdown from './Dropdown'
+import React, { useState, useContext } from 'react';
+import Container from './Container';
+import styled from 'styled-components';
+import { FaBell, FaEnvelope } from 'react-icons/fa';
+import Link from 'next/link';
+import UserAvatar from './UserAvatar';
+import Dropdown from './Dropdown';
+import AuthContext from '@/context/AuthContext';
 
 export default function Navbar() {
-  const [notification, setNotification] = useState(true)
+  const [notification, setNotification] = useState(true);
+  const { user } = useContext(AuthContext);
+
   return (
     <Nav>
       <Container>
-        <div className='flex'>
-          <h3>Seacrh Form</h3>
-          <nav className='nav'>
-            <Link href='/'>
-              <a className='bell link'>
-                <FaBell className='icon' />
-                {notification ? <div className='notification'>5</div> : null}
+        <div className="flex">
+          <h3>Search Form</h3>
+          <nav className="nav">
+            <Link href="/">
+              <a className="bell link">
+                <FaBell className="icon" />
+                {notification ? <div className="notification">5</div> : null}
               </a>
             </Link>
-            <Link href='/'>
-              <a className='bell link'>
-                <FaEnvelope className='icon' />
-                {notification ? <div className='notification'>4</div> : null}
+            <Link href="/">
+              <a className="bell link">
+                <FaEnvelope className="icon" />
+                {notification ? <div className="notification">4</div> : null}
               </a>
             </Link>
-            <div className='avatar'>
-              <div className='userInfo'>
-                <h4>John doe mark</h4>
-                <p>UserEmail@gmail.com</p>
+            <div className="avatar">
+              <div className="userInfo">
+                <h4>{user.name}</h4>
+                <p>{user.email}</p>
               </div>
               <UserAvatar
-                userTitle='John deo'
-                userName='John Deo'
-                image='https://bit.ly/ryan-florence'
-                size='md'
+                userTitle={user.name}
+                userName={user.name}
+                // image="https://bit.ly/ryan-florence"
+                size="md"
               />
               <Dropdown />
             </div>
@@ -43,7 +46,7 @@ export default function Navbar() {
         </div>
       </Container>
     </Nav>
-  )
+  );
 }
 
 const Nav = styled.nav`
@@ -111,4 +114,4 @@ const Nav = styled.nav`
       justify-content: center;
     }
   }
-`
+`;

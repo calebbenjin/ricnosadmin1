@@ -1,3 +1,4 @@
+
 import styled from 'styled-components'
 import FooterComp from '@/components/atoms/Footer'
 import { LogoOne } from '@/components/atoms/Logo'
@@ -97,4 +98,4 @@ const BoxContainer = styled.div`
     bottom: 0;
     width: 100%;
   }
-`
+`;

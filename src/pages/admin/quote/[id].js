@@ -1,7 +1,7 @@
-import Container from '@/components/atoms/Container'
-import Layout from '@/components/organisms/Layout'
-import styled from 'styled-components'
-import Card from '@/components/atoms/Card'
+import Container from '@/components/atoms/Container';
+import Layout from '@/components/organisms/Layout';
+import styled from 'styled-components';
+import Card from '@/components/atoms/Card';
 import {
   Button,
   Flex,
@@ -10,266 +10,197 @@ import {
   Text,
   FormControl,
   FormLabel,
-  Input
-} from '@chakra-ui/react'
-import Link from 'next/link'
-import Logo from '@/components/atoms/Logo'
-import logo from '@/assets/logo1.svg'
-import Image from 'next/image'
+  Input,
+} from '@chakra-ui/react';
+import Link from 'next/link';
+import Logo from '@/components/atoms/Logo';
+import logo from '@/assets/logo1.svg';
+import Image from 'next/image';
+import { parseCookies } from '@/helpers/index';
 
-export default function SingleQuotePage() {
+export default function SingleQuotePage({ data }) {
   const handleClick = () => {
-    alert('Hello Coder')
-  }
+    alert('Hello Coder');
+  };
 
   return (
     <Layout>
       <Container>
         <Header>
-          <h2 className='orderId'>#00074</h2>
+          <h2 className="orderId">#{data.id}</h2>
         </Header>
         <SectionLayout>
           <Flex>
-            <Box width='70%' pr='4'>
+            <Box width="70%" pr="4">
               <Card>
-                <Heading size='md'>Sender Details</Heading>
-                <Flex alignItems='center' justifyContent='space-between' mt='4'>
-                  <Box width='33%'>
-                    <Heading size='sm' color='red'>
+                <Heading size="md">Sender Details</Heading>
+                <Flex alignItems="center" justifyContent="space-between" mt="4">
+                  <Box width="33%">
+                    <Heading size="sm" color="red">
                       Name
                     </Heading>
-                    <Text>John Doe</Text>
+                    <Text>{data.name}</Text>
                   </Box>
-                  <Box width='33%'>
-                    <Heading size='sm' color='red'>
+                  <Box width="33%">
+                    <Heading size="sm" color="red">
                       Email
                     </Heading>
-                    <Text>Johndoe@gmail.com</Text>
+                    <Text>{data.email}</Text>
                   </Box>
                   <Box>
-                    <Heading size='sm' color='red'>
+                    <Heading size="sm" color="red">
                       Phone Number
                     </Heading>
-                    <Text>+2374889387830</Text>
+                    <Text>{data.phone}</Text>
                   </Box>
                 </Flex>
               </Card>
-              <Box my='8'>
+              <Box my="8">
                 <Card>
-                  <Heading size='md'>Shipment Data</Heading>
+                  <Heading size="md">Shipment Data</Heading>
                   <Flex
-                    alignItems='center'
-                    justifyContent='space-between'
-                    mt='4'
+                    alignItems="center"
+                    justifyContent="space-between"
+                    mt="4"
                   >
-                    <Box width='33%'>
-                      <Heading size='sm' color='red'>
-                        Recievers Name
-                      </Heading>
-                      <Text>John Doe</Text>
-                    </Box>
-                    <Box width='33%'>
-                      <Heading size='sm' color='red'>
-                        Email
-                      </Heading>
-                      <Text>Johndoe@gmail.com</Text>
-                    </Box>
                     <Box>
-                      <Heading size='sm' color='red'>
-                        Phone Number
-                      </Heading>
-                      <Text>+2374889387830</Text>
-                    </Box>
-                  </Flex>
-
-                  <Flex
-                    alignItems='center'
-                    justifyContent='space-between'
-                    mt='4'
-                  >
-                    <Box width='33%'>
-                      <Heading size='sm' color='red'>
-                        Description
-                      </Heading>
-                      <Text>John Doe</Text>
-                    </Box>
-                    <Box width='33%'>
-                      <Heading size='sm' color='red'>
-                        Departure
-                      </Heading>
-                      <Text>Johndoe@gmail.com</Text>
-                    </Box>
-                    <Box>
-                      <Heading size='sm' color='red'>
-                        Arrival
-                      </Heading>
-                      <Text>+2374889387830</Text>
-                    </Box>
-                  </Flex>
-
-                  <Flex
-                    alignItems='center'
-                    justifyContent='space-between'
-                    mt='4'
-                  >
-                    <Box width='33%'>
-                      <Heading size='sm' color='red'>
-                        Address
-                      </Heading>
-                      <Text>John Doe</Text>
-                    </Box>
-                    <Box width='33%'>
-                      <Heading size='sm' color='red'>
-                        City
-                      </Heading>
-                      <Text>Johndoe@gmail.com</Text>
-                    </Box>
-                    <Box>
-                      <Heading size='sm' color='red'>
-                        State
-                      </Heading>
-                      <Text>+2374889387830</Text>
-                    </Box>
-                  </Flex>
-
-                  <Flex
-                    alignItems='center'
-                    justifyContent='space-between'
-                    mt='4'
-                  >
-                    <Box width='33%'>
-                      <Heading size='sm' color='red'>
-                        Delivery Method
-                      </Heading>
-                      <Text>John Doe</Text>
-                    </Box>
-                    <Box width='33%'>
-                      <Heading size='sm' color='red'>
-                        Region
-                      </Heading>
-                      <Text>Johndoe@gmail.com</Text>
-                    </Box>
-                    <Box>
-                      <Heading size='sm' color='red'>
-                        Selected Ride
-                      </Heading>
-                      <Text>+2374889387830</Text>
-                    </Box>
-                  </Flex>
-
-                  <Text mt='8' color='gray'>
-                    Item(item 1)
-                  </Text>
-                  <Flex
-                    alignItems='center'
-                    justifyContent='space-between'
-                    mt='2'
-                  >
-                    <Box width='33%'>
-                      <Heading size='sm' color='red'>
-                        Item Name
-                      </Heading>
-                      <Text>John Doe</Text>
-                    </Box>
-                    <Box width='33%'>
-                      <Heading size='sm' color='red'>
-                        Quantity
-                      </Heading>
-                      <Text>Johndoe@gmail.com</Text>
-                    </Box>
-                    <Box>
-                      <Heading size='sm' color='red'>
+                      <Heading size="sm" color="red">
                         Weight
                       </Heading>
-                      <Text>+2374889387830</Text>
+                      <Text>{data.weight}</Text>
+                    </Box>
+                    <Box>
+                      <Heading size="sm" color="red">
+                        Value
+                      </Heading>
+                      <Text>{data.value}</Text>
+                    </Box>
+                    <Box>
+                      <Heading size="sm" color="red">
+                        Vehicle
+                      </Heading>
+                      <Text>{data.vehicle}</Text>
+                    </Box>
+                    <Box width="33%">
+                      <Heading size="sm" color="red">
+                        Destination
+                      </Heading>
+                      <Text>{data.destination}</Text>
                     </Box>
                   </Flex>
 
-                  <Flex
-                    alignItems='center'
-                    justifyContent='space-between'
-                    mt='4'
+                  {/* <Flex
+                    alignItems="center"
+                    justifyContent="space-between"
+                    mt="4"
+                  >
+                    <Box width="33%">
+                      <Heading size="sm" color="red">
+                        Destination
+                      </Heading>
+                      <Text>{data.destination}</Text>
+                    </Box>
+                  </Flex> */}
+
+                  {/* <Flex
+                    alignItems="center"
+                    justifyContent="space-between"
+                    mt="4"
                   >
                     <Box>
-                      <Heading size='sm' color='red'>
-                        Item value
+                      <Heading size="sm" color="red">
+                        Quote
                       </Heading>
-                      <Text>NGN 34, 000</Text>
+                      <Text>NGN {data.quote}</Text>
                     </Box>
-                  </Flex>
+                  </Flex> */}
                 </Card>
               </Box>
-              <Box my='8'>
+              <Box my="8">
                 <Card>
-                  <Heading size='md'>Auto Generated Recipt</Heading>
-                  <Flex
-                    alignItems='center'
-                    justifyContent='space-between'
-                    my='6'
+                  <Heading size="md">Auto Generated Quote</Heading>
+                  {/* <Flex
+                    alignItems="center"
+                    justifyContent="space-between"
+                    my="6"
                   >
-                    <Text fontWeight='500'>
+                    <Text fontWeight="500">
                       Subtotal<sup>(all items)</sup>
                     </Text>
                     <Text>NGN 30000</Text>
                   </Flex>
                   <hr />
                   <Flex
-                    alignItems='center'
-                    justifyContent='space-between'
-                    my='4'
+                    alignItems="center"
+                    justifyContent="space-between"
+                    my="4"
                   >
-                    <Text fontWeight='500'>
+                    <Text fontWeight="500">
                       Tax<sup>PDV20%(included)</sup>
                     </Text>
                     <Text>NGN 300.00</Text>
                   </Flex>
                   <Flex
-                    alignItems='center'
-                    justifyContent='space-between'
-                    my='6'
+                    alignItems="center"
+                    justifyContent="space-between"
+                    my="6"
                   >
-                    <Text fontWeight='500'>Shipping Discount</Text>
+                    <Text fontWeight="500">Shipping Discount</Text>
                     <Text>NGN 00.00</Text>
-                  </Flex>
+                  </Flex> */}
                   <Flex
-                    alignItems='center'
-                    justifyContent='space-between'
-                    my='8'
+                    alignItems="center"
+                    justifyContent="space-between"
+                    my="8"
                   >
-                    <Heading size='sm'>Total</Heading>
-                    <Heading size='sm'>NGN 20.000</Heading>
+                    <Heading size="sm">Total</Heading>
+                    <Heading size="sm">NGN {data.quote}</Heading>
                   </Flex>
                 </Card>
-                <Button colorScheme="red" mt="10">Send Quote</Button>
+                <Button colorScheme="red" mt="10">
+                  Send Quote
+                </Button>
               </Box>
             </Box>
-            <Box width='30%' pl='4'>
+            <Box width="30%" pl="4">
               <Card>
-                <Heading size='md'>Generate Recipt</Heading>
+                <Heading size="md">Generate Recipt</Heading>
 
                 <form>
                   <FormControl mt="4">
-                    <FormLabel htmlFor='subtotal' color="black">Subtotal<sup>(all items)</sup></FormLabel>
-                    <Input id='subtotal' type='text' />
+                    <FormLabel htmlFor="subtotal" color="black">
+                      Subtotal<sup>(all items)</sup>
+                    </FormLabel>
+                    <Input id="subtotal" type="text" />
                   </FormControl>
                   <FormControl mt="4">
-                    <FormLabel htmlFor='shipping' color="black">Shipping</FormLabel>
-                    <Input id='shipping' type='text' />
+                    <FormLabel htmlFor="shipping" color="black">
+                      Shipping
+                    </FormLabel>
+                    <Input id="shipping" type="text" />
                   </FormControl>
                   <FormControl mt="4">
-                    <FormLabel htmlFor='Tax' color="black">Tax</FormLabel>
-                    <Input id='tax' type='text' />
+                    <FormLabel htmlFor="Tax" color="black">
+                      Tax
+                    </FormLabel>
+                    <Input id="tax" type="text" />
                   </FormControl>
                   <FormControl mt="4">
-                    <FormLabel htmlFor='shippingDiscount' color="black">Shipping Discount</FormLabel>
-                    <Input id='shippingDiscount' type='text' />
+                    <FormLabel htmlFor="shippingDiscount" color="black">
+                      Shipping Discount
+                    </FormLabel>
+                    <Input id="shippingDiscount" type="text" />
                   </FormControl>
                   <FormControl mt="4">
-                    <FormLabel htmlFor='total' color="black">Total</FormLabel>
-                    <Input id='total' type='text' />
+                    <FormLabel htmlFor="total" color="black">
+                      Total
+                    </FormLabel>
+                    <Input id="total" type="text" />
                   </FormControl>
 
-                  <Button colorScheme="red" mt="8">Send Quote</Button>
+                  <Button colorScheme="red" mt="8">
+                    Send Quote
+                  </Button>
                 </form>
               </Card>
             </Box>
@@ -277,7 +208,7 @@ export default function SingleQuotePage() {
         </SectionLayout>
       </Container>
     </Layout>
-  )
+  );
 }
 
 const Header = styled.div`
@@ -293,7 +224,7 @@ const Header = styled.div`
     font-size: 1.2rem !important;
     color: #333333;
   }
-`
+`;
 
 const SectionLayout = styled.div`
   margin: 3rem 0;
@@ -301,7 +232,7 @@ const SectionLayout = styled.div`
     font-weight: 700;
     font-size: 2rem;
   }
-`
+`;
 const OrderStatus = styled.div`
   box-shadow: ${(props) => props.theme.shadows.shadow2};
   background: ${(props) => props.theme.colors.white};
@@ -360,4 +291,42 @@ const OrderStatus = styled.div`
       font-weight: 600;
     }
   }
-`
+`;
+
+export async function getServerSideProps({ req, query }) {
+  const { token } = parseCookies(req);
+  const { id } = query;
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
+
+  var myHeaders = new Headers();
+  myHeaders.append('Accept', 'application/json');
+  myHeaders.append('Authorization', `Bearer ${token}`);
+
+  var requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow',
+  };
+
+  const response = await fetch(
+    `https://alpha.ricnoslogistics.com/api/admin/quote_request/${id}`,
+    requestOptions
+  );
+
+  const result = await response.json();
+
+  return {
+    props: {
+      data: result.data.quote,
+      token,
+    },
+  };
+}

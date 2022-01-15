@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { BsPlus } from 'react-icons/bs';
 import { BiPrinter } from 'react-icons/bi';
 import { FaListUl } from 'react-icons/fa';
-import Button from '@/components/atoms/Button';
+import { Button } from '@chakra-ui/react';
+// import Button from '@/components/atoms/Button';
 import ButtonGreen from '@/components/atoms/ButtonGreen';
 import Container from '@/components/atoms/Container';
 import Heading from '@/components/atoms/Heading';
@@ -14,7 +15,7 @@ import { useRouter } from 'next/router';
 
 export default function OrdersPage({ data }) {
   const [q, setQ] = useState('');
-  const [filterBtn, setFilterBtn] = useState(['all']);
+  const [filterBtn, setFilterBtn] = useState('all');
   const [orderData, setOrderData] = useState(data);
 
   const router = useRouter();
@@ -23,11 +24,23 @@ export default function OrdersPage({ data }) {
     if (filterBtn === 'all') {
       setOrderData(data);
     } else if (filterBtn === 'pending') {
-      setOrderData(data.filter((order) => order.status === 'pending'));
+      setOrderData(data.filter((order) => order.integer_status == '-1'));
     } else if (filterBtn === 'locked down') {
-      setOrderData(data.filter((order) => order.status === 'locked down'));
-    } else if (filterBtn === 'Pending/Paid') {
-      setOrderData(data.filter((order) => order.status === 'Pending/Paid'));
+      setOrderData(data.filter((order) => order.integer_status === '2'));
+    } else if (filterBtn === 'paid') {
+      setOrderData(data.filter((order) => order.integer_status === '0'));
+    } else if (filterBtn === 'accepted') {
+      setOrderData(data.filter((order) => order.integer_status === '3'));
+    } else if (filterBtn === 'dropped') {
+      setOrderData(data.filter((order) => order.integer_status === '6'));
+    } else if (filterBtn === 'for shipment') {
+      setOrderData(data.filter((order) => order.integer_status === '4'));
+    } else if (filterBtn === 'assigned for delivery') {
+      setOrderData(data.filter((order) => order.integer_status === '5'));
+    } else if (filterBtn === 'delivered') {
+      setOrderData(data.filter((order) => order.integer_status === '7'));
+    } else if (filterBtn === 'done') {
+      setOrderData(data.filter((order) => order.integer_status === '1'));
     }
   }, [filterBtn]);
 
@@ -36,12 +49,19 @@ export default function OrdersPage({ data }) {
       <Container>
         <Heading title="My Orders" icon={<FaListUl />}>
           <BtnContainer className="btnContainer">
-            <Button type="submit" icon={<BiPrinter className="iconSize" />}>
+            <Button
+              mx="4"
+              colorScheme="red"
+              leftIcon={<BiPrinter className="iconSize" />}
+            >
               Print
             </Button>
-            <ButtonGreen type="submit" icon={<BsPlus className="iconSize" />}>
+            <Button
+              colorScheme="green"
+              leftIcon={<BsPlus className="iconSize" />}
+            >
               Create Order
-            </ButtonGreen>
+            </Button>
           </BtnContainer>
         </Heading>
 
@@ -54,11 +74,98 @@ export default function OrdersPage({ data }) {
         />
       </Container>
       <BtnContainer className="btnContainer">
-        <Button onClick={() => setFilterBtn('all')}>All</Button>
-        <Button onClick={() => setFilterBtn('pending')}>Pending</Button>
-        <Button onClick={() => setFilterBtn('locked down')}>Locked down</Button>
-        <Button onClick={() => setFilterBtn('Pending/Paid')}>
-          Pending Paid
+        <Button
+          colorScheme={filterBtn === 'all' ? 'red' : 'blackAlpha'}
+          mt="4"
+          ml="8"
+          mr="4"
+          size="sm"
+          onClick={() => setFilterBtn('all')}
+        >
+          All
+        </Button>
+        <Button
+          colorScheme={filterBtn === 'pending' ? 'red' : 'blackAlpha'}
+          mt="4"
+          size="sm"
+          mr="4"
+          onClick={() => setFilterBtn('pending')}
+        >
+          Pending
+        </Button>
+        <Button
+          colorScheme={filterBtn === 'paid' ? 'red' : 'blackAlpha'}
+          mt="4"
+          size="sm"
+          mr="4"
+          onClick={() => setFilterBtn('paid')}
+        >
+          Paid
+        </Button>
+        <Button
+          colorScheme={filterBtn === 'locked down' ? 'red' : 'blackAlpha'}
+          mt="4"
+          size="sm"
+          mr="4"
+          onClick={() => setFilterBtn('locked down')}
+        >
+          Locked down
+        </Button>
+        <Button
+          colorScheme={filterBtn === 'accepted' ? 'red' : 'blackAlpha'}
+          mt="4"
+          size="sm"
+          mr="4"
+          onClick={() => setFilterBtn('accepted')}
+        >
+          Accepted
+        </Button>
+        <Button
+          colorScheme={filterBtn === 'dropped' ? 'red' : 'blackAlpha'}
+          mt="4"
+          size="sm"
+          mr="4"
+          onClick={() => setFilterBtn('dropped')}
+        >
+          Dropped
+        </Button>
+        <Button
+          colorScheme={filterBtn === 'for shipment' ? 'red' : 'blackAlpha'}
+          mt="4"
+          size="sm"
+          mr="4"
+          onClick={() => setFilterBtn('for shipment')}
+        >
+          For Shipment
+        </Button>
+        <Button
+          colorScheme={
+            filterBtn === 'assigned for delivery' ? 'red' : 'blackAlpha'
+          }
+          mt="4"
+          size="sm"
+          mr="4"
+          onClick={() => setFilterBtn('assigned for delivery')}
+        >
+          Assigned for Delivery
+        </Button>
+        <Button
+          colorScheme={filterBtn === 'delivered' ? 'red' : 'blackAlpha'}
+          mt="4"
+          size="sm"
+          mr="4"
+          onClick={() => setFilterBtn('delivered')}
+        >
+          Delivered
+        </Button>
+        <Button
+          colorScheme={filterBtn === 'done' ? 'red' : 'blackAlpha'}
+          mt="4"
+          size="sm"
+          mr="4"
+          onClick={() => setFilterBtn('done')}
+        >
+          Done
         </Button>
       </BtnContainer>
       <DataTable data={orderData} />

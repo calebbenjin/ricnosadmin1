@@ -15,6 +15,9 @@ export default function UserCardInfo({
   phone,
   address,
   handleClick,
+  status,
+  loading,
+  type,
 }) {
   return (
     <Container>
@@ -67,9 +70,24 @@ export default function UserCardInfo({
             <Box className="mottor"></Box>
             <Text>Mottor Bike</Text>
           </Flex> */}
-          <Button onClick={handleClick} colorScheme="green">
-            Confirm Delivery
-          </Button>
+          {status === '6' && type === 'pickup' && (
+            <Button
+              isLoading={loading}
+              onClick={handleClick}
+              colorScheme="green"
+            >
+              Confirm Office Drop
+            </Button>
+          )}
+          {status === '7' && type === 'delivery' && (
+            <Button
+              isLoading={loading}
+              onClick={handleClick}
+              colorScheme="green"
+            >
+              Confirm Delivery Drop
+            </Button>
+          )}
         </Box>
       </Card>
     </Container>

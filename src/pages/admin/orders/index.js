@@ -1,19 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { BsPlus } from 'react-icons/bs';
-import { BiPrinter } from 'react-icons/bi';
+import { BiPrinter, BiSearchAlt } from 'react-icons/bi';
 import { FaListUl } from 'react-icons/fa';
-import { Button } from '@chakra-ui/react';
-// import Button from '@/components/atoms/Button';
-import ButtonGreen from '@/components/atoms/ButtonGreen';
 import Container from '@/components/atoms/Container';
 import Heading from '@/components/atoms/Heading';
 import DataTable from '@/components/atoms/DataTable';
 import Layout from '@/components/organisms/Layout';
+import { Flex, Stack, Button, Input, InputLeftElement, InputGroup } from '@chakra-ui/react'
 import styled from 'styled-components';
 import { parseCookies } from '@/helpers/index';
 import { useRouter } from 'next/router';
 
-export default function OrdersPage({ data }) {
+
+const data = [
+  { id: 1, tracking_id: "QH46", date: "july 2020", display_item: "Bags", pickup: "Lagos Leki", destination: "Port harcourt", status: "cancelled", amount: 2000 },
+  { id: 2, tracking_id: "QH45", date: "march 2020", display_item: "Bags", pickup: "Lagos Leki", destination: "Port harcourt", status: "completed", amount: 2000 },
+  { id: 3, tracking_id: "QH44", date: "july 2020", display_item: "Bags", pickup: "Lagos Leki", destination: "Port harcourt", status: "completed", amount: 2000 },
+  { id: 4, tracking_id: "QH43", date: "july 2020", display_item: "Bags", pickup: "Lagos Leki", destination: "Port harcourt", status: "cancelled", amount: 2000 },
+  { id: 5, tracking_id: "QH42", date: "july 2020", display_item: "Bags", pickup: "Warri", destination: "Lagos", status: "pending", amount: 2000 },
+  { id: 6, tracking_id: "QH42", date: "july 2020", display_item: "Bags", pickup: "Warri", destination: "Lagos", status: "active", amount: 2000 },
+  { id: 7, tracking_id: "QH42", date: "july 2020", display_item: "Bags", pickup: "Warri", destination: "Lagos", status: "pending", amount: 2000 },
+  { id: 8, tracking_id: "QH42", date: "july 2020", display_item: "Bags", pickup: "Kanu", destination: "Calabar", status: "active", amount: 2000 },
+  { id: 9, tracking_id: "QH42", date: "july 2020", display_item: "Bags", pickup: "Owerri", destination: "Lagos", status: "pending", amount: 2000 },
+  { id: 10, tracking_id: "QH42", date: "july 2020", display_item: "Bags", pickup: "Jos", destination: "Kastina", status: "active", amount: 2000 },
+];
+
+export default function OrdersPage() {
   const [q, setQ] = useState('');
   const [filterBtn, setFilterBtn] = useState('all');
   const [orderData, setOrderData] = useState(data);
@@ -48,126 +60,33 @@ export default function OrdersPage({ data }) {
     <Layout>
       <Container>
         <Heading title="My Orders" icon={<FaListUl />}>
-          <BtnContainer className="btnContainer">
-            <Button
-              mx="4"
-              colorScheme="red"
-              leftIcon={<BiPrinter className="iconSize" />}
-            >
+          <Stack spacing={4} direction='row' align='center'>
+            <Button type="submit" colorScheme="red" leftIcon={<BiPrinter />}>
               Print
             </Button>
-            <Button
-              colorScheme="green"
-              leftIcon={<BsPlus className="iconSize" />}
-            >
+            <Button type="submit" colorScheme="green" leftIcon={<BsPlus />}>
               Create Order
             </Button>
-          </BtnContainer>
+          </Stack>
         </Heading>
 
-        <input
-          style={{ background: '#fff !important', width: '50%;' }}
-          type="text"
-          placeholder="Search for Items"
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-        />
+        <Flex>
+          <InputGroup mr="4" bg="white">
+            <InputLeftElement pointerEvents='none'>
+            <BiSearchAlt style={{ fontSize: "1.2rem", color: "gray"}} />
+            </InputLeftElement>
+            <Input type='text' _focus={{paddingLeft: "2.2rem"}} value={q} onChange={(e) => setQ(e.target.value)} placeholder='Search' />
+          </InputGroup>
+          <Stack spacing={0} direction='row' align='center'>
+            <Button borderRadius='0' variant='outline' bg="white" leftIcon={<BiPrinter />} onClick={() => setFilterBtn('all')}>All</Button>
+            <Button borderRadius='0' variant='outline' bg="white" leftIcon={<BiPrinter />} onClick={() => setFilterBtn('pending')}>Pending</Button>
+            <Button borderRadius='0' variant='outline' bg="white" leftIcon={<BiPrinter />} onClick={() => setFilterBtn('locked down')}>Locked down</Button>
+            <Button borderRadius='0' variant='outline' bg="white" leftIcon={<BiPrinter />} onClick={() => setFilterBtn('Pending/Paid')}>
+              Pending Paid
+            </Button>
+          </Stack>
+        </Flex>
       </Container>
-      <BtnContainer className="btnContainer">
-        <Button
-          colorScheme={filterBtn === 'all' ? 'red' : 'blackAlpha'}
-          mt="4"
-          ml="8"
-          mr="4"
-          size="sm"
-          onClick={() => setFilterBtn('all')}
-        >
-          All
-        </Button>
-        <Button
-          colorScheme={filterBtn === 'pending' ? 'red' : 'blackAlpha'}
-          mt="4"
-          size="sm"
-          mr="4"
-          onClick={() => setFilterBtn('pending')}
-        >
-          Pending
-        </Button>
-        <Button
-          colorScheme={filterBtn === 'paid' ? 'red' : 'blackAlpha'}
-          mt="4"
-          size="sm"
-          mr="4"
-          onClick={() => setFilterBtn('paid')}
-        >
-          Paid
-        </Button>
-        <Button
-          colorScheme={filterBtn === 'locked down' ? 'red' : 'blackAlpha'}
-          mt="4"
-          size="sm"
-          mr="4"
-          onClick={() => setFilterBtn('locked down')}
-        >
-          Locked down
-        </Button>
-        <Button
-          colorScheme={filterBtn === 'accepted' ? 'red' : 'blackAlpha'}
-          mt="4"
-          size="sm"
-          mr="4"
-          onClick={() => setFilterBtn('accepted')}
-        >
-          Accepted
-        </Button>
-        <Button
-          colorScheme={filterBtn === 'dropped' ? 'red' : 'blackAlpha'}
-          mt="4"
-          size="sm"
-          mr="4"
-          onClick={() => setFilterBtn('dropped')}
-        >
-          Dropped
-        </Button>
-        <Button
-          colorScheme={filterBtn === 'for shipment' ? 'red' : 'blackAlpha'}
-          mt="4"
-          size="sm"
-          mr="4"
-          onClick={() => setFilterBtn('for shipment')}
-        >
-          For Shipment
-        </Button>
-        <Button
-          colorScheme={
-            filterBtn === 'assigned for delivery' ? 'red' : 'blackAlpha'
-          }
-          mt="4"
-          size="sm"
-          mr="4"
-          onClick={() => setFilterBtn('assigned for delivery')}
-        >
-          Assigned for Delivery
-        </Button>
-        <Button
-          colorScheme={filterBtn === 'delivered' ? 'red' : 'blackAlpha'}
-          mt="4"
-          size="sm"
-          mr="4"
-          onClick={() => setFilterBtn('delivered')}
-        >
-          Delivered
-        </Button>
-        <Button
-          colorScheme={filterBtn === 'done' ? 'red' : 'blackAlpha'}
-          mt="4"
-          size="sm"
-          mr="4"
-          onClick={() => setFilterBtn('done')}
-        >
-          Done
-        </Button>
-      </BtnContainer>
       <DataTable data={orderData} />
     </Layout>
   );
@@ -185,37 +104,37 @@ const SubHeader = styled.div`
   margin: 1rem 0;
 `;
 
-export async function getServerSideProps({ req }) {
-  const { token } = parseCookies(req);
-  if (!token) {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false,
-      },
-    };
-  }
+// export async function getServerSideProps({ req }) {
+//   const { token } = parseCookies(req);
+//   if (!token) {
+//     return {
+//       redirect: {
+//         destination: '/',
+//         permanent: false,
+//       },
+//     };
+//   }
 
-  var myHeaders = new Headers();
-  myHeaders.append('Accept', 'application/json');
-  myHeaders.append('Authorization', `Bearer ${token}`);
+//   var myHeaders = new Headers();
+//   myHeaders.append('Accept', 'application/json');
+//   myHeaders.append('Authorization', `Bearer ${token}`);
 
-  var requestOptions = {
-    method: 'GET',
-    headers: myHeaders,
-    redirect: 'follow',
-  };
+//   var requestOptions = {
+//     method: 'GET',
+//     headers: myHeaders,
+//     redirect: 'follow',
+//   };
 
-  const response = await fetch(
-    'https://alpha.ricnoslogistics.com/api/admin/order/orders',
-    requestOptions
-  );
+//   const response = await fetch(
+//     'https://alpha.ricnoslogistics.com/api/admin/order/orders',
+//     requestOptions
+//   );
 
-  const result = await response.json();
+//   const result = await response.json();
 
-  return {
-    props: {
-      data: result.data.orders,
-    },
-  };
-}
+//   return {
+//     props: {
+//       data: result.data.orders,
+//     },
+//   };
+// }

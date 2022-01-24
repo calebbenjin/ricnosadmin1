@@ -46,13 +46,13 @@ export default function DataTable({ data }) {
               <td>{order.pickup}</td>
               <td>{order.destination}</td>
               {order.status === 'pending' ? (
-                <td style={{ color: 'darkyellow' }}>{order.status}</td>
+                <td style={{ color: 'gold' }}>{order.status}</td>
               ) : order.status === 'cancelled' ? (
                 <td style={{ color: 'red' }}>{order.status}</td>
               ) : (
                 <td style={{ color: 'green' }}>{order.status}</td>
               )}
-              <td>NGN{order.amount}</td>
+              <td>NGN {order.amount}</td>
               <td>
                 <Link href={`orders/${order.id}`}>
                   <a>View</a>

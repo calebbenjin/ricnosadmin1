@@ -2,6 +2,7 @@ import SideNav from '@/components/molecules/SideNav'
 import {
   Container,
   Box,
+  Button,
   FormControl,
   FormLabel,
   Input,
@@ -19,7 +20,6 @@ import { BsEye } from 'react-icons/bs'
 import { useForm } from 'react-hook-form'
 import styles from '@/styles/Settings.module.css'
 import Header from '@/components/atoms/Heading'
-import Button from '@/components/atoms/Button'
 import { FiLock, FiSettings } from 'react-icons/fi'
 // import DeativateBtn from '@/components/DeativateBtn'
 
@@ -181,6 +181,7 @@ export default function SecurityPage() {
               <Container maxWidth='container.lg' my='10'>
                 <Flex justify='space-between'>
                   <Box maxWidth={['100%', '45%']}>
+                  
                     <Heading fontSize='md' as="h4" colorScheme='grey'>
                       ACCOUNT DEACTIVATION
                     </Heading>
@@ -217,9 +218,7 @@ export default function SecurityPage() {
               justifyContent='end'
               mt='4rem'
             >
-              <Button disabled={loading}>
-                {loading ? 'Loading...' : 'Deactivate Account'}
-              </Button>
+              <Button>Deactivate Account</Button>
             </Box>
                   </Box>
                 </Flex>

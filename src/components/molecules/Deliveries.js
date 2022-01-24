@@ -1,26 +1,23 @@
-import Card from "../atoms/Card";
-import styled from 'styled-components'
-import Charts from "./Charts";
-// import NivoChart from "./NivoChart";
+import Card from '../atoms/Card';
+import styled from 'styled-components';
+// import Charts from './Charts';
+import NivoChart from './NivoChart';
 
 export default function Deliveries() {
   return (
     <Container>
-      <Card className='card'>
-        <div className='header'>
+      <Card className="card">
+        <div className="header">
           <h4>Deliveries</h4>
         </div>
         <div className="cardBody">
           {/* <Charts /> */}
-          {/* <NivoChart /> */}
+          <NivoChart />
         </div>
       </Card>
     </Container>
-  )
+  );
 }
-
-
-
 
 const Container = styled.div`
   .card {
@@ -37,4 +34,4 @@ const Container = styled.div`
       }
     }
   }
-`
+`;

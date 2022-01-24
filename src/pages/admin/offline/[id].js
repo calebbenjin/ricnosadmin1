@@ -75,7 +75,7 @@ export default function OrdersPage({ data, token }) {
   };
 
   const handleAssignDeliveryAgent = async () => {
-    setLoadingDelivery(false);
+    setLoadingDelivery(true);
     var myHeaders = new Headers();
     myHeaders.append('Accept', '');
     myHeaders.append('Authorization', `Bearer ${token}`);
@@ -451,7 +451,7 @@ export default function OrdersPage({ data, token }) {
                       onChange={(e) => setSelectedRider(e.target.value)}
                       placeholder="Select Delivery Agent"
                     >
-                      {data.riders.map((rider) => (
+                      {data.delivery_riders.map((rider) => (
                         <option key={rider.id} value={rider.id}>
                           {rider.name}
                         </option>

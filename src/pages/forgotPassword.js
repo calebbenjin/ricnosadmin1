@@ -20,19 +20,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import FormInput from '@/components/atoms/FormInput';
 import AuthContext from '@/context/AuthContext';
 
-export default function LoginPage() {
+export default function ForgotPasswordPage() {
   const [show, setShow] = useState(false);
-  const { login, isError, isLoading } = useContext(AuthContext);
-
-  const notify = () => toast.error(isError);
-
-  useEffect(() => {
-    if (isError) {
-      notify();
-    }
-  }, [isError, notify]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -42,10 +35,38 @@ export default function LoginPage() {
 
   const handleClick = () => setShow(!show);
 
-  const onSubmit = (data, e) => {
+  const onSubmit = async (data, e) => {
     e.preventDefault();
-    const { email, password } = data;
-    login({ email, password });
+
+    setIsLoading(true);
+    var myHeaders = new Headers();
+    myHeaders.append('Accept', 'application/json');
+
+    var formdata = new FormData();
+    formdata.append('email', data.email);
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: formdata,
+      redirect: 'follow',
+    };
+
+    const request = await fetch(
+      'https://alpha.ricnoslogistics.com/api/admin/forgot_password',
+      requestOptions
+    );
+
+    const response = await request.json();
+
+    if (response.success) {
+      toast.success(response.message);
+      router.push('/passwordReset');
+    } else {
+      toast.error(response.message);
+    }
+
+    setIsLoading(false);
   };
 
   return (
@@ -69,12 +90,12 @@ export default function LoginPage() {
         <div className="formContainer">
           <div className="form">
             <h3 className="loginTitle">Admin Dashboard</h3>
-            <h3 className="loginTitle">Log in</h3>
-            {isLoading ? (
-              <div className="modal">
-                <p>Pls Wait the system is verifing your account</p>
-              </div>
-            ) : null}
+            <h3 className="loginTitle">Forgot Password</h3>
+
+            <div className="modal">
+              <p>A reset Password token will be sent to your email.</p>
+            </div>
+
             <form onSubmit={handleSubmit(onSubmit)}>
               <FormControl isInvalid={errors.email}>
                 <FormLabel fontWeight="normal">Email</FormLabel>
@@ -89,44 +110,14 @@ export default function LoginPage() {
                   {errors.email && errors.email.message}
                 </FormErrorMessage>
               </FormControl>
-              <FormControl isInvalid={errors.password} my="5">
-                <FormLabel fontWeight="normal">Password</FormLabel>
-                <InputGroup>
-                  <Input
-                    borderColor="grey"
-                    pr="2rem"
-                    type={show ? 'text' : 'password'}
-                    placeholder="Enter password"
-                    {...register('password', {
-                      required: 'Password is Required',
-                    })}
-                  />
-                  <InputRightElement>
-                    <BsEye onClick={handleClick}>
-                      {show ? 'Hide' : 'Show'}
-                    </BsEye>
-                  </InputRightElement>
-                </InputGroup>
-                <FormErrorMessage>
-                  {errors.password && errors.password.message}
-                </FormErrorMessage>
-              </FormControl>
               <hr />
 
               <p className="term">Terms of service</p>
               <div className="btnContainer">
                 <Button type="submit" loading={isLoading} title="LOADING">
-                  LOGIN
+                  Send
                 </Button>
               </div>
-              <Link href="/forgotPassword">
-                <p
-                  style={{ cursor: 'pointer', margin: '5px 0' }}
-                  className="term"
-                >
-                  Forgot Password?
-                </p>
-              </Link>
             </form>
           </div>
         </div>

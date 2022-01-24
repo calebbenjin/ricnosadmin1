@@ -37,7 +37,7 @@ export default function Navbar() {
               <UserAvatar
                 userTitle={user.name}
                 userName={user.name}
-                // image="https://bit.ly/ryan-florence"
+                image={user.passport}
                 size="md"
               />
               <Dropdown />

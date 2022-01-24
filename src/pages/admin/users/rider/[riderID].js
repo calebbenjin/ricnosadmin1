@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useRouter } from 'next/router';
 import Container from '@/components/atoms/Container';
 import Card from '@/components/atoms/Card';
@@ -32,8 +32,10 @@ import { VscCalendar } from 'react-icons/vsc';
 import Header from '@/components/atoms/Heading';
 import Link from 'next/link';
 import { parseCookies } from '@/helpers/index';
+import AuthContext from '@/context/AuthContext';
 
 export default function OfflineOrderPage({ data, token }) {
+  const { user } = useContext(AuthContext);
   const [loadingActivationToggle, setLoadingActivationToggle] = useState(false);
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
@@ -332,7 +334,7 @@ export default function OfflineOrderPage({ data, token }) {
           </Box>
           <Box width={['100%', '35%']} p="1rem">
             <Card style={{ textAlign: 'center' }}>
-              <Link href="/message" passHref>
+              {/* <Link href="/message" passHref>
                 <Button
                   colorScheme="red"
                   width="100%"
@@ -344,7 +346,7 @@ export default function OfflineOrderPage({ data, token }) {
                 </Button>
               </Link>
 
-              <hr />
+              <hr /> */}
               <Flex justify="space-between" alignItems="center">
                 <Box my="4">
                   <Flex alignItems="center">
@@ -362,7 +364,7 @@ export default function OfflineOrderPage({ data, token }) {
               </Flex>
               <hr />
 
-              <Grid gridTemplateColumns="repeat(2, 1fr)" gap="10" my="5">
+              {/* <Grid gridTemplateColumns="repeat(2, 1fr)" gap="10" my="5">
                 <Link href="/settings" passHref>
                   <Button colorScheme="green" py="6">
                     Edit
@@ -373,19 +375,21 @@ export default function OfflineOrderPage({ data, token }) {
                     Send Mail
                   </Button>
                 </Link>
-              </Grid>
+              </Grid> */}
 
-              <Button
-                onClick={onOpen}
-                colorScheme="red"
-                width="100%"
-                leftIcon={<AiOutlinePrinter />}
-                py="6"
-              >
-                Reset Password
-              </Button>
+              {user.role === '1' && (
+                <Button
+                  onClick={onOpen}
+                  colorScheme="red"
+                  width="100%"
+                  leftIcon={<AiOutlinePrinter />}
+                  py="6"
+                >
+                  Reset Password
+                </Button>
+              )}
 
-              {data.status === '1' && (
+              {data.status === '1' && user.role === '1' && (
                 <Button
                   colorScheme="red"
                   width="100%"
@@ -399,7 +403,7 @@ export default function OfflineOrderPage({ data, token }) {
                 </Button>
               )}
 
-              {data.status === '0' && (
+              {data.status === '0' && user.role === '1' && (
                 <Button
                   colorScheme="green"
                   width="100%"

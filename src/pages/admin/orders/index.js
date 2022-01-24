@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { BsPlus } from 'react-icons/bs';
 import { BiPrinter } from 'react-icons/bi';
 import { FaListUl } from 'react-icons/fa';
-import { Button } from '@chakra-ui/react';
+import { Button, Spinner } from '@chakra-ui/react';
 // import Button from '@/components/atoms/Button';
 import ButtonGreen from '@/components/atoms/ButtonGreen';
 import Container from '@/components/atoms/Container';
@@ -12,37 +12,56 @@ import Layout from '@/components/organisms/Layout';
 import styled from 'styled-components';
 import { parseCookies } from '@/helpers/index';
 import { useRouter } from 'next/router';
+import AuthContext from '@/context/AuthContext';
+import { adminOrders, staffOrders } from '@/helpers/orders';
 
-export default function OrdersPage({ data }) {
+export default function OrdersPage({ token }) {
+  const { user } = useContext(AuthContext);
+  const [loading, setLoading] = useState(true);
   const [q, setQ] = useState('');
   const [filterBtn, setFilterBtn] = useState('all');
-  const [orderData, setOrderData] = useState(data);
+  const [orderData, setOrderData] = useState();
+
+  useEffect(() => {
+    setLoading(true);
+    if (user.role === '1') {
+      adminOrders(token).then((data) => {
+        setOrderData(data);
+        setLoading(false);
+      });
+    } else if (user.role === '2') {
+      staffOrders(token).then((data) => {
+        setOrderData(data);
+        setLoading(false);
+      });
+    }
+  }, []);
 
   const router = useRouter();
 
-  useEffect(() => {
-    if (filterBtn === 'all') {
-      setOrderData(data);
-    } else if (filterBtn === 'pending') {
-      setOrderData(data.filter((order) => order.integer_status == '-1'));
-    } else if (filterBtn === 'locked down') {
-      setOrderData(data.filter((order) => order.integer_status === '2'));
-    } else if (filterBtn === 'paid') {
-      setOrderData(data.filter((order) => order.integer_status === '0'));
-    } else if (filterBtn === 'accepted') {
-      setOrderData(data.filter((order) => order.integer_status === '3'));
-    } else if (filterBtn === 'dropped') {
-      setOrderData(data.filter((order) => order.integer_status === '6'));
-    } else if (filterBtn === 'for shipment') {
-      setOrderData(data.filter((order) => order.integer_status === '4'));
-    } else if (filterBtn === 'assigned for delivery') {
-      setOrderData(data.filter((order) => order.integer_status === '5'));
-    } else if (filterBtn === 'delivered') {
-      setOrderData(data.filter((order) => order.integer_status === '7'));
-    } else if (filterBtn === 'done') {
-      setOrderData(data.filter((order) => order.integer_status === '1'));
-    }
-  }, [filterBtn]);
+  // useEffect(() => {
+  //   if (filterBtn === 'all') {
+  //     setOrderData(data);
+  //   } else if (filterBtn === 'pending') {
+  //     setOrderData(data.filter((order) => order.integer_status == '-1'));
+  //   } else if (filterBtn === 'locked down') {
+  //     setOrderData(data.filter((order) => order.integer_status === '2'));
+  //   } else if (filterBtn === 'paid') {
+  //     setOrderData(data.filter((order) => order.integer_status === '0'));
+  //   } else if (filterBtn === 'accepted') {
+  //     setOrderData(data.filter((order) => order.integer_status === '3'));
+  //   } else if (filterBtn === 'dropped') {
+  //     setOrderData(data.filter((order) => order.integer_status === '6'));
+  //   } else if (filterBtn === 'for shipment') {
+  //     setOrderData(data.filter((order) => order.integer_status === '4'));
+  //   } else if (filterBtn === 'assigned for delivery') {
+  //     setOrderData(data.filter((order) => order.integer_status === '5'));
+  //   } else if (filterBtn === 'delivered') {
+  //     setOrderData(data.filter((order) => order.integer_status === '7'));
+  //   } else if (filterBtn === 'done') {
+  //     setOrderData(data.filter((order) => order.integer_status === '1'));
+  //   }
+  // }, [filterBtn]);
 
   return (
     <Layout>
@@ -73,7 +92,7 @@ export default function OrdersPage({ data }) {
           onChange={(e) => setQ(e.target.value)}
         />
       </Container>
-      <BtnContainer className="btnContainer">
+      {/* <BtnContainer className="btnContainer">
         <Button
           colorScheme={filterBtn === 'all' ? 'red' : 'blackAlpha'}
           mt="4"
@@ -167,8 +186,22 @@ export default function OrdersPage({ data }) {
         >
           Done
         </Button>
-      </BtnContainer>
-      <DataTable data={orderData} />
+      </BtnContainer> */}
+      {loading ? (
+        <div
+          style={{
+            width: '100%',
+            display: 'flex',
+            padding: '20px',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Spinner size="xl" color="red.500" />
+        </div>
+      ) : (
+        <>{orderData && <DataTable data={orderData} />}</>
+      )}
     </Layout>
   );
 }
@@ -196,26 +229,9 @@ export async function getServerSideProps({ req }) {
     };
   }
 
-  var myHeaders = new Headers();
-  myHeaders.append('Accept', 'application/json');
-  myHeaders.append('Authorization', `Bearer ${token}`);
-
-  var requestOptions = {
-    method: 'GET',
-    headers: myHeaders,
-    redirect: 'follow',
-  };
-
-  const response = await fetch(
-    'https://alpha.ricnoslogistics.com/api/admin/order/orders',
-    requestOptions
-  );
-
-  const result = await response.json();
-
   return {
     props: {
-      data: result.data.orders,
+      token,
     },
   };
 }

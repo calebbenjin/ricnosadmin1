@@ -52,7 +52,12 @@ export default function HomePage() {
 
         <Section>
           <Grid2>
-            <Payout notify="8" value="60" amount="340000" types="Rider" />
+            <Payout
+              notify="8"
+              value="60"
+              riderAmount={user.payouts.riders}
+              agentAmount={user.payouts.agent}
+            />
             <Deliveries />
           </Grid2>
         </Section>

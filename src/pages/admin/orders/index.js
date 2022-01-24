@@ -27,7 +27,7 @@ const data = [
 
 export default function OrdersPage() {
   const [q, setQ] = useState('');
-  const [filterBtn, setFilterBtn] = useState(['all']);
+  const [filterBtn, setFilterBtn] = useState('all');
   const [orderData, setOrderData] = useState(data);
 
   const router = useRouter();
@@ -36,11 +36,23 @@ export default function OrdersPage() {
     if (filterBtn === 'all') {
       setOrderData(data);
     } else if (filterBtn === 'pending') {
-      setOrderData(data.filter((order) => order.status === 'pending'));
+      setOrderData(data.filter((order) => order.integer_status == '-1'));
     } else if (filterBtn === 'locked down') {
-      setOrderData(data.filter((order) => order.status === 'locked down'));
-    } else if (filterBtn === 'Pending/Paid') {
-      setOrderData(data.filter((order) => order.status === 'Pending/Paid'));
+      setOrderData(data.filter((order) => order.integer_status === '2'));
+    } else if (filterBtn === 'paid') {
+      setOrderData(data.filter((order) => order.integer_status === '0'));
+    } else if (filterBtn === 'accepted') {
+      setOrderData(data.filter((order) => order.integer_status === '3'));
+    } else if (filterBtn === 'dropped') {
+      setOrderData(data.filter((order) => order.integer_status === '6'));
+    } else if (filterBtn === 'for shipment') {
+      setOrderData(data.filter((order) => order.integer_status === '4'));
+    } else if (filterBtn === 'assigned for delivery') {
+      setOrderData(data.filter((order) => order.integer_status === '5'));
+    } else if (filterBtn === 'delivered') {
+      setOrderData(data.filter((order) => order.integer_status === '7'));
+    } else if (filterBtn === 'done') {
+      setOrderData(data.filter((order) => order.integer_status === '1'));
     }
   }, [filterBtn]);
 

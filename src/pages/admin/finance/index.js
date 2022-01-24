@@ -61,5 +61,40 @@ export default function FinancePage() {
       </Container>
         <FinanceTable data={financeData} />
     </Layout>
-  )
+  );
+}
+
+export async function getServerSideProps({ req }) {
+  const { token } = parseCookies(req);
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
+
+  var myHeaders = new Headers();
+  myHeaders.append('Accept', 'application/json');
+  myHeaders.append('Authorization', `Bearer ${token}`);
+
+  var requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow',
+  };
+
+  const response = await fetch(
+    'https://alpha.ricnoslogistics.com/api/admin/withdrawal_requests',
+    requestOptions
+  );
+
+  const result = await response.json();
+
+  return {
+    props: {
+      data: result.data.withdrawal_requests,
+    },
+  };
 }

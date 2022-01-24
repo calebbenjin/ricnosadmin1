@@ -7,25 +7,61 @@ import styled from 'styled-components'
 import Link from "next/link"
 import { BiPrinter, BiSearchAlt } from 'react-icons/bi';
 import { Flex, Stack, Button, Input, InputLeftElement, InputGroup } from '@chakra-ui/react'
-
+import { parseCookies } from '@/helpers/index';
 
 const data = [
-  { id: 1, fullname: "John Deo", regDate: "july 2020", email: "johndeo@gmail.com", department: "rider", lastActivity: "5hrs 10mins", status: "active"},
-  { id: 2, fullname: "Lilian Koose", regDate: "july 2020", email: "liliankoose@gmail.com", department: "agent", lastActivity: "5hrs 10mins", status: "deactivated"},
-  { id: 2, fullname: "Mark Leo", regDate: "july 2020", email: "markleo@gmail.com", department: "admin", lastActivity: "5hrs 10mins", status: "active"},
-  { id: 2, fullname: "Rose Kalin", regDate: "july 2020", email: "rosekalin@gmail.com", department: "user", lastActivity: "5hrs 10mins", status: "deactivated"},
+  {
+    id: 1,
+    fullname: 'John Deo',
+    regDate: 'july 2020',
+    email: 'johndeo@gmail.com',
+    department: 'rider',
+    lastActivity: '5hrs 10mins',
+    status: 'active',
+  },
+  {
+    id: 2,
+    fullname: 'Lilian Koose',
+    regDate: 'july 2020',
+    email: 'liliankoose@gmail.com',
+    department: 'agent',
+    lastActivity: '5hrs 10mins',
+    status: 'deactivated',
+  },
+  {
+    id: 2,
+    fullname: 'Mark Leo',
+    regDate: 'july 2020',
+    email: 'markleo@gmail.com',
+    department: 'admin',
+    lastActivity: '5hrs 10mins',
+    status: 'active',
+  },
+  {
+    id: 2,
+    fullname: 'Rose Kalin',
+    regDate: 'july 2020',
+    email: 'rosekalin@gmail.com',
+    department: 'user',
+    lastActivity: '5hrs 10mins',
+    status: 'deactivated',
+  },
 ];
 
-export default function UsersPage() {
+export default function UsersPage({ data }) {
   const [q, setQ] = useState('');
   const [filterBtn, setFilterBtn] = useState(['A']);
+  const [usersData, setUsersData] = useState([
+    ...data.riders,
+    ...data.users,
+    ...data.staffs,
+  ]);
   const columns = data[0] && Object.keys(data[0]);
 
   return (
     <Layout>
       <Container>
         <Heading title="Users" icon={<FaUsers />} />
-
         <Flex>
           <InputGroup mr="4" bg="white">
             <InputLeftElement pointerEvents='none'>
@@ -79,17 +115,29 @@ export default function UsersPage() {
             </tr>
           </thead>
           <tbody>
-            {data.map((user) => (
+            {usersData.map((user) => (
               <tr key={user.id}>
                 <td></td>
-                <td>{user.fullname}</td>
+                <td>{user.full_name}</td>
                 <td>{user.department}</td>
                 <td>{user.email}</td>
-                <td>{user.regDate}</td>
-                <td>{user.lastActivity}</td>
-                {user.status === "active" ? <td style={{color: "green"}}>{user.status}</td> : <td style={{color: "red"}}>{user.status}</td> }
+                <td>{user.reg_date}</td>
+                <td>{user.last_activity}</td>
+                {user.status === 'active' ? (
+                  <td style={{ color: 'green' }}>{user.status}</td>
+                ) : (
+                  <td style={{ color: 'red' }}>{user.status}</td>
+                )}
                 <td>
-                  <Link href={`users/${user.id}`}>
+                  <Link
+                    href={
+                      user.department === 'Logistics'
+                        ? `users/rider/${user.id}`
+                        : user.department === 'User'
+                        ? `users/customer/${user.id}`
+                        : `users/staff/${user.id}`
+                    }
+                  >
                     <a>View</a>
                   </Link>
                 </td>
@@ -99,17 +147,52 @@ export default function UsersPage() {
         </table>
       </div>
     </Layout>
-  )
+  );
 }
 
 const BtnContainer = styled.div`
   display: flex;
   align-items: center;
-`
+`;
 
 const SubHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin: 1rem 0;
-`
+`;
+
+export async function getServerSideProps({ req }) {
+  const { token } = parseCookies(req);
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
+
+  var myHeaders = new Headers();
+  myHeaders.append('Accept', 'application/json');
+  myHeaders.append('Authorization', `Bearer ${token}`);
+
+  var requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow',
+  };
+
+  const response = await fetch(
+    'https://alpha.ricnoslogistics.com/api/admin/all_users',
+    requestOptions
+  );
+
+  const result = await response.json();
+
+  return {
+    props: {
+      data: result.data,
+    },
+  };
+}

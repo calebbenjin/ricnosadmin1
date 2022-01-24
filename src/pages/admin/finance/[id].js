@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { useRouter } from 'next/router';
 import Header from '@/components/atoms/Heading';
 import Container from '@/components/atoms/Container';
 import Layout from '@/components/organisms/Layout';
@@ -15,13 +16,18 @@ import logo from '@/assets/logo1.svg';
 import { parseCookies } from '@/helpers/index';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import AuthContext from '@/context/AuthContext';
 
 export default function UserPage({ data, token }) {
   const [loadingManualRequest, setLoadingManualRequest] = useState(false);
   const [loadingCancelRequest, setLoadingCancelRequest] = useState(false);
   const [loadingApprovalRequest, setLoadingApprovalRequest] = useState(false);
 
-  const handleManualRequest = () => {
+  const { user } = useContext(AuthContext);
+
+  const router = useRouter();
+
+  const handleManualRequest = async () => {
     setLoadingManualRequest(true);
     var myHeaders = new Headers();
     myHeaders.append('Accept', 'application/json');
@@ -33,24 +39,22 @@ export default function UserPage({ data, token }) {
       redirect: 'follow',
     };
 
-    fetch(
+    const request = await fetch(
       `https://alpha.ricnoslogistics.com/api/admin/approve_withdrawal_manual/${data.id}`,
       requestOptions
-    )
-      .then((response) => response.json())
-      .then((result) => {
-        setLoadingManualRequest(false);
-        if (result.success) {
-          toast.success(result.message);
-        } else {
-          toast.error(result.message);
-        }
-        router.reload(window.location.pathname);
-      })
-      .catch((error) => console.log('error', error));
+    );
+    const result = await request.json();
+
+    if (result.success) {
+      toast.success(result.message);
+      router.reload(window.location.pathname);
+    } else {
+      toast.error(result.message);
+      setLoadingManualRequest(false);
+    }
   };
 
-  const handleApprovalRequest = () => {
+  const handleApprovalRequest = async () => {
     setLoadingApprovalRequest(true);
     var myHeaders = new Headers();
     myHeaders.append('Accept', 'application/json');
@@ -62,24 +66,22 @@ export default function UserPage({ data, token }) {
       redirect: 'follow',
     };
 
-    fetch(
+    const request = await fetch(
       `https://alpha.ricnoslogistics.com/api/admin/approve_withdrawal/${data.id}`,
       requestOptions
-    )
-      .then((response) => response.json())
-      .then((result) => {
-        setLoadingApprovalRequest(false);
-        if (result.success) {
-          toast.success(result.message);
-        } else {
-          toast.error(result.message);
-        }
-        router.reload(window.location.pathname);
-      })
-      .catch((error) => console.log('error', error));
+    );
+    const result = await request.json();
+
+    if (result.success) {
+      toast.success(result.message);
+      router.reload(window.location.pathname);
+    } else {
+      toast.error(result.message);
+      setLoadingApprovalRequest(false);
+    }
   };
 
-  const handleCancelRequest = () => {
+  const handleCancelRequest = async () => {
     setLoadingCancelRequest(true);
     var myHeaders = new Headers();
     myHeaders.append('Accept', 'application/json');
@@ -91,21 +93,19 @@ export default function UserPage({ data, token }) {
       redirect: 'follow',
     };
 
-    fetch(
+    const request = await fetch(
       `https://alpha.ricnoslogistics.com/api/admin/decline_withdrawal/${data.id}`,
       requestOptions
-    )
-      .then((response) => response.json())
-      .then((result) => {
-        setLoadingCancelRequest(false);
-        if (result.success) {
-          toast.success(result.message);
-        } else {
-          toast.error(result.message);
-        }
-        router.reload(window.location.pathname);
-      })
-      .catch((error) => console.log('error', error));
+    );
+    const result = await request.json();
+
+    if (result.success) {
+      toast.success(result.message);
+      router.reload(window.location.pathname);
+    } else {
+      toast.error(result.message);
+      setLoadingCancelRequest(false);
+    }
   };
 
   return (
@@ -192,7 +192,7 @@ export default function UserPage({ data, token }) {
               <Heading size="md">{data.amount}</Heading>
             </Flex>
 
-            {data.status !== 'paid' && (
+            {data.integer_status === '0' && user.role === '1' && (
               <div className="actionsBtns">
                 <div>
                   <Button
@@ -209,6 +209,28 @@ export default function UserPage({ data, token }) {
                     colorScheme="red"
                   >
                     Cancel request
+                  </Button>
+                </div>
+                <Button
+                  isLoading={loadingManualRequest}
+                  onClick={handleManualRequest}
+                  colorScheme="yellow"
+                >
+                  Approve Manually
+                </Button>
+              </div>
+            )}
+
+            {data.integer_status === '2' && user.role === '1' && (
+              <div className="actionsBtns">
+                <div>
+                  <Button
+                    onClick={handleApprovalRequest}
+                    colorScheme="green"
+                    mr="4"
+                    isLoading={loadingApprovalRequest}
+                  >
+                    Approve request
                   </Button>
                 </div>
                 <Button

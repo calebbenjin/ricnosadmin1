@@ -1,108 +1,103 @@
-import React, { useState, useEffect } from 'react'
-import styled from 'styled-components'
-import { useRouter } from 'next/router'
-import FooterComp from '@/components/atoms/Footer'
-import { LogoOne } from '@/components/atoms/Logo'
-import { useForm } from 'react-hook-form'
-import { BsEye } from 'react-icons/bs'
-import Button from '@/components/atoms/Button'
-import Link from 'next/link'
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import { useRouter } from 'next/router';
+import FooterComp from '@/components/atoms/Footer';
+import { LogoOne } from '@/components/atoms/Logo';
+import { useForm } from 'react-hook-form';
+import { BsEye } from 'react-icons/bs';
+import Button from '@/components/atoms/Button';
+import Link from 'next/link';
 import {
   FormControl,
   FormErrorMessage,
   Input,
   FormLabel,
   InputGroup,
-  InputRightElement
-} from '@chakra-ui/react'
-import FormInput from '@/components/atoms/FormInput'
+  InputRightElement,
+} from '@chakra-ui/react';
+import FormInput from '@/components/atoms/FormInput';
 
 export default function LoginPage() {
-  const [show, setShow] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
+  const [show, setShow] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const router = useRouter()
+  const router = useRouter();
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm()
+  } = useForm();
 
-  const handleClick = () => setShow(!show)
+  const handleClick = () => setShow(!show);
 
   const onSubmit = (data) => {
-    console.log(data)
-    setIsLoading(true)
-    router.push('/admin/dashboard')
-  }
+    console.log(data);
+    setIsLoading(true);
+    router.push('/admin/dashboard');
+  };
 
   return (
-    <Box>
-      <div className='logo'>
-        <LogoOne />
-      </div>
-      <div className='layoutContainer'>
-        <div className='imgBg'></div>
-        <div className='formContainer'>
-          <div className='form'>
-            <h3 className='loginTitle'>Admin Login Portal</h3>
-            {isLoading ? (
-              <div className='modal'>
-                <p>Pls Wait the system is verifing your account</p>
-              </div>
-            ) : null}
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <FormControl isInvalid={errors.email}>
-                <FormLabel fontWeight='normal'>Email</FormLabel>
-                <Input
-                  type='email'
-                  id='email'
-                  placeholder='Enter Email'
-                  borderColor='grey'
-                  {...register('email', { required: 'Email is required' })}
-                />
-                <FormErrorMessage>
-                  {errors.email && errors.email.message}
-                </FormErrorMessage>
-              </FormControl>
-              <FormControl isInvalid={errors.password} my='5'>
-                <FormLabel fontWeight='normal'>Password</FormLabel>
-                <InputGroup>
-                  <Input
-                    borderColor='grey'
-                    pr='2rem'
-                    type={show ? 'text' : 'password'}
-                    placeholder='Enter password'
-                    {...register('password', {
-                      required: 'Password is Required',
-                    })}
-                  />
-                  <InputRightElement>
-                    <BsEye onClick={handleClick}>
-                      {show ? 'Hide' : 'Show'}
-                    </BsEye>
-                  </InputRightElement>
-                </InputGroup>
-                <FormErrorMessage>
-                  {errors.password && errors.password.message}
-                </FormErrorMessage>
-              </FormControl>
-              <hr />
+    <Layout>
+      <Container>
+        <Heading title={`Hello ${user.name}`}></Heading>
 
-              <p className='term'>Terms of service
-              </p>
-              <div className="btnContainer">
-                <Button type='submit' loading={isLoading} title="LOADING">LOGIN</Button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-      <FooterComp className='footer' />
-    </Box>
-  )
+        <Section>
+          <Grid>
+            <NotificationCard
+              title="REQUEST FOR QUOTATION"
+              number={user.quote_requests}
+              greaterThen="1.2"
+              icon={<HiOutlinePencilAlt className="icon" />}
+            />
+            <NotificationCard
+              title="SHIPMENTS"
+              number={user.active_orders.length}
+              greaterThen="1.2"
+              icon={<IoCalendarOutline className="icon" />}
+            />
+            <NotificationCard
+              title="INVOICE TO PAY"
+              number="32"
+              greaterThen="1.2"
+              icon={<CgNotes className="icon" />}
+            />
+          </Grid>
+        </Section>
 
+        <Section>
+          <Grid2>
+            <Payout
+              notify="8"
+              value="60"
+              riderAmount={user.payouts.riders}
+              agentAmount={user.payouts.agent}
+            />
+            <Deliveries />
+          </Grid2>
+        </Section>
+
+        <Section>
+          <ActiveShipments>
+            {user.active_orders.length > 0 ? (
+              user.active_orders.map((order) => (
+                <ShipmentCard key={order.id} data={order} />
+              ))
+            ) : (
+              <p>No active orders</p>
+            )}
+          </ActiveShipments>
+        </Section>
+
+        <Section>
+          <Grid2>
+            <ActivityLog />
+            <SummaryLog />
+          </Grid2>
+        </Section>
+      </Container>
+    </Layout>
+  );
 }
 
 const Box = styled.div`
@@ -186,4 +181,4 @@ const Box = styled.div`
     bottom: 0;
     width: 100%;
   }
-`
+`;

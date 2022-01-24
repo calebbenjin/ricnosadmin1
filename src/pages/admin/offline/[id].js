@@ -1,21 +1,108 @@
-import Container from '@/components/atoms/Container'
-import Layout from '@/components/organisms/Layout'
-import styled from 'styled-components'
-import Card from '@/components/atoms/Card'
-import UserCardInfo from '@/components/molecules/UserCardInfo'
-import SelectRider from '@/components/molecules/SelectRiders'
-import { Button, Flex, Box, Heading, Text } from '@chakra-ui/react'
-import Link from 'next/link'
-import Logo from '@/components/atoms/Logo'
-import logo from '@/assets/logo1.svg'
-import Image from 'next/image'
-
-export default function OrdersPage() {
 
 
-  const handleClick = () => {
-    alert("Hello Coder")
-  }
+import { useState } from 'react';
+import Container from '@/components/atoms/Container';
+import Layout from '@/components/organisms/Layout';
+import styled from 'styled-components';
+import Card from '@/components/atoms/Card';
+import UserCardInfo from '@/components/molecules/UserCardInfo';
+import Logs from '@/components/molecules/Logs';
+import { Button, Flex, Box, Heading, Text, Select } from '@chakra-ui/react';
+import Link from 'next/link';
+import Logo from '@/components/atoms/Logo';
+import logo from '@/assets/logo1.svg';
+import Image from 'next/image';
+import { parseCookies } from '@/helpers/index';
+import { useRouter } from 'next/router';
+
+export default function OrdersPage({ data, token }) {
+  const [selectedRider, setSelectedRider] = useState(null);
+  const [loadingDrop, setLoadingDrop] = useState(false);
+  const [loadingDelivery, setLoadingDelivery] = useState(false);
+  const [loadingConfirmDelivery, setLoadingConfirmDelivery] = useState(false);
+
+  const router = useRouter();
+
+  const handleOfficeDrop = async () => {
+    setLoadingDrop(true);
+    var myHeaders = new Headers();
+    myHeaders.append('Accept', 'application/json');
+    myHeaders.append('Authorization', `Bearer ${token}`);
+
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow',
+    };
+
+    const response = await fetch(
+      `https://alpha.ricnoslogistics.com/api/admin/order/confirm_drop/${data.order.id}`,
+      requestOptions
+    );
+
+    const result = await response.json();
+
+    if (result.success) {
+      router.reload(window.location.pathname);
+    } else {
+      setLoadingDrop(false);
+      console.log(result);
+    }
+  };
+
+  const handleConfirmDelivery = async () => {
+    setLoadingConfirmDelivery(true);
+    var myHeaders = new Headers();
+    myHeaders.append('Accept', 'application/json');
+    myHeaders.append('Authorization', `Bearer ${token}`);
+
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow',
+    };
+
+    const response = await fetch(
+      `https://alpha.ricnoslogistics.com/api/admin/order/confirm_delivery/${data.order.id}`,
+      requestOptions
+    );
+
+    const result = await response.json();
+
+    if (result.success) {
+      router.reload(window.location.pathname);
+    } else {
+      setLoadingConfirmDelivery(false);
+    }
+  };
+
+  const handleAssignDeliveryAgent = async () => {
+    setLoadingDelivery(true);
+    var myHeaders = new Headers();
+    myHeaders.append('Accept', '');
+    myHeaders.append('Authorization', `Bearer ${token}`);
+
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow',
+    };
+
+    const response = await fetch(
+      `https://alpha.ricnoslogistics.com/api/admin/order/assign_agent/${data.order.id}/${selectedRider}`,
+      requestOptions
+    );
+
+    const result = await response.json();
+
+    if (result.success) {
+      router.reload(window.location.pathname);
+    } else {
+      setLoadingDelivery(false);
+      console.log(result);
+    }
+  };
+
 
   return (
     <Layout>
@@ -367,7 +454,7 @@ export default function OrdersPage() {
                       onChange={(e) => setSelectedRider(e.target.value)}
                       placeholder="Select Delivery Agent"
                     >
-                      {data.riders.map((rider) => (
+                      {data.delivery_riders.map((rider) => (
                         <option key={rider.id} value={rider.id}>
                           {rider.name}
                         </option>

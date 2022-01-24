@@ -278,7 +278,7 @@ export default function OfflineOrderPage({ data, token }) {
           </Box>
           <Box width={['100%', '35%']} p="1rem">
             <Card style={{ textAlign: 'center' }}>
-              <Link href="/message" passHref>
+              {/* <Link href="/message" passHref>
                 <Button
                   colorScheme="red"
                   width="100%"
@@ -288,7 +288,7 @@ export default function OfflineOrderPage({ data, token }) {
                 >
                   Send Message
                 </Button>
-              </Link>
+              </Link> */}
 
               <hr />
               <Flex justify="space-between" alignItems="center">
@@ -306,7 +306,7 @@ export default function OfflineOrderPage({ data, token }) {
               </Flex>
               <hr />
 
-              <Grid gridTemplateColumns="repeat(2, 1fr)" gap="10" my="5">
+              {/* <Grid gridTemplateColumns="repeat(2, 1fr)" gap="10" my="5">
                 <Link href="/settings" passHref>
                   <Button colorScheme="green" py="6">
                     Edit
@@ -315,18 +315,17 @@ export default function OfflineOrderPage({ data, token }) {
                 <Button onClick={onOpen} colorScheme="green" py="6">
                   New Account
                 </Button>
-              </Grid>
+              </Grid> */}
 
-              <Link href="/settings/" passHref>
-                <Button
-                  colorScheme="red"
-                  width="100%"
-                  leftIcon={<AiOutlinePrinter />}
-                  py="6"
-                >
-                  Reset Password
-                </Button>
-              </Link>
+              <Button
+                onClick={onOpen}
+                colorScheme="green"
+                width="100%"
+                leftIcon={<AiOutlinePrinter />}
+                py="6"
+              >
+                New Account
+              </Button>
             </Card>
           </Box>
         </Flex>

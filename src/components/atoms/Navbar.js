@@ -35,9 +35,9 @@ export default function Navbar() {
                 <p>{user.email}</p> */}
               </div>
               <UserAvatar
-                // userTitle={user.name}
-                // userName={user.name}
-                image="https://bit.ly/ryan-florence"
+                userTitle={user.name}
+                userName={user.name}
+                image={user.passport}
                 size="md"
               />
               <Dropdown />

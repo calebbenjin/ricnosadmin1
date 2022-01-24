@@ -67,15 +67,13 @@ export const AuthProvider = ({ children }) => {
   // =====================================
 
   const logout = async () => {
+    router.push('/');
     fetch(`${NEXT_URL}/api/logout`, {
       method: 'POST',
     })
-      .then((res) => {
+      .then((res) => res.json())
+      .then((result) => {
         setUser(null);
-        router.push('/');
-      })
-      .catch((error) => {
-        console.error('error logging out user');
       });
   };
 

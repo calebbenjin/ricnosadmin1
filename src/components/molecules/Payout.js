@@ -1,124 +1,64 @@
-import Card from '../atoms/Card'
-import styled from 'styled-components'
-import { Progress, Flex } from "@chakra-ui/react"
+import Card from '../atoms/Card';
+import styled from 'styled-components';
+import { Progress, Flex } from '@chakra-ui/react';
 
-export default function Payout({ notify, value, amount, types }) {
+export default function Payout({
+  notify,
+  value,
+  riderAmount,
+  agentAmount,
+  types,
+}) {
   return (
     <PayoutContainer>
-      <Card className='card'>
-        <div className='header'>
+      <Card className="card">
+        <div className="header">
           <h4>payout</h4>
           <h5>
             Payment request <sup>{notify}</sup>
           </h5>
         </div>
 
-        <div className='cardBody'>
-          <div className='flex'>
-            <h4 className='title'>Type</h4>
-            <h4 className='title'>Percentage</h4>
-            <h4 className='title right'>value</h4>
+        <div className="cardBody">
+          <div className="flex">
+            <h4 className="title">Type</h4>
+            <h4 className="title">Percentage</h4>
+            <h4 className="title right">value</h4>
           </div>
           <div className="flexBody">
-            <h4 className="head types">{types && types}</h4>
+            <h4 className="head types">Riders</h4>
             <div className="head progressBar">
               <div className="box">
-                <Progress borderRadius="30" size="sm" colorScheme="red" value={value} /> 
+                <Progress
+                  borderRadius="30"
+                  size="sm"
+                  colorScheme="red"
+                  value={value}
+                />
               </div>
-              <div className="box1">
-                {value}%
-              </div>
-             </div>
-            <h4 className="head amount">NGN {amount}</h4>
+              <div className="box1">{value}%</div>
+            </div>
+            <h4 className="head amount">NGN {riderAmount}</h4>
           </div>
           <div className="flexBody">
-            <h4 className="head types">{types && types}</h4>
+            <h4 className="head types">Agents</h4>
             <div className="head progressBar">
               <div className="box">
-                <Progress borderRadius="30" size="sm" colorScheme="red" value={value} /> 
+                <Progress
+                  borderRadius="30"
+                  size="sm"
+                  colorScheme="red"
+                  value={value}
+                />
               </div>
-              <div className="box1">
-                {value}%
-              </div>
-             </div>
-            <h4 className="head amount">NGN {amount}</h4>
-          </div>
-          <div className="flexBody">
-            <h4 className="head types">{types && types}</h4>
-            <div className="head progressBar">
-              <div className="box">
-                <Progress borderRadius="30" size="sm" colorScheme="red" value={value} /> 
-              </div>
-              <div className="box1">
-                {value}%
-              </div>
-             </div>
-            <h4 className="head amount">NGN {amount}</h4>
-          </div>
-          <div className="flexBody">
-            <h4 className="head types">{types && types}</h4>
-            <div className="head progressBar">
-              <div className="box">
-                <Progress borderRadius="30" size="sm" colorScheme="red" value={value} /> 
-              </div>
-              <div className="box1">
-                {value}%
-              </div>
-             </div>
-            <h4 className="head amount">NGN {amount}</h4>
-          </div>
-          <div className="flexBody">
-            <h4 className="head types">{types && types}</h4>
-            <div className="head progressBar">
-              <div className="box">
-                <Progress borderRadius="30" size="sm" colorScheme="red" value={value} /> 
-              </div>
-              <div className="box1">
-                {value}%
-              </div>
-             </div>
-            <h4 className="head amount">NGN {amount}</h4>
-          </div>
-          <div className="flexBody">
-            <h4 className="head types">{types && types}</h4>
-            <div className="head progressBar">
-              <div className="box">
-                <Progress borderRadius="30" size="sm" colorScheme="red" value={value} /> 
-              </div>
-              <div className="box1">
-                {value}%
-              </div>
-             </div>
-            <h4 className="head amount">NGN {amount}</h4>
-          </div>
-          <div className="flexBody">
-            <h4 className="head types">{types && types}</h4>
-            <div className="head progressBar">
-              <div className="box">
-                <Progress borderRadius="30" size="sm" colorScheme="red" value={value} /> 
-              </div>
-              <div className="box1">
-                {value}%
-              </div>
-             </div>
-            <h4 className="head amount">NGN {amount}</h4>
-          </div>
-          <div className="flexBody">
-            <h4 className="head types">{types && types}</h4>
-            <div className="head progressBar">
-              <div className="box">
-                <Progress borderRadius="30" size="sm" colorScheme="red" value={value} /> 
-              </div>
-              <div className="box1">
-                {value}%
-              </div>
-             </div>
-            <h4 className="head amount">NGN {amount}</h4>
+              <div className="box1">{value}%</div>
+            </div>
+            <h4 className="head amount">NGN {agentAmount}</h4>
           </div>
         </div>
       </Card>
     </PayoutContainer>
-  )
+  );
 }
 
 const PayoutContainer = styled.div`
@@ -166,45 +106,43 @@ const PayoutContainer = styled.div`
           width: 100%;
           color: ${(props) => props.theme.colors.grey};
         }
-        
-        }
+      }
+    }
+
+    .flexBody {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 10px;
+
+      .title {
+        width: 100%;
+        color: ${(props) => props.theme.colors.grey};
       }
 
-      .flexBody {
+      .right {
+        text-align: right;
+      }
+
+      .head {
+        margin-left: 1rem;
+        font-weight: ${(props) => props.theme.fontWeight.bold};
+        white-space: nowrap;
+      }
+
+      .progressBar {
         display: flex;
+        position: relative;
         align-items: center;
+        width: 30%;
         justify-content: space-between;
-        padding-top: 10px;
 
-
-        .title {
-          width: 100%;
-          color: ${(props) => props.theme.colors.grey};
+        .box {
+          width: 80%;
         }
-
-        .right {
-          text-align: right;
+        .box1 {
+          width: 15%;
         }
-
-        .head {
-          margin-left: 1rem;
-          font-weight: ${(props) => props.theme.fontWeight.bold};
-          white-space: nowrap;
-        }
-
-        .progressBar {
-          display: flex;
-          position: relative;
-          align-items: center;
-          width: 30%;
-          justify-content: space-between;
-
-          .box {
-            width: 80%;
-          }
-          .box1 {
-            width: 15%;
-          }
 
         .types {
           font-weight: ${(props) => props.theme.fontWeight.bold};
@@ -217,4 +155,4 @@ const PayoutContainer = styled.div`
       }
     }
   }
-`
+`;

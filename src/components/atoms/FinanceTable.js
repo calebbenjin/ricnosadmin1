@@ -36,10 +36,10 @@ export default function FinanceTable({ data }) {
               <td></td>
               <td>{users.fullname}</td>
               <td>{users.department}</td>
-              <td>{users.requestAmount}</td>
+              <td>NGN {users.requestAmount}</td>
               <td>{users.date}</td>
               {users.status === 'pending' ? (
-                <td style={{ color: 'darkyellow' }}>{users.status}</td>
+                <td style={{ color: 'gold' }}>{users.status}</td>
               ) : users.status === 'cancelled' ? (
                 <td style={{ color: 'red' }}>{users.status}</td>
               ) : (

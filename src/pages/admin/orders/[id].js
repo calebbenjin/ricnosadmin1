@@ -1,3 +1,4 @@
+import { useContext, useEffect } from 'react'
 import Container from '@/components/atoms/Container';
 import Layout from '@/components/organisms/Layout';
 import styled from 'styled-components';
@@ -10,8 +11,11 @@ import Logo from '@/components/atoms/Logo';
 import logo from '@/assets/logo1.svg';
 import Image from 'next/image';
 import { parseCookies } from '@/helpers/index';
+import {AuthContext} from '@/context/AuthContext'
 
 export default function OrdersPage({ data }) {
+  const { isStaff } = useContext(AuthContext)
+  
   const handleClick = () => {
     alert('Hello Coder');
   };

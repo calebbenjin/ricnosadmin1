@@ -1,5 +1,5 @@
 import Container from '@/components/atoms/Container'
-import Layout from '@/components/organisms/Layout2'
+import Layout from '@/components/organisms/Layout'
 import styled from 'styled-components'
 import Card from '@/components/atoms/Card'
 import UserCardInfo from '@/components/molecules/UserCardInfo'

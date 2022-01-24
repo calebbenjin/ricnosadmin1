@@ -1,6 +1,6 @@
 import Container from '@/components/atoms/Container'
 import Header from '@/components/atoms/Heading'
-import Layout from '@/components/organisms/Layout2'
+import Layout from '@/components/organisms/Layout'
 import { Button, Grid, Heading, Text, FormControl, Select, Input } from '@chakra-ui/react'
 import { FaListUl } from 'react-icons/fa'
 

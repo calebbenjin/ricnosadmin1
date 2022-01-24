@@ -5,6 +5,8 @@ import Heading from '@/components/atoms/Heading'
 import Layout from '@/components/organisms/Layout'
 import styled from 'styled-components'
 import Link from "next/link"
+import { BiPrinter, BiSearchAlt } from 'react-icons/bi';
+import { Flex, Stack, Button, Input, InputLeftElement, InputGroup } from '@chakra-ui/react'
 
 
 const data = [
@@ -24,13 +26,28 @@ export default function UsersPage() {
       <Container>
         <Heading title="Users" icon={<FaUsers />} />
 
-        <input
-            style={{ background: '#fff !important', width: '50%;' }}
-            type="text"
-            placeholder="Search for Items"
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-          />
+        <Flex>
+          <InputGroup mr="4" bg="white">
+            <InputLeftElement pointerEvents='none'>
+            <BiSearchAlt style={{ fontSize: "1.2rem", color: "gray"}} />
+            </InputLeftElement>
+            <Input type='text' _focus={{paddingLeft: "2.2rem"}} value={q} onChange={(e) => setQ(e.target.value)} placeholder='Search' />
+          </InputGroup>
+          <Stack spacing={0} direction='row' align='center'>
+            <Button borderRadius='0' variant='outline' bg="white" leftIcon={<BiPrinter />} onClick={() => setFilterBtn('all')}>All</Button>
+            <Button borderRadius='0' variant='outline' bg="white" leftIcon={<BiPrinter />} onClick={() => setFilterBtn('fullname')}>General Users</Button>
+            <Button borderRadius='0' variant='outline' bg="white" leftIcon={<BiPrinter />} onClick={() => setFilterBtn('phone')}>Riders</Button>
+            <Button borderRadius='0' variant='outline' bg="white" leftIcon={<BiPrinter />} onClick={() => setFilterBtn('date')}>
+              Agents
+            </Button>
+            <Button borderRadius='0' variant='outline' bg="white" leftIcon={<BiPrinter />} onClick={() => setFilterBtn('email')}>
+              Admin
+            </Button>
+            <Button borderRadius='0' variant='outline' bg="white" leftIcon={<BiPrinter />} onClick={() => setFilterBtn('email')}>
+              Administrator
+            </Button>
+          </Stack>
+        </Flex>
       </Container>
 
       <div className="resTable">

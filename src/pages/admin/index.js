@@ -1,26 +1,41 @@
-import { useContext } from 'react';
-import Container from '@/components/atoms/Container';
-import Layout from '@/components/organisms/Layout';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import Heading from '@/components/atoms/Heading';
-import { Grid2, Grid } from '@/components/atoms/Grid';
-import NotificationCard from '@/components/molecules/NotificationCard';
-import { HiOutlinePencilAlt } from 'react-icons/hi';
-import { CgNotes } from 'react-icons/cg';
-import { IoCalendarOutline } from 'react-icons/io5';
-import Section from '@/components/atoms/Section';
-import Payout from '@/components/molecules/Payout';
-import Deliveries from '@/components/molecules/Deliveries';
-import ActiveShipments from '@/components/molecules/ActiveShipments';
-import ShipmentCard from '@/components/atoms/ShipmentCard';
-import ActivityLog from '@/components/molecules/ActivityLog';
-import SummaryLog from '@/components/molecules/SummaryLog';
-import { parseCookies } from '@/helpers/index';
-import { API_URL } from '@/lib/index';
-import AuthContext from '@/context/AuthContext';
+import { useRouter } from 'next/router';
+import FooterComp from '@/components/atoms/Footer';
+import { LogoOne } from '@/components/atoms/Logo';
+import { useForm } from 'react-hook-form';
+import { BsEye } from 'react-icons/bs';
+import Button from '@/components/atoms/Button';
+import Link from 'next/link';
+import {
+  FormControl,
+  FormErrorMessage,
+  Input,
+  FormLabel,
+  InputGroup,
+  InputRightElement,
+} from '@chakra-ui/react';
+import FormInput from '@/components/atoms/FormInput';
 
-export default function HomePage() {
-  const { user } = useContext(AuthContext);
+export default function LoginPage() {
+  const [show, setShow] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const router = useRouter();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  const handleClick = () => setShow(!show);
+
+  const onSubmit = (data) => {
+    console.log(data);
+    setIsLoading(true);
+    router.push('/admin/dashboard');
+  };
 
   return (
     <Layout>
@@ -85,20 +100,85 @@ export default function HomePage() {
   );
 }
 
-export async function getServerSideProps({ req }) {
-  const { token } = parseCookies(req);
-  if (!token) {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false,
-      },
-    };
+const Box = styled.div`
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+
+  .layoutContainer {
+    display: flex;
+    justify-content: space-between;
   }
 
-  return {
-    props: {
-      data: null,
-    },
-  };
-}
+  .btnContainer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .imgBg {
+    height: 100vh;
+    width: 50%;
+  }
+
+  .term {
+    color: #eee;
+    margin-top: 1rem;
+  }
+
+  .forgotLink {
+    color: #eee;
+  }
+
+  .loginTitle {
+    margin-bottom: 2rem;
+    font-weight: bold;
+    font-size: ${(props) => props.theme.fontSize.medium};
+  }
+
+  .logo {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+  }
+
+  .formContainer {
+    height: 100vh;
+    width: 50%;
+    background: ${(props) => props.theme.colors.black};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    .loginTitle {
+      color: #fff;
+      text-align: center;
+    }
+
+    .modal {
+      color: #fff;
+    }
+
+    .form {
+      width: 60%;
+
+      button {
+        text-align: center;
+        margin-top: 1.5rem;
+      }
+
+      .termsLink {
+        margin-top: 1rem;
+        color: #eee;
+      }
+    }
+  }
+
+  .footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+`;

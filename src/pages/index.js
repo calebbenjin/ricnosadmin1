@@ -1,66 +1,12 @@
-import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
-import { useRouter } from 'next/router';
 import FooterComp from '@/components/atoms/Footer';
 import { LogoOne } from '@/components/atoms/Logo';
-import { useForm } from 'react-hook-form';
-import { BsEye } from 'react-icons/bs';
-import Button from '@/components/atoms/Button';
 import Link from 'next/link';
-import {
-  FormControl,
-  FormErrorMessage,
-  Input,
-  FormLabel,
-  InputGroup,
-  InputRightElement,
-} from '@chakra-ui/react';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import FormInput from '@/components/atoms/FormInput';
-import AuthContext from '@/context/AuthContext';
+import { Box, Heading, Button } from '@chakra-ui/react';
 
-export default function LoginPage() {
-  const [show, setShow] = useState(false);
-  const { login, isError, isLoading } = useContext(AuthContext);
-
-  const notify = () => toast.error(isError);
-
-  useEffect(() => {
-    if (isError) {
-      notify();
-    }
-  }, [isError, notify]);
-
-  const router = useRouter();
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm();
-
-  const handleClick = () => setShow(!show);
-
-  const onSubmit = (data, e) => {
-    e.preventDefault();
-    const { email, password } = data;
-    login({ email, password });
-  };
-
+export default function HomePage() {
   return (
-    <Box>
-      <ToastContainer
-        position="top-center"
-        autoClose={8000}
-        hideProgressBar
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
+    <BoxContainer>
       <div className="logo">
         <LogoOne />
       </div>
@@ -132,11 +78,11 @@ export default function LoginPage() {
         </div>
       </div>
       <FooterComp className="footer" />
-    </Box>
+    </BoxContainer>
   );
 }
 
-const Box = styled.div`
+const BoxContainer = styled.div`
   height: 100vh;
   overflow: hidden;
   position: relative;
@@ -182,34 +128,10 @@ const Box = styled.div`
   .formContainer {
     height: 100vh;
     width: 50%;
-    background: ${(props) => props.theme.colors.black};
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-
-    .loginTitle {
-      color: #fff;
-      text-align: center;
-    }
-
-    .modal {
-      color: #fff;
-    }
-
-    .form {
-      width: 60%;
-
-      button {
-        text-align: center;
-        margin-top: 1.5rem;
-      }
-
-      .termsLink {
-        margin-top: 1rem;
-        color: #eee;
-      }
-    }
   }
 
   .footer {

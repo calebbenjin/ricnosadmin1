@@ -1,14 +1,17 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { BsPlus } from 'react-icons/bs';
-import { BiPrinter } from 'react-icons/bi';
+import { BiPrinter, BiSearchAlt } from 'react-icons/bi';
 import { FaListUl } from 'react-icons/fa';
+
 import { Button, Spinner } from '@chakra-ui/react';
 // import Button from '@/components/atoms/Button';
 import ButtonGreen from '@/components/atoms/ButtonGreen';
+
 import Container from '@/components/atoms/Container';
 import Heading from '@/components/atoms/Heading';
 import DataTable from '@/components/atoms/DataTable';
 import Layout from '@/components/organisms/Layout';
+import { Flex, Stack, Button, Input, InputLeftElement, InputGroup } from '@chakra-ui/react'
 import styled from 'styled-components';
 import { parseCookies } from '@/helpers/index';
 import { useRouter } from 'next/router';
@@ -18,6 +21,11 @@ import { adminOrders, staffOrders } from '@/helpers/orders';
 export default function OrdersPage({ token }) {
   const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
+
+
+
+export default function OrdersPage() {
+
   const [q, setQ] = useState('');
   const [filterBtn, setFilterBtn] = useState('all');
   const [orderData, setOrderData] = useState();
@@ -67,31 +75,34 @@ export default function OrdersPage({ token }) {
     <Layout>
       <Container>
         <Heading title="My Orders" icon={<FaListUl />}>
-          <BtnContainer className="btnContainer">
-            <Button
-              mx="4"
-              colorScheme="red"
-              leftIcon={<BiPrinter className="iconSize" />}
-            >
+          <Stack spacing={4} direction='row' align='center'>
+            <Button type="submit" colorScheme="red" leftIcon={<BiPrinter />}>
               Print
             </Button>
-            <Button
-              colorScheme="green"
-              leftIcon={<BsPlus className="iconSize" />}
-            >
+            <Button type="submit" colorScheme="green" leftIcon={<BsPlus />}>
               Create Order
             </Button>
-          </BtnContainer>
+          </Stack>
         </Heading>
 
-        <input
-          style={{ background: '#fff !important', width: '50%;' }}
-          type="text"
-          placeholder="Search for Items"
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-        />
+        <Flex>
+          <InputGroup mr="4" bg="white">
+            <InputLeftElement pointerEvents='none'>
+            <BiSearchAlt style={{ fontSize: "1.2rem", color: "gray"}} />
+            </InputLeftElement>
+            <Input type='text' _focus={{paddingLeft: "2.2rem"}} value={q} onChange={(e) => setQ(e.target.value)} placeholder='Search' />
+          </InputGroup>
+          <Stack spacing={0} direction='row' align='center'>
+            <Button borderRadius='0' variant='outline' bg="white" leftIcon={<BiPrinter />} onClick={() => setFilterBtn('all')}>All</Button>
+            <Button borderRadius='0' variant='outline' bg="white" leftIcon={<BiPrinter />} onClick={() => setFilterBtn('pending')}>Pending</Button>
+            <Button borderRadius='0' variant='outline' bg="white" leftIcon={<BiPrinter />} onClick={() => setFilterBtn('locked down')}>Locked down</Button>
+            <Button borderRadius='0' variant='outline' bg="white" leftIcon={<BiPrinter />} onClick={() => setFilterBtn('Pending/Paid')}>
+              Pending Paid
+            </Button>
+          </Stack>
+        </Flex>
       </Container>
+
       {/* <BtnContainer className="btnContainer">
         <Button
           colorScheme={filterBtn === 'all' ? 'red' : 'blackAlpha'}
@@ -218,16 +229,17 @@ const SubHeader = styled.div`
   margin: 1rem 0;
 `;
 
-export async function getServerSideProps({ req }) {
-  const { token } = parseCookies(req);
-  if (!token) {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false,
-      },
-    };
-  }
+// export async function getServerSideProps({ req }) {
+//   const { token } = parseCookies(req);
+//   if (!token) {
+//     return {
+//       redirect: {
+//         destination: '/',
+//         permanent: false,
+//       },
+//     };
+//   }
+
 
   return {
     props: {
@@ -235,3 +247,4 @@ export async function getServerSideProps({ req }) {
     },
   };
 }
+

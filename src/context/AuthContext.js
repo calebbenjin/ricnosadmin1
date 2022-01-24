@@ -10,6 +10,7 @@ export const AuthProvider = ({ children }) => {
   const [isError, setIsError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
   const [initialLoading, setInitialLoading] = useState(true);
+  const [isStaff, setIsStaff] = useState(true);
 
   const router = useRouter();
 
@@ -86,7 +87,7 @@ export const AuthProvider = ({ children }) => {
   // =====================================
 
   return (
-    <AuthContext.Provider value={{ user, isError, isLoading, login, logout }}>
+    <AuthContext.Provider value={{ user, isError, isStaff, isLoading, login, logout }}>
       {initialLoading ? <PageLoader /> : children}
       {/* {!initialLoading && children} */}
     </AuthContext.Provider>

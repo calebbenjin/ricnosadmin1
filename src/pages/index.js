@@ -1,3 +1,4 @@
+
 import styled from 'styled-components';
 import FooterComp from '@/components/atoms/Footer';
 import { LogoOne } from '@/components/atoms/Logo';
@@ -18,23 +19,27 @@ export default function HomePage() {
             <h3 className="loginTitle">Log in</h3>
             {isLoading ? (
               <div className="modal">
+
                 <p>Pls Wait the system is verifing your account</p>
               </div>
             ) : null}
             <form onSubmit={handleSubmit(onSubmit)}>
               <FormControl isInvalid={errors.email}>
+
                 <FormLabel fontWeight="normal">Email</FormLabel>
                 <Input
                   type="email"
                   id="email"
                   placeholder="Enter Email"
                   borderColor="grey"
+
                   {...register('email', { required: 'Email is required' })}
                 />
                 <FormErrorMessage>
                   {errors.email && errors.email.message}
                 </FormErrorMessage>
               </FormControl>
+
               <FormControl isInvalid={errors.password} my="5">
                 <FormLabel fontWeight="normal">Password</FormLabel>
                 <InputGroup>
@@ -43,6 +48,7 @@ export default function HomePage() {
                     pr="2rem"
                     type={show ? 'text' : 'password'}
                     placeholder="Enter password"
+
                     {...register('password', {
                       required: 'Password is Required',
                     })}
@@ -73,6 +79,7 @@ export default function HomePage() {
                   Forgot Password?
                 </p>
               </Link>
+
             </form>
           </div>
         </div>
@@ -83,6 +90,9 @@ export default function HomePage() {
 }
 
 const BoxContainer = styled.div`
+
+const Box = styled.div`
+
   height: 100vh;
   overflow: hidden;
   position: relative;
@@ -128,10 +138,34 @@ const BoxContainer = styled.div`
   .formContainer {
     height: 100vh;
     width: 50%;
+    background: ${(props) => props.theme.colors.black};
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
+
+    .loginTitle {
+      color: #fff;
+      text-align: center;
+    }
+
+    .modal {
+      color: #fff;
+    }
+
+    .form {
+      width: 60%;
+
+      button {
+        text-align: center;
+        margin-top: 1.5rem;
+      }
+
+      .termsLink {
+        margin-top: 1rem;
+        color: #eee;
+      }
+    }
   }
 
   .footer {
@@ -139,4 +173,4 @@ const BoxContainer = styled.div`
     bottom: 0;
     width: 100%;
   }
-`;
+`

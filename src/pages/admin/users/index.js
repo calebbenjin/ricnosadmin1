@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useContext } from 'react';
 import { filter, Grid, Select, Button } from '@chakra-ui/react';
 import { FaListUl, FaUsers } from 'react-icons/fa';
@@ -11,6 +12,7 @@ import Heading from '@/components/atoms/Heading';
 import Layout from '@/components/organisms/Layout';
 import styled from 'styled-components';
 import Link from 'next/link';
+
 import { parseCookies } from '@/helpers/index';
 import AuthContext from '@/context/AuthContext';
 
@@ -42,6 +44,7 @@ export default function UsersPage({ data, branches, token }) {
   return (
     <Layout>
       <Container>
+
         <ToastContainer
           position="top-center"
           autoClose={8000}
@@ -70,6 +73,7 @@ export default function UsersPage({ data, branches, token }) {
           value={q}
           onChange={(e) => setQ(e.target.value)}
         />
+
       </Container>
 
       <Grid p={5} gridTemplateColumns="repeat(3, 1fr)" gap="5">

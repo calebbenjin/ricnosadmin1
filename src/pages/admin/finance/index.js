@@ -1,26 +1,37 @@
-import React, { useState, useEffect } from 'react';
-import { FaListUl } from 'react-icons/fa';
-import { Button } from '@chakra-ui/react';
-import Container from '@/components/atoms/Container';
-import Heading from '@/components/atoms/Heading';
-import FinanceTable from '@/components/atoms/FinanceTable';
-import Layout from '@/components/organisms/Layout';
-import { parseCookies } from '@/helpers/index';
+import React, { useState, useEffect } from 'react'
+import { FaListUl } from 'react-icons/fa'
+import Container from '@/components/atoms/Container'
+import Heading from '@/components/atoms/Heading'
+import FinanceTable from '@/components/atoms/FinanceTable'
+import Layout from '@/components/organisms/Layout'
+import { BiPrinter, BiSearchAlt } from 'react-icons/bi';
+import { Flex, Stack, Button, Input, InputLeftElement, InputGroup } from '@chakra-ui/react'
 
-export default function FinancePage({ data }) {
+const data = [
+  { id: 1, fullname: "Mark Golden", department: "Agent", requestAmount: 300, date: "May 2020", status: "active" },
+  { id: 2, fullname: "Rose Jerry", department: "Rider", requestAmount: 300, date: "july 2020", status: "cancelled" },
+  { id: 3, fullname: "Mark Welder", department: "Agent", requestAmount: 300, date: "May 2020", status: "pending" },
+  { id: 4, fullname: "Kraken Loser", department: "Agent", requestAmount: 300, date: "May 2020", status: "paid" },
+  { id: 5, fullname: "Mark Golden", department: "Agent", requestAmount: 300, date: "May 2020", status: "active" },
+  { id: 6, fullname: "Kraken Loser", department: "Agent", requestAmount: 300, date: "May 2020", status: "paid" },
+  { id: 7, fullname: "Mark Welder", department: "Agent", requestAmount: 300, date: "May 2020", status: "pending" },
+  { id: 8, fullname: "Rose Jerry", department: "Rider", requestAmount: 300, date: "july 2020", status: "cancelled" },
+];
+
+export default function FinancePage() {
   const [q, setQ] = useState('');
   const [filterBtn, setFilterBtn] = useState(['all']);
-  const [orderData, setOrderData] = useState(data);
+  const [financeData, setFinanceData] = useState(data);
 
   useEffect(() => {
     if (filterBtn === 'all') {
-      setOrderData(data);
+      setFinanceData(data);
     } else if (filterBtn === 'pending') {
-      setOrderData(data.filter((order) => order.status === 'pending'));
-    } else if (filterBtn === 'paid') {
-      setOrderData(data.filter((order) => order.status === 'paid'));
-    } else if (filterBtn === 'declined') {
-      setOrderData(data.filter((order) => order.status === 'declined'));
+      setFinanceData(data.filter((order) => order.status === 'pending'));
+    } else if (filterBtn === 'locked down') {
+      setFinanceData(data.filter((order) => order.status === 'locked down'));
+    } else if (filterBtn === 'Pending/Paid') {
+      setFinanceData(data.filter((order) => order.status === 'Pending/Paid'));
     }
   }, [filterBtn]);
 
@@ -28,48 +39,27 @@ export default function FinancePage({ data }) {
     <Layout>
       <Container>
         <Heading title="My Finance" icon={<FaListUl />} />
-        <input
-          style={{ background: '#fff !important', width: '50%;' }}
-          type="text"
-          placeholder="Search for Items"
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-        />
-        <div>
-          <Button
-            onClick={() => setFilterBtn('all')}
-            colorScheme="blue"
-            mr="4"
-            mt="4"
-          >
-            All
-          </Button>
-          <Button
-            onClick={() => setFilterBtn('paid')}
-            colorScheme="green"
-            mr="4"
-            mt="4"
-          >
-            Paid
-          </Button>
-          <Button
-            onClick={() => setFilterBtn('pending')}
-            colorScheme="yellow"
-            mr="4"
-            mt="4"
-          >
-            Pending
-          </Button>
-          <Button
-            onClick={() => setFilterBtn('declined')}
-            colorScheme="red"
-            mt="4"
-          >
-            Declined
-          </Button>
-        </div>
+        <Flex>
+          <InputGroup mr="4" bg="white">
+            <InputLeftElement pointerEvents='none'>
+            <BiSearchAlt style={{ fontSize: "1.2rem", color: "gray"}} />
+            </InputLeftElement>
+            <Input type='text' _focus={{paddingLeft: "2.2rem"}} value={q} onChange={(e) => setQ(e.target.value)} placeholder='Search' />
+          </InputGroup>
+          <Stack spacing={0} direction='row' align='center'>
+            <Button borderRadius='0' variant='outline' bg="white" leftIcon={<BiPrinter />} onClick={() => setFilterBtn('all')}>All</Button>
+            <Button borderRadius='0' variant='outline' bg="white" leftIcon={<BiPrinter />} onClick={() => setFilterBtn('fullname')}>Name</Button>
+            <Button borderRadius='0' variant='outline' bg="white" leftIcon={<BiPrinter />} onClick={() => setFilterBtn('department')}>Department</Button>
+            <Button borderRadius='0' variant='outline' bg="white" leftIcon={<BiPrinter />} onClick={() => setFilterBtn('date')}>
+              Date
+            </Button>
+            <Button borderRadius='0' variant='outline' bg="white" leftIcon={<BiPrinter />} onClick={() => setFilterBtn('status')}>
+              Status
+            </Button>
+          </Stack>
+        </Flex>
       </Container>
-      <FinanceTable data={orderData} />
+        <FinanceTable data={financeData} />
     </Layout>
   );
 }

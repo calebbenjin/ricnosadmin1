@@ -3,6 +3,7 @@ import SideNav from '@/components/molecules/SideNav';
 import {
   Container,
   Box,
+  Button,
   FormControl,
   FormLabel,
   Input,
@@ -26,6 +27,7 @@ import { FiLock, FiSettings } from 'react-icons/fi';
 import { parseCookies } from '@/helpers/index';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 // import DeativateBtn from '@/components/DeativateBtn'
 
 export default function SecurityPage({ token }) {
@@ -244,6 +246,7 @@ export default function SecurityPage({ token }) {
               <Container maxWidth="container.lg" my="10">
                 <Flex justify="space-between">
                   <Box maxWidth={['100%', '45%']}>
+
                     <Heading fontSize="md" as="h4" colorScheme="grey">
                       ACCOUNT DEACTIVATION
                     </Heading>
@@ -275,6 +278,7 @@ export default function SecurityPage({ token }) {
                     </FormControl>
                     {/* <DeativateBtn>Deactivate Account</DeativateBtn> */}
                     <Box
+
                       display="flex"
                       alignItems="center"
                       justifyContent="end"
@@ -284,6 +288,7 @@ export default function SecurityPage({ token }) {
                         {loading ? 'Loading...' : 'Deactivate Account'}
                       </Button>
                     </Box>
+
                   </Box>
                 </Flex>
               </Container>

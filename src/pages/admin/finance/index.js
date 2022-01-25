@@ -1,39 +1,42 @@
-import React, { useState, useEffect } from 'react'
-import { FaListUl } from 'react-icons/fa'
-import Container from '@/components/atoms/Container'
-import Heading from '@/components/atoms/Heading'
-import FinanceTable from '@/components/atoms/FinanceTable'
-import Layout from '@/components/organisms/Layout'
+import React, { useState, useEffect } from 'react';
+import { FaListUl } from 'react-icons/fa';
 import { BiPrinter, BiSearchAlt } from 'react-icons/bi';
-import { Flex, Stack, Button, Input, InputLeftElement, InputGroup } from '@chakra-ui/react'
+import {
+  Flex,
+  Stack,
+  Button,
+  Input,
+  InputLeftElement,
+  InputGroup,
+} from '@chakra-ui/react';
+import Container from '@/components/atoms/Container';
+import Heading from '@/components/atoms/Heading';
+import FinanceTable from '@/components/atoms/FinanceTable';
+import Layout from '@/components/organisms/Layout';
+import { parseCookies } from '@/helpers/index';
 
-const data = [
-  { id: 1, fullname: "Mark Golden", department: "Agent", requestAmount: 300, date: "May 2020", status: "active" },
-  { id: 2, fullname: "Rose Jerry", department: "Rider", requestAmount: 300, date: "july 2020", status: "cancelled" },
-  { id: 3, fullname: "Mark Welder", department: "Agent", requestAmount: 300, date: "May 2020", status: "pending" },
-  { id: 4, fullname: "Kraken Loser", department: "Agent", requestAmount: 300, date: "May 2020", status: "paid" },
-  { id: 5, fullname: "Mark Golden", department: "Agent", requestAmount: 300, date: "May 2020", status: "active" },
-  { id: 6, fullname: "Kraken Loser", department: "Agent", requestAmount: 300, date: "May 2020", status: "paid" },
-  { id: 7, fullname: "Mark Welder", department: "Agent", requestAmount: 300, date: "May 2020", status: "pending" },
-  { id: 8, fullname: "Rose Jerry", department: "Rider", requestAmount: 300, date: "july 2020", status: "cancelled" },
-];
-
-export default function FinancePage() {
+export default function FinancePage({ data }) {
   const [q, setQ] = useState('');
   const [filterBtn, setFilterBtn] = useState(['all']);
-  const [financeData, setFinanceData] = useState(data);
+  const [orderData, setOrderData] = useState(data);
 
   useEffect(() => {
     if (filterBtn === 'all') {
-      setFinanceData(data);
+      setOrderData(data);
     } else if (filterBtn === 'pending') {
-      setFinanceData(data.filter((order) => order.status === 'pending'));
-    } else if (filterBtn === 'locked down') {
-      setFinanceData(data.filter((order) => order.status === 'locked down'));
-    } else if (filterBtn === 'Pending/Paid') {
-      setFinanceData(data.filter((order) => order.status === 'Pending/Paid'));
+      setOrderData(data.filter((order) => order.status === 'pending'));
+    } else if (filterBtn === 'paid') {
+      setOrderData(data.filter((order) => order.status === 'paid'));
+    } else if (filterBtn === 'declined') {
+      setOrderData(data.filter((order) => order.status === 'declined'));
     }
   }, [filterBtn]);
+
+  useEffect(() => {
+    if (q.length > 2) {
+      setOrderData(data.filter((order) => order.full_name.includes(q)));
+    }
+  }, [q]);
 
   return (
     <Layout>
@@ -41,25 +44,58 @@ export default function FinancePage() {
         <Heading title="My Finance" icon={<FaListUl />} />
         <Flex>
           <InputGroup mr="4" bg="white">
-            <InputLeftElement pointerEvents='none'>
-            <BiSearchAlt style={{ fontSize: "1.2rem", color: "gray"}} />
+            <InputLeftElement pointerEvents="none">
+              <BiSearchAlt style={{ fontSize: '1.2rem', color: 'gray' }} />
             </InputLeftElement>
-            <Input type='text' _focus={{paddingLeft: "2.2rem"}} value={q} onChange={(e) => setQ(e.target.value)} placeholder='Search' />
+            <Input
+              type="text"
+              _focus={{ paddingLeft: '2.2rem' }}
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              placeholder="Search by Name"
+            />
           </InputGroup>
-          <Stack spacing={0} direction='row' align='center'>
-            <Button borderRadius='0' variant='outline' bg="white" leftIcon={<BiPrinter />} onClick={() => setFilterBtn('all')}>All</Button>
-            <Button borderRadius='0' variant='outline' bg="white" leftIcon={<BiPrinter />} onClick={() => setFilterBtn('fullname')}>Name</Button>
-            <Button borderRadius='0' variant='outline' bg="white" leftIcon={<BiPrinter />} onClick={() => setFilterBtn('department')}>Department</Button>
-            <Button borderRadius='0' variant='outline' bg="white" leftIcon={<BiPrinter />} onClick={() => setFilterBtn('date')}>
-              Date
+          <Stack spacing={0} direction="row" align="center">
+            <Button
+              borderRadius="0"
+              variant="outline"
+              bg="white"
+              leftIcon={<BiPrinter />}
+              onClick={() => setFilterBtn('all')}
+            >
+              All
             </Button>
-            <Button borderRadius='0' variant='outline' bg="white" leftIcon={<BiPrinter />} onClick={() => setFilterBtn('status')}>
-              Status
+            <Button
+              borderRadius="0"
+              variant="outline"
+              bg="white"
+              leftIcon={<BiPrinter />}
+              onClick={() => setFilterBtn('pending')}
+            >
+              Pending
+            </Button>
+            <Button
+              borderRadius="0"
+              variant="outline"
+              bg="white"
+              leftIcon={<BiPrinter />}
+              onClick={() => setFilterBtn('paid')}
+            >
+              Paid
+            </Button>
+            <Button
+              borderRadius="0"
+              variant="outline"
+              bg="white"
+              leftIcon={<BiPrinter />}
+              onClick={() => setFilterBtn('declined')}
+            >
+              Declined
             </Button>
           </Stack>
         </Flex>
       </Container>
-        <FinanceTable data={financeData} />
+      <FinanceTable data={orderData} />
     </Layout>
   );
 }

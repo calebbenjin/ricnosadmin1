@@ -133,7 +133,6 @@ export default function TicketChatPage({ openTickets, closedTickets, token }) {
                             alt="User"
                             width="100"
                             height="100"
-                            placeholder="blur"
                           />
                         </li>
                       )}

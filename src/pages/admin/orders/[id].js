@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react'
+import { useState } from 'react';
 import Container from '@/components/atoms/Container';
 import Layout from '@/components/organisms/Layout';
 import styled from 'styled-components';

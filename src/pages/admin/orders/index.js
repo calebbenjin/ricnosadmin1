@@ -2,16 +2,21 @@ import React, { useState, useEffect, useContext } from 'react';
 import { BsPlus } from 'react-icons/bs';
 import { BiPrinter, BiSearchAlt } from 'react-icons/bi';
 import { FaListUl } from 'react-icons/fa';
-
-import { Button, Spinner } from '@chakra-ui/react';
+import {
+  Button,
+  Spinner,
+  Flex,
+  Stack,
+  Input,
+  InputLeftElement,
+  InputGroup,
+} from '@chakra-ui/react';
 // import Button from '@/components/atoms/Button';
 import ButtonGreen from '@/components/atoms/ButtonGreen';
-
 import Container from '@/components/atoms/Container';
 import Heading from '@/components/atoms/Heading';
 import DataTable from '@/components/atoms/DataTable';
 import Layout from '@/components/organisms/Layout';
-import { Flex, Stack, Button, Input, InputLeftElement, InputGroup } from '@chakra-ui/react'
 import styled from 'styled-components';
 import { parseCookies } from '@/helpers/index';
 import { useRouter } from 'next/router';
@@ -21,14 +26,10 @@ import { adminOrders, staffOrders } from '@/helpers/orders';
 export default function OrdersPage({ token }) {
   const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
-
-
-
-export default function OrdersPage() {
-
   const [q, setQ] = useState('');
   const [filterBtn, setFilterBtn] = useState('all');
   const [orderData, setOrderData] = useState();
+  const [filteredData, setFilteredData] = useState();
 
   useEffect(() => {
     setLoading(true);
@@ -47,62 +48,140 @@ export default function OrdersPage() {
 
   const router = useRouter();
 
-  // useEffect(() => {
-  //   if (filterBtn === 'all') {
-  //     setOrderData(data);
-  //   } else if (filterBtn === 'pending') {
-  //     setOrderData(data.filter((order) => order.integer_status == '-1'));
-  //   } else if (filterBtn === 'locked down') {
-  //     setOrderData(data.filter((order) => order.integer_status === '2'));
-  //   } else if (filterBtn === 'paid') {
-  //     setOrderData(data.filter((order) => order.integer_status === '0'));
-  //   } else if (filterBtn === 'accepted') {
-  //     setOrderData(data.filter((order) => order.integer_status === '3'));
-  //   } else if (filterBtn === 'dropped') {
-  //     setOrderData(data.filter((order) => order.integer_status === '6'));
-  //   } else if (filterBtn === 'for shipment') {
-  //     setOrderData(data.filter((order) => order.integer_status === '4'));
-  //   } else if (filterBtn === 'assigned for delivery') {
-  //     setOrderData(data.filter((order) => order.integer_status === '5'));
-  //   } else if (filterBtn === 'delivered') {
-  //     setOrderData(data.filter((order) => order.integer_status === '7'));
-  //   } else if (filterBtn === 'done') {
-  //     setOrderData(data.filter((order) => order.integer_status === '1'));
-  //   }
-  // }, [filterBtn]);
+  useEffect(() => {
+    if (orderData) {
+      if (filterBtn === 'all') {
+        setFilteredData(orderData);
+      } else if (filterBtn === 'pending') {
+        setFilteredData(
+          orderData.filter((order) => order.integer_status == '-1')
+        );
+      } else if (filterBtn === 'paid') {
+        setFilteredData(
+          orderData.filter((order) => order.integer_status === '0')
+        );
+      } else if (filterBtn === 'picked up') {
+        setFilteredData(
+          orderData.filter(
+            (order) =>
+              order.integer_status === '3' || order.integer_status === '5'
+          )
+        );
+      } else if (filterBtn === 'in progress') {
+        setFilteredData(
+          orderData.filter(
+            (order) =>
+              order.integer_status === '6' || order.integer_status === '4'
+          )
+        );
+      } else if (filterBtn === 'done') {
+        setFilteredData(
+          orderData.filter((order) => order.integer_status === '1')
+        );
+      }
+    }
+  }, [orderData, filterBtn]);
+
+  useEffect(() => {
+    if (q.length > 2) {
+      setFilteredData(
+        orderData.filter((order) => order.tracking_id.includes(q))
+      );
+    }
+  }, [q]);
 
   return (
     <Layout>
       <Container>
         <Heading title="My Orders" icon={<FaListUl />}>
-          <Stack spacing={4} direction='row' align='center'>
-            <Button type="submit" colorScheme="red" leftIcon={<BiPrinter />}>
+          <BtnContainer className="btnContainer">
+            <Button
+              mx="4"
+              colorScheme="red"
+              leftIcon={<BiPrinter className="iconSize" />}
+            >
               Print
             </Button>
-            <Button type="submit" colorScheme="green" leftIcon={<BsPlus />}>
+            <Button
+              colorScheme="green"
+              leftIcon={<BsPlus className="iconSize" />}
+            >
               Create Order
             </Button>
-          </Stack>
+          </BtnContainer>
         </Heading>
 
         <Flex>
           <InputGroup mr="4" bg="white">
-            <InputLeftElement pointerEvents='none'>
-            <BiSearchAlt style={{ fontSize: "1.2rem", color: "gray"}} />
+            <InputLeftElement pointerEvents="none">
+              <BiSearchAlt style={{ fontSize: '1.2rem', color: 'gray' }} />
             </InputLeftElement>
-            <Input type='text' _focus={{paddingLeft: "2.2rem"}} value={q} onChange={(e) => setQ(e.target.value)} placeholder='Search' />
+            <Input
+              type="text"
+              _focus={{ paddingLeft: '2.2rem' }}
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              placeholder="Search"
+            />
           </InputGroup>
-          <Stack spacing={0} direction='row' align='center'>
-            <Button borderRadius='0' variant='outline' bg="white" leftIcon={<BiPrinter />} onClick={() => setFilterBtn('all')}>All</Button>
-            <Button borderRadius='0' variant='outline' bg="white" leftIcon={<BiPrinter />} onClick={() => setFilterBtn('pending')}>Pending</Button>
-            <Button borderRadius='0' variant='outline' bg="white" leftIcon={<BiPrinter />} onClick={() => setFilterBtn('locked down')}>Locked down</Button>
-            <Button borderRadius='0' variant='outline' bg="white" leftIcon={<BiPrinter />} onClick={() => setFilterBtn('Pending/Paid')}>
-              Pending Paid
+          <Stack spacing={0} direction="row" align="center">
+            <Button
+              borderRadius="0"
+              variant="outline"
+              bg="white"
+              leftIcon={<BiPrinter />}
+              onClick={() => setFilterBtn('all')}
+            >
+              All
+            </Button>
+            <Button
+              borderRadius="0"
+              variant="outline"
+              bg="white"
+              leftIcon={<BiPrinter />}
+              onClick={() => setFilterBtn('pending')}
+            >
+              Pending
+            </Button>
+            <Button
+              borderRadius="0"
+              variant="outline"
+              bg="white"
+              leftIcon={<BiPrinter />}
+              onClick={() => setFilterBtn('paid')}
+            >
+              Paid
+            </Button>
+            <Button
+              borderRadius="0"
+              variant="outline"
+              bg="white"
+              leftIcon={<BiPrinter />}
+              onClick={() => setFilterBtn('picked up')}
+            >
+              Picked Up
+            </Button>
+            <Button
+              borderRadius="0"
+              variant="outline"
+              bg="white"
+              leftIcon={<BiPrinter />}
+              onClick={() => setFilterBtn('in progress')}
+            >
+              In progress
+            </Button>
+            <Button
+              borderRadius="0"
+              variant="outline"
+              bg="white"
+              leftIcon={<BiPrinter />}
+              onClick={() => setFilterBtn('done')}
+            >
+              Done
             </Button>
           </Stack>
         </Flex>
       </Container>
-
       {/* <BtnContainer className="btnContainer">
         <Button
           colorScheme={filterBtn === 'all' ? 'red' : 'blackAlpha'}
@@ -211,7 +290,7 @@ export default function OrdersPage() {
           <Spinner size="xl" color="red.500" />
         </div>
       ) : (
-        <>{orderData && <DataTable data={orderData} />}</>
+        <>{filteredData && <DataTable data={filteredData} />}</>
       )}
     </Layout>
   );
@@ -229,17 +308,16 @@ const SubHeader = styled.div`
   margin: 1rem 0;
 `;
 
-// export async function getServerSideProps({ req }) {
-//   const { token } = parseCookies(req);
-//   if (!token) {
-//     return {
-//       redirect: {
-//         destination: '/',
-//         permanent: false,
-//       },
-//     };
-//   }
-
+export async function getServerSideProps({ req }) {
+  const { token } = parseCookies(req);
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
 
   return {
     props: {
@@ -247,4 +325,3 @@ const SubHeader = styled.div`
     },
   };
 }
-

@@ -42,9 +42,9 @@ export default function SupportPage({ openTickets, closedTickets, token }) {
           <button onClick={handleTicket}>Tickets</button>
           <button onClick={handleLiveChat}>Live Chats</button>
         </div>
-        <Button colorScheme="red" leftIcon={<AiOutlinePlus />}>
+        {/* <Button colorScheme="red" leftIcon={<AiOutlinePlus />}>
           Create ticket
-        </Button>
+        </Button> */}
       </header>
       {showTicket && (
         <TicketChat

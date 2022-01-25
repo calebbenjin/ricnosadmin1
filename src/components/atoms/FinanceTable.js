@@ -34,16 +34,16 @@ export default function FinanceTable({ data }) {
           {data.map((user) => (
             <tr key={user.id}>
               <td></td>
-              <td>{users.fullname}</td>
-              <td>{users.department}</td>
-              <td>NGN {users.requestAmount}</td>
-              <td>{users.date}</td>
-              {users.status === 'pending' ? (
-                <td style={{ color: 'gold' }}>{users.status}</td>
-              ) : users.status === 'cancelled' ? (
-                <td style={{ color: 'red' }}>{users.status}</td>
+              <td>{user.full_name}</td>
+              <td>{user.department}</td>
+              <td>NGN {user.amount}</td>
+              <td>{user.date}</td>
+              {user.status === 'pending' ? (
+                <td style={{ color: 'gold' }}>{user.status}</td>
+              ) : user.status === 'cancelled' ? (
+                <td style={{ color: 'red' }}>{user.status}</td>
               ) : (
-                <td style={{ color: 'green' }}>{users.status}</td>
+                <td style={{ color: 'green' }}>{user.status}</td>
               )}
               <td>
                 <Link href={`finance/${user.id}`}>

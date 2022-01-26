@@ -6,6 +6,7 @@ import { FaListUl } from 'react-icons/fa'
 
 export default function OfflinePage() {
 
+
   const handleSubmit = () => {
     console.log("Hello world")
   }

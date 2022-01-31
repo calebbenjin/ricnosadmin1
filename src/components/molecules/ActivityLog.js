@@ -1,18 +1,15 @@
-import { useContext } from 'react';
 import styled from 'styled-components';
 import ActiveLogCard from '../atoms/ActiveLogCard';
-import AuthContext from '@/context/AuthContext';
 
-export default function ActivityLogCard() {
-  const { user } = useContext(AuthContext);
+export default function ActivityLogCard({data}) {
 
   return (
     <Box>
       <div className="header">
         <h4>Activity Log</h4>
       </div>
-      {user.Activity_logs.length > 0 ? (
-        user.Activity_logs.map((log) => (
+      {data.Activity_logs.length > 0 ? (
+        data.Activity_logs.map((log) => (
           <ActiveLogCard
             key={log.reference_id}
             trackCode={log.reference_id}

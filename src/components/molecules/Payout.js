@@ -1,6 +1,6 @@
 import Card from '../atoms/Card'
 import styled from 'styled-components'
-import { Progress, Flex } from "@chakra-ui/react"
+import { Progress, Flex, Text, Box } from "@chakra-ui/react"
 
 export default function Payout({ notify, value, amount, types }) {
   return (
@@ -14,106 +14,28 @@ export default function Payout({ notify, value, amount, types }) {
         </div>
 
         <div className='cardBody'>
-          <div className='flex'>
-            <h4 className='title'>Type</h4>
-            <h4 className='title'>Percentage</h4>
-            <h4 className='title right'>value</h4>
-          </div>
+          <Flex alignItems="center" justifyContent="space-between">
+            <Box>
+              <Text fontWeight='bold' color="gray">Type</Text>
+            </Box>
+            <Box>
+              <Text fontWeight='bold' color="gray">Percentage</Text>
+            </Box>
+            <Box>
+              <Text fontWeight='bold' color="gray">Value</Text>
+            </Box>
+          </Flex>
           <div className="flexBody">
-            <h4 className="head types">{types && types}</h4>
+            <h4 className="head types">Riders</h4>
             <div className="head progressBar">
               <div className="box">
-                <Progress borderRadius="30" size="sm" colorScheme="red" value={value} /> 
+                <Progress borderRadius="30" size="sm" mr="2" colorScheme="red" value={value} /> 
               </div>
               <div className="box1">
                 {value}%
               </div>
              </div>
-            <h4 className="head amount">NGN {amount}</h4>
-          </div>
-          <div className="flexBody">
-            <h4 className="head types">{types && types}</h4>
-            <div className="head progressBar">
-              <div className="box">
-                <Progress borderRadius="30" size="sm" colorScheme="red" value={value} /> 
-              </div>
-              <div className="box1">
-                {value}%
-              </div>
-             </div>
-            <h4 className="head amount">NGN {amount}</h4>
-          </div>
-          <div className="flexBody">
-            <h4 className="head types">{types && types}</h4>
-            <div className="head progressBar">
-              <div className="box">
-                <Progress borderRadius="30" size="sm" colorScheme="red" value={value} /> 
-              </div>
-              <div className="box1">
-                {value}%
-              </div>
-             </div>
-            <h4 className="head amount">NGN {amount}</h4>
-          </div>
-          <div className="flexBody">
-            <h4 className="head types">{types && types}</h4>
-            <div className="head progressBar">
-              <div className="box">
-                <Progress borderRadius="30" size="sm" colorScheme="red" value={value} /> 
-              </div>
-              <div className="box1">
-                {value}%
-              </div>
-             </div>
-            <h4 className="head amount">NGN {amount}</h4>
-          </div>
-          <div className="flexBody">
-            <h4 className="head types">{types && types}</h4>
-            <div className="head progressBar">
-              <div className="box">
-                <Progress borderRadius="30" size="sm" colorScheme="red" value={value} /> 
-              </div>
-              <div className="box1">
-                {value}%
-              </div>
-             </div>
-            <h4 className="head amount">NGN {amount}</h4>
-          </div>
-          <div className="flexBody">
-            <h4 className="head types">{types && types}</h4>
-            <div className="head progressBar">
-              <div className="box">
-                <Progress borderRadius="30" size="sm" colorScheme="red" value={value} /> 
-              </div>
-              <div className="box1">
-                {value}%
-              </div>
-             </div>
-            <h4 className="head amount">NGN {amount}</h4>
-          </div>
-          <div className="flexBody">
-            <h4 className="head types">{types && types}</h4>
-            <div className="head progressBar">
-              <div className="box">
-                <Progress borderRadius="30" size="sm" colorScheme="red" value={value} /> 
-              </div>
-              <div className="box1">
-                {value}%
-              </div>
-             </div>
-            <h4 className="head amount">NGN {amount}</h4>
-          </div>
-          <div className="flexBody">
-            <h4 className="head types">{types && types}</h4>
-            <div className="head progressBar">
-              <div className="box">
-                <Progress borderRadius="30" size="sm" colorScheme="red" value={value} /> 
-              </div>
-              <div className="box1">
-                {value}%
-              </div>
-             </div>
-            <h4 className="head amount">NGN {amount}</h4>
+            <Text>NGN {amount}</Text>
           </div>
         </div>
       </Card>

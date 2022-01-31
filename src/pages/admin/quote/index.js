@@ -6,20 +6,10 @@ import QuoteTable from '@/components/atoms/QuoteTable'
 import Layout from '@/components/organisms/Layout'
 import { BiPrinter, BiSearchAlt } from 'react-icons/bi';
 import { Flex, Stack, Button, Input, InputLeftElement, InputGroup } from '@chakra-ui/react'
+import { parseCookies } from '@/helpers/index';
 
 
-const data = [
-  { id: 1, fullname: "Mark Golden", quoteNumber: "QR12397", email: "example@gmail.com", phone: '+776769799987', date: "May 2020" },
-  { id: 1, fullname: "Mark Golden", quoteNumber: "QR12397", email: "example@gmail.com", phone: '+776769799987', date: "May 2020" },
-  { id: 1, fullname: "Mark Golden", quoteNumber: "QR12397", email: "example@gmail.com", phone: '+776769799987', date: "May 2020" },
-  { id: 1, fullname: "Mark Golden", quoteNumber: "QR12397", email: "example@gmail.com", phone: '+776769799987', date: "May 2020" },
-  { id: 1, fullname: "Mark Golden", quoteNumber: "QR12397", email: "example@gmail.com", phone: '+776769799987', date: "May 2020" },
-  { id: 1, fullname: "Mark Golden", quoteNumber: "QR12397", email: "example@gmail.com", phone: '+776769799987', date: "May 2020" },
-  { id: 1, fullname: "Mark Golden", quoteNumber: "QR12397", email: "example@gmail.com", phone: '+776769799987', date: "May 2020" },
-];
-
-
-export default function QuoteRequestPage() {
+export default function QuoteRequestPage({ data }) {
   const [q, setQ] = useState('');
   const [filterBtn, setFilterBtn] = useState(['all']);
   const [quoteData, setQuoteData] = useState(data);
@@ -41,7 +31,6 @@ export default function QuoteRequestPage() {
     <Layout>
       <Container>
         <Heading title="Quote Requests" icon={<FaListUl />} />
-
         <Flex>
           <InputGroup mr="4" bg="white">
             <InputLeftElement pointerEvents='none'>
@@ -65,5 +54,40 @@ export default function QuoteRequestPage() {
         
         <QuoteTable data={quoteData} />
     </Layout>
-  )
+  );
+}
+
+export async function getServerSideProps({ req }) {
+  const { token } = parseCookies(req);
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
+
+  var myHeaders = new Headers();
+  myHeaders.append('Accept', 'application/json');
+  myHeaders.append('Authorization', `Bearer ${token}`);
+
+  var requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow',
+  };
+
+  const response = await fetch(
+    'https://alpha.ricnoslogistics.com/api/admin/quote_requests',
+    requestOptions
+  );
+
+  const result = await response.json();
+
+  return {
+    props: {
+      data: result.data.quotes,
+    },
+  };
 }

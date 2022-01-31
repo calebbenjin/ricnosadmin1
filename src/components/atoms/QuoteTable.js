@@ -1,46 +1,48 @@
-import React from 'react'
-import Link from 'next/link'
+import React from 'react';
+import Link from 'next/link';
 
 export default function QuoteTable({ data }) {
-  const columns = data[0] && Object.keys(data[0])
+  const columns = data[0] && Object.keys(data[0]);
+
+  console.log(data)
 
   return (
-    <div className='resTable'>
+    <div className="resTable">
       <table cellPadding={0} cellSpacing={0}>
         <thead>
           <tr>
-            <th data-label='Date' scope='col'></th>
-            <th data-label='Date' scope='col'>
+            <th data-label="Date" scope="col"></th>
+            {/* <th data-label='Date' scope='col'>
               Quote Number
-            </th>
-            <th data-label='Date' scope='col'>
+            </th> */}
+            <th data-label="Date" scope="col">
               Fullname
             </th>
-            <th data-label='Date' scope='col'>
+            <th data-label="Date" scope="col">
               Email
             </th>
-            <th data-label='From' scope='col'>
+            <th data-label="From" scope="col">
               Phone Number
             </th>
-            <th data-label='From' scope='col'>
+            <th data-label="From" scope="col">
               Date
             </th>
-            <th data-label='Items' scope='col'>
+            <th data-label="Items" scope="col">
               View
             </th>
           </tr>
         </thead>
         <tbody>
-          {data.map((users) => (
-            <tr key={users.id}>
+          {data.map((quote) => (
+            <tr key={quote.id}>
               <td></td>
-              <td>{users.quoteNumber}</td>
-              <td>{users.fullname}</td>
-              <td>{users.email}</td>
-              <td>{users.phone}</td>
-              <td>{users.date}</td>
+              {/* <td>{quote.quoteNumber}</td> */}
+              <td>{quote.name}</td>
+              <td>{quote.email}</td>
+              <td>{quote.phone}</td>
+              <td>{quote.created_at}</td>
               <td>
-                <Link href={`quote/${users.id}`}>
+                <Link href={`quote/${quote.id}`}>
                   <a>View</a>
                 </Link>
               </td>
@@ -49,5 +51,5 @@ export default function QuoteTable({ data }) {
         </tbody>
       </table>
     </div>
-  )
+  );
 }

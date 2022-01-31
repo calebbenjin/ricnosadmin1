@@ -8,7 +8,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isError, setIsError] = useState(null);
-  const [isLoading, setIsLoading] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
   const [isStaff, setIsStaff] = useState(true);
 
@@ -91,7 +91,6 @@ export const AuthProvider = ({ children }) => {
   return (
     <AuthContext.Provider value={{ user, isError, isStaff, isLoading, login, logout }}>
       {initialLoading ? <PageLoader /> : children}
-      {/* {!initialLoading && children} */}
     </AuthContext.Provider>
   );
 };

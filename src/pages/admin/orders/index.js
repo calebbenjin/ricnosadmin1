@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { BsPlus } from 'react-icons/bs';
 import { BiPrinter, BiSearchAlt } from 'react-icons/bi';
 import { FaListUl } from 'react-icons/fa';
@@ -6,55 +6,58 @@ import Container from '@/components/atoms/Container';
 import Heading from '@/components/atoms/Heading';
 import DataTable from '@/components/atoms/DataTable';
 import Layout from '@/components/organisms/Layout';
-import { Flex, Stack, Button, Input, InputLeftElement, InputGroup } from '@chakra-ui/react'
-import styled from 'styled-components';
+import { Flex, Stack, Button, Input, InputLeftElement, InputGroup, Spinner } from '@chakra-ui/react'
+import Link from "next/link"
 import { parseCookies } from '@/helpers/index';
-import { useRouter } from 'next/router';
+import { adminOrders, staffOrders } from '@/helpers/orders';
+import AuthContext from "@/context/AuthContext"
 
-
-const data = [
-  { id: 1, tracking_id: "QH46", date: "july 2020", display_item: "Bags", pickup: "Lagos Leki", destination: "Port harcourt", status: "cancelled", amount: 2000 },
-  { id: 2, tracking_id: "QH45", date: "march 2020", display_item: "Bags", pickup: "Lagos Leki", destination: "Port harcourt", status: "completed", amount: 2000 },
-  { id: 3, tracking_id: "QH44", date: "july 2020", display_item: "Bags", pickup: "Lagos Leki", destination: "Port harcourt", status: "completed", amount: 2000 },
-  { id: 4, tracking_id: "QH43", date: "july 2020", display_item: "Bags", pickup: "Lagos Leki", destination: "Port harcourt", status: "cancelled", amount: 2000 },
-  { id: 5, tracking_id: "QH42", date: "july 2020", display_item: "Bags", pickup: "Warri", destination: "Lagos", status: "pending", amount: 2000 },
-  { id: 6, tracking_id: "QH42", date: "july 2020", display_item: "Bags", pickup: "Warri", destination: "Lagos", status: "active", amount: 2000 },
-  { id: 7, tracking_id: "QH42", date: "july 2020", display_item: "Bags", pickup: "Warri", destination: "Lagos", status: "pending", amount: 2000 },
-  { id: 8, tracking_id: "QH42", date: "july 2020", display_item: "Bags", pickup: "Kanu", destination: "Calabar", status: "active", amount: 2000 },
-  { id: 9, tracking_id: "QH42", date: "july 2020", display_item: "Bags", pickup: "Owerri", destination: "Lagos", status: "pending", amount: 2000 },
-  { id: 10, tracking_id: "QH42", date: "july 2020", display_item: "Bags", pickup: "Jos", destination: "Kastina", status: "active", amount: 2000 },
-];
-
-export default function OrdersPage() {
+export default function OrdersPage({ token }) {
+  const { user } = useContext(AuthContext)
+  console.log(user)
   const [q, setQ] = useState('');
-  const [filterBtn, setFilterBtn] = useState(['all']);
-  const [orderData, setOrderData] = useState(data);
+  const [loading, setLoading] = useState(true);
+  const [filterBtn, setFilterBtn] = useState('all');
+  const [orderData, setOrderData] = useState();
 
-  const router = useRouter();
-
+  
   useEffect(() => {
-    if (filterBtn === 'all') {
-      setOrderData(data);
-    } else if (filterBtn === 'pending') {
-      setOrderData(data.filter((order) => order.status === 'pending'));
-    } else if (filterBtn === 'locked down') {
-      setOrderData(data.filter((order) => order.status === 'locked down'));
-    } else if (filterBtn === 'Pending/Paid') {
-      setOrderData(data.filter((order) => order.status === 'Pending/Paid'));
+    setLoading(true);
+    if (user.role === '1') {
+      adminOrders(token).then((data) => {
+        setOrderData(data);
+        setLoading(false);
+      });
+    } else if (user.role === '2') {
+      staffOrders(token).then((data) => {
+        setOrderData(data);
+        setLoading(false);
+      });
     }
-  }, [filterBtn]);
+  }, []);
+
+  // useEffect(() => {
+  //   if (filterBtn === 'all') {
+  //     setQuoteData(data);
+  //   } else if (filterBtn === 'pending') {
+  //     setQuoteData(data.filter((order) => order.status === 'pending'));
+  //   } else if (filterBtn === 'locked down') {
+  //     setQuoteData(data.filter((order) => order.status === 'locked down'));
+  //   } else if (filterBtn === 'Pending/Paid') {
+  //     (data.filter((order) => order.status === 'Pending/Paid'));
+  //   }
+  // }, [filterBtn]);
 
   return (
     <Layout>
       <Container>
         <Heading title="My Orders" icon={<FaListUl />}>
           <Stack spacing={4} direction='row' align='center'>
-            <Button type="submit" colorScheme="red" leftIcon={<BiPrinter />}>
-              Print
-            </Button>
-            <Button type="submit" colorScheme="green" leftIcon={<BsPlus />}>
-              Create Order
-            </Button>
+            <Link href="/admin/offline/">
+              <Button type="submit" colorScheme="green" leftIcon={<BsPlus />}>
+                Create Order
+              </Button>
+            </Link>
           </Stack>
         </Heading>
 
@@ -75,54 +78,40 @@ export default function OrdersPage() {
           </Stack>
         </Flex>
       </Container>
-      <DataTable data={orderData} />
+      {loading ? (
+        <div
+          style={{
+            width: '100%',
+            display: 'flex',
+            padding: '20px',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Spinner size="xl" color="red.500" />
+        </div>
+      ) : (
+        <>{orderData && <DataTable data={orderData} />}</>
+      )}
     </Layout>
   );
 }
 
-const BtnContainer = styled.div`
-  display: flex;
-  align-items: center;
-`;
 
-const SubHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 1rem 0;
-`;
+export async function getServerSideProps({ req }) {
+  const { token } = parseCookies(req);
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
 
-// export async function getServerSideProps({ req }) {
-//   const { token } = parseCookies(req);
-//   if (!token) {
-//     return {
-//       redirect: {
-//         destination: '/',
-//         permanent: false,
-//       },
-//     };
-//   }
-
-//   var myHeaders = new Headers();
-//   myHeaders.append('Accept', 'application/json');
-//   myHeaders.append('Authorization', `Bearer ${token}`);
-
-//   var requestOptions = {
-//     method: 'GET',
-//     headers: myHeaders,
-//     redirect: 'follow',
-//   };
-
-//   const response = await fetch(
-//     'https://alpha.ricnoslogistics.com/api/admin/order/orders',
-//     requestOptions
-//   );
-
-//   const result = await response.json();
-
-//   return {
-//     props: {
-//       data: result.data.orders,
-//     },
-//   };
-// }
+  return {
+    props: {
+      token,
+    },
+  };
+}

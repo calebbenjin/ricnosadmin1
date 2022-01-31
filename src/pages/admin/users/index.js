@@ -1,50 +1,81 @@
-import React, { useState } from 'react'
-import { FaListUl, FaUsers } from 'react-icons/fa'
-import Container from '@/components/atoms/Container'
-import Heading from '@/components/atoms/Heading'
-import Layout from '@/components/organisms/Layout'
-import styled from 'styled-components'
-import Link from "next/link"
+import React, { useState, useEffect, useContext } from 'react';
+import { Grid, Select, Flex, Stack, Button, Input, InputLeftElement, InputGroup } from '@chakra-ui/react';
+import { FaUsers } from 'react-icons/fa';
 import { BiPrinter, BiSearchAlt } from 'react-icons/bi';
-import { Flex, Stack, Button, Input, InputLeftElement, InputGroup } from '@chakra-ui/react'
+import { ToastContainer } from 'react-toastify';
+import NewCustomerModal from '@/components/organisms/NewCustomerModal';
+import NewStaffModal from '@/components/organisms/NewStaffModal';
+import NewAdminModal from '@/components/organisms/NewAdminModal';
+import Container from '@/components/atoms/Container';
+import Heading from '@/components/atoms/Heading';
+import Layout from '@/components/organisms/Layout';
+import styled from 'styled-components';
+import Link from 'next/link';
+import { parseCookies } from '@/helpers/index';
+import AuthContext from '@/context/AuthContext';
 
-
-const data = [
-  { id: 1, fullname: "John Deo", regDate: "july 2020", email: "johndeo@gmail.com", department: "rider", lastActivity: "5hrs 10mins", status: "active"},
-  { id: 2, fullname: "Lilian Koose", regDate: "july 2020", email: "liliankoose@gmail.com", department: "agent", lastActivity: "5hrs 10mins", status: "deactivated"},
-  { id: 2, fullname: "Mark Leo", regDate: "july 2020", email: "markleo@gmail.com", department: "admin", lastActivity: "5hrs 10mins", status: "active"},
-  { id: 2, fullname: "Rose Kalin", regDate: "july 2020", email: "rosekalin@gmail.com", department: "user", lastActivity: "5hrs 10mins", status: "deactivated"},
-];
-
-export default function UsersPage() {
+export default function UsersPage({ data, branches, token }) {
   const [q, setQ] = useState('');
-  const [filterBtn, setFilterBtn] = useState(['A']);
+  const [filterBtn, setFilterBtn] = useState('All');
+  const [usersData, setUsersData] = useState([
+    ...data.riders,
+    ...data.users,
+    ...data.staffs,
+  ]);
+
+  const { user } = useContext(AuthContext);
+
   const columns = data[0] && Object.keys(data[0]);
+
+  useEffect(() => {
+    if (filterBtn === 'All') {
+      setUsersData([...data.riders, ...data.users, ...data.staffs]);
+    } else if (filterBtn === 'User') {
+      setUsersData([...data.users]);
+    } else if (filterBtn === 'Logistics') {
+      setUsersData([...data.riders]);
+    } else if (filterBtn === 'Deskstop officer') {
+      setUsersData([...data.staffs]);
+    }
+  }, [filterBtn]);
 
   return (
     <Layout>
       <Container>
-        <Heading title="Users" icon={<FaUsers />} />
+        <ToastContainer
+          position="top-center"
+          autoClose={8000}
+          hideProgressBar
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
+        <Heading title="Users" icon={<FaUsers />}>
+          <BtnContainer className="btnContainer">
+            <NewCustomerModal token={token} />
+            {user.role === '1' && (
+              <NewStaffModal data={branches} token={token} />
+            )}
+            {user.role === '1' && <NewAdminModal token={token} />}
+          </BtnContainer>
+        </Heading>
 
         <Flex>
           <InputGroup mr="4" bg="white">
             <InputLeftElement pointerEvents='none'>
             <BiSearchAlt style={{ fontSize: "1.2rem", color: "gray"}} />
             </InputLeftElement>
-            <Input type='text' _focus={{paddingLeft: "2.2rem"}} value={q} onChange={(e) => setQ(e.target.value)} placeholder='Search' />
+            <Input type='text' _focus={{paddingLeft: "2.2rem"}} value={filterBtn} onChange={(e) => setFilterBtn(e.target.value)} placeholder='Search' />
           </InputGroup>
           <Stack spacing={0} direction='row' align='center'>
             <Button borderRadius='0' variant='outline' bg="white" leftIcon={<BiPrinter />} onClick={() => setFilterBtn('all')}>All</Button>
-            <Button borderRadius='0' variant='outline' bg="white" leftIcon={<BiPrinter />} onClick={() => setFilterBtn('fullname')}>General Users</Button>
-            <Button borderRadius='0' variant='outline' bg="white" leftIcon={<BiPrinter />} onClick={() => setFilterBtn('phone')}>Riders</Button>
-            <Button borderRadius='0' variant='outline' bg="white" leftIcon={<BiPrinter />} onClick={() => setFilterBtn('date')}>
-              Agents
-            </Button>
-            <Button borderRadius='0' variant='outline' bg="white" leftIcon={<BiPrinter />} onClick={() => setFilterBtn('email')}>
-              Admin
-            </Button>
-            <Button borderRadius='0' variant='outline' bg="white" leftIcon={<BiPrinter />} onClick={() => setFilterBtn('email')}>
-              Administrator
+            <Button borderRadius='0' variant='outline' bg="white" leftIcon={<BiPrinter />} onClick={() => setFilterBtn('User')}>Customers</Button>
+            <Button borderRadius='0' variant='outline' bg="white" leftIcon={<BiPrinter />} onClick={() => setFilterBtn('Logistic')}>Riders</Button>
+            <Button borderRadius='0' variant='outline' bg="white" leftIcon={<BiPrinter />} onClick={() => setFilterBtn('Deskstop officer')}>
+              Staff
             </Button>
           </Stack>
         </Flex>
@@ -79,17 +110,29 @@ export default function UsersPage() {
             </tr>
           </thead>
           <tbody>
-            {data.map((user) => (
+            {usersData.map((user) => (
               <tr key={user.id}>
                 <td></td>
-                <td>{user.fullname}</td>
+                <td>{user.full_name}</td>
                 <td>{user.department}</td>
                 <td>{user.email}</td>
-                <td>{user.regDate}</td>
-                <td>{user.lastActivity}</td>
-                {user.status === "active" ? <td style={{color: "green"}}>{user.status}</td> : <td style={{color: "red"}}>{user.status}</td> }
+                <td>{user.reg_date}</td>
+                <td>{user.last_activity}</td>
+                {user.status === 'active' ? (
+                  <td style={{ color: 'green' }}>{user.status}</td>
+                ) : (
+                  <td style={{ color: 'red' }}>{user.status}</td>
+                )}
                 <td>
-                  <Link href={`users/${user.id}`}>
+                  <Link
+                    href={
+                      user.department === 'Logistics'
+                        ? `users/rider/${user.id}`
+                        : user.department === 'User'
+                        ? `users/customer/${user.id}`
+                        : `users/staff/${user.id}`
+                    }
+                  >
                     <a>View</a>
                   </Link>
                 </td>
@@ -99,17 +142,53 @@ export default function UsersPage() {
         </table>
       </div>
     </Layout>
-  )
+  );
 }
 
 const BtnContainer = styled.div`
   display: flex;
   align-items: center;
-`
+`;
 
-const SubHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 1rem 0;
-`
+export async function getServerSideProps({ req }) {
+  const { token } = parseCookies(req);
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
+
+  var myHeaders = new Headers();
+  myHeaders.append('Accept', 'application/json');
+  myHeaders.append('Authorization', `Bearer ${token}`);
+
+  var requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow',
+  };
+
+  const response = await fetch(
+    'https://alpha.ricnoslogistics.com/api/admin/all_users',
+    requestOptions
+  );
+
+  const responseBranch = await fetch(
+    'https://alpha.ricnoslogistics.com/api/admin/branches',
+    requestOptions
+  );
+
+  const result = await response.json();
+  const resultBranch = await responseBranch.json();
+
+  return {
+    props: {
+      data: result.data,
+      branches: resultBranch.data.branches,
+      token,
+    },
+  };
+}

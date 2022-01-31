@@ -9,6 +9,8 @@ import { BsBarChartFill } from 'react-icons/bs'
 import { BiSupport } from 'react-icons/bi'
 import { RiWifiOffLine } from 'react-icons/ri'
 
+
+
 export default function Sidebar() {
   return (
     <SideView>
@@ -18,7 +20,7 @@ export default function Sidebar() {
         </div>
       </Container>
       <SideNav>
-        <Link href='/admin/dashboard'>
+        <Link href='/admin'>
           <a className='navLink'>
             <FaChartPie className='icon' /> Dashboard
           </a>
@@ -26,11 +28,6 @@ export default function Sidebar() {
         <Link href='/admin/orders'>
           <a className='navLink'>
             <FaListUl className='icon' /> Orders
-          </a>
-        </Link>
-        <Link href='/admin/message'>
-          <a className='navLink'>
-            <SiGooglemessages className='icon' /> Messages
           </a>
         </Link>
         <Link href='/admin/support'>
@@ -48,7 +45,6 @@ export default function Sidebar() {
             <FaUserTie className='icon' /> Quote Request
           </a>
         </Link>
-        <hr />
         <Link href='/admin/offline'>
           <a className='navLink'>
             <RiWifiOffLine className='icon' /> Offline Order
@@ -59,6 +55,7 @@ export default function Sidebar() {
             <FaUsers className='icon' /> Users
           </a>
         </Link>
+        <hr />
         <Link href='/admin/manage'>
           <a className='navLink'>
             <FaTh className='icon' /> Manage site

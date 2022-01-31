@@ -28,7 +28,7 @@ export default function ShipmentCard({ data }) {
             <h4>{data.destination}</h4>
           </div>
         </div>
-        <ButtonLink href={`/dashboard/shipment/${data.id}`}>View</ButtonLink>
+        <ButtonLink href='/admin/orders'>View</ButtonLink>
       </Card>
     </Box>
   );

@@ -29,7 +29,7 @@ export default function HomePage() {
           <Grid2>
             <NotificationCard
               title="REQUEST FOR QUOTATION"
-              number={user.quote_requests}
+
               icon={<HiOutlinePencilAlt className="icon" />}
             />
             <NotificationCard
@@ -84,7 +84,6 @@ export async function getServerSideProps({ req }) {
       },
     };
   }
-
   return {
     props: {
       data: null,

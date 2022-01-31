@@ -2,6 +2,11 @@ import React, { useState, useEffect, useContext } from 'react';
 import { BsPlus } from 'react-icons/bs';
 import { BiPrinter, BiSearchAlt } from 'react-icons/bi';
 import { FaListUl } from 'react-icons/fa';
+
+import { Button, Spinner } from '@chakra-ui/react';
+// import Button from '@/components/atoms/Button';
+import ButtonGreen from '@/components/atoms/ButtonGreen';
+
 import Container from '@/components/atoms/Container';
 import Heading from '@/components/atoms/Heading';
 import DataTable from '@/components/atoms/DataTable';
@@ -35,7 +40,7 @@ export default function OrdersPage({ token }) {
       });
     }
   }, []);
-
+  
   // useEffect(() => {
   //   if (filterBtn === 'all') {
   //     setQuoteData(data);
@@ -115,3 +120,4 @@ export async function getServerSideProps({ req }) {
     },
   };
 }
+

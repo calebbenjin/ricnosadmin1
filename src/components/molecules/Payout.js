@@ -2,17 +2,22 @@ import Card from '../atoms/Card'
 import styled from 'styled-components'
 import { Progress, Flex, Text, Box } from "@chakra-ui/react"
 
-export default function Payout({ notify, value, amount, types }) {
+export default function Payout({
+  notify,
+  value,
+  riderAmount,
+  agentAmount,
+  types,
+}) {
   return (
     <PayoutContainer>
-      <Card className='card'>
-        <div className='header'>
+      <Card className="card">
+        <div className="header">
           <h4>payout</h4>
           <h5>
             Payment request <sup>{notify}</sup>
           </h5>
         </div>
-
         <div className='cardBody'>
           <Flex alignItems="center" justifyContent="space-between">
             <Box>
@@ -40,7 +45,7 @@ export default function Payout({ notify, value, amount, types }) {
         </div>
       </Card>
     </PayoutContainer>
-  )
+  );
 }
 
 const PayoutContainer = styled.div`
@@ -88,45 +93,43 @@ const PayoutContainer = styled.div`
           width: 100%;
           color: ${(props) => props.theme.colors.grey};
         }
-        
-        }
+      }
+    }
+
+    .flexBody {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 10px;
+
+      .title {
+        width: 100%;
+        color: ${(props) => props.theme.colors.grey};
       }
 
-      .flexBody {
+      .right {
+        text-align: right;
+      }
+
+      .head {
+        margin-left: 1rem;
+        font-weight: ${(props) => props.theme.fontWeight.bold};
+        white-space: nowrap;
+      }
+
+      .progressBar {
         display: flex;
+        position: relative;
         align-items: center;
+        width: 30%;
         justify-content: space-between;
-        padding-top: 10px;
 
-
-        .title {
-          width: 100%;
-          color: ${(props) => props.theme.colors.grey};
+        .box {
+          width: 80%;
         }
-
-        .right {
-          text-align: right;
+        .box1 {
+          width: 15%;
         }
-
-        .head {
-          margin-left: 1rem;
-          font-weight: ${(props) => props.theme.fontWeight.bold};
-          white-space: nowrap;
-        }
-
-        .progressBar {
-          display: flex;
-          position: relative;
-          align-items: center;
-          width: 30%;
-          justify-content: space-between;
-
-          .box {
-            width: 80%;
-          }
-          .box1 {
-            width: 15%;
-          }
 
         .types {
           font-weight: ${(props) => props.theme.fontWeight.bold};
@@ -139,4 +142,4 @@ const PayoutContainer = styled.div`
       }
     }
   }
-`
+`;

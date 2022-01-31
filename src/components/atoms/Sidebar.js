@@ -1,21 +1,24 @@
-import Link from './Link'
-import styled from 'styled-components'
-import Container from './Container'
-import Logo from './Logo'
-import { FaChartPie, FaListUl, FaUsers, FaUserTie, FaTh } from 'react-icons/fa'
-import { SiGooglemessages } from 'react-icons/si'
-import { FiSettings, FiLogOut } from 'react-icons/fi'
-import { BsBarChartFill } from 'react-icons/bs'
-import { BiSupport } from 'react-icons/bi'
-import { RiWifiOffLine } from 'react-icons/ri'
+import { useContext } from 'react';
+import Link from './Link';
+import styled from 'styled-components';
+import Container from './Container';
+import Logo from './Logo';
+import { FaChartPie, FaListUl, FaUsers, FaUserTie, FaTh } from 'react-icons/fa';
+import { SiGooglemessages } from 'react-icons/si';
+import { FiSettings, FiLogOut } from 'react-icons/fi';
+import { BsBarChartFill } from 'react-icons/bs';
+import { BiSupport } from 'react-icons/bi';
+import { RiWifiOffLine } from 'react-icons/ri';
+import AuthContext from '@/context/AuthContext';
 
 
 
 export default function Sidebar() {
+  const { user } = useContext(AuthContext);
   return (
     <SideView>
       <Container>
-        <div className='logo-container'>
+        <div className="logo-container">
           <Logo />
         </div>
       </Container>
@@ -25,9 +28,9 @@ export default function Sidebar() {
             <FaChartPie className='icon' /> Dashboard
           </a>
         </Link>
-        <Link href='/admin/orders'>
-          <a className='navLink'>
-            <FaListUl className='icon' /> Orders
+        <Link href="/admin/orders">
+          <a className="navLink">
+            <FaListUl className="icon" /> Orders
           </a>
         </Link>
         <Link href='/admin/support'>
@@ -35,14 +38,14 @@ export default function Sidebar() {
             <BiSupport className='icon' /> Support
           </a>
         </Link>
-        <Link href='/admin/finance'>
-          <a className='navLink'>
-            <BsBarChartFill className='icon' /> Finance
+        <Link href="/admin/finance">
+          <a className="navLink">
+            <BsBarChartFill className="icon" /> Finance
           </a>
         </Link>
-        <Link href='/admin/quote'>
-          <a className='navLink'>
-            <FaUserTie className='icon' /> Quote Request
+        <Link href="/admin/quote">
+          <a className="navLink">
+            <FaUserTie className="icon" /> Quote Request
           </a>
         </Link>
         <Link href='/admin/offline'>
@@ -50,9 +53,9 @@ export default function Sidebar() {
             <RiWifiOffLine className='icon' /> Offline Order
           </a>
         </Link>
-        <Link href='/admin/users'>
-          <a className='navLink'>
-            <FaUsers className='icon' /> Users
+        <Link href="/admin/users">
+          <a className="navLink">
+            <FaUsers className="icon" /> Users
           </a>
         </Link>
         <hr />
@@ -68,7 +71,7 @@ export default function Sidebar() {
         </Link>
       </SideNav>
     </SideView>
-  )
+  );
 }
 
 const SideView = styled.main`
@@ -83,7 +86,7 @@ const SideView = styled.main`
     justify-content: center;
     margin: 1rem 0;
   }
-`
+`;
 
 const SideNav = styled.nav`
   .navLink {
@@ -91,12 +94,12 @@ const SideNav = styled.nav`
     display: flex;
     align-items: center;
     line-height: 3.1;
-    transition: ${props => props.theme.transition};
+    transition: ${(props) => props.theme.transition};
     padding: 0 1rem;
 
     &:hover {
       background: ${(props) => props.theme.colors.grey};
-      color: ${props => props.theme.colors.primary};
+      color: ${(props) => props.theme.colors.primary};
       padding-left: 1.5rem;
       .icon {
         color: ${(props) => props.theme.colors.primary};
@@ -109,4 +112,4 @@ const SideNav = styled.nav`
       font-size: ${(props) => props.theme.fontSize.medium};
     }
   }
-`
+`;

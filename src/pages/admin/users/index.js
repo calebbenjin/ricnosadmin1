@@ -62,7 +62,6 @@ export default function UsersPage({ data, branches, token }) {
             {user.role === '1' && <NewAdminModal token={token} />}
           </BtnContainer>
         </Heading>
-
         <Flex>
           <InputGroup mr="4" bg="white">
             <InputLeftElement pointerEvents='none'>
@@ -80,6 +79,28 @@ export default function UsersPage({ data, branches, token }) {
           </Stack>
         </Flex>
       </Container>
+
+      <Grid p={5} gridTemplateColumns="repeat(3, 1fr)" gap="5">
+        <Select
+          value={filterBtn}
+          onChange={(e) => setFilterBtn(e.target.value)}
+          placeholder="ALL USERS"
+        >
+          <option value="User">CUSTOMERS</option>
+          <option value="Logistics">RIDERS</option>
+          <option value="Deskstop officer">STAFFS</option>
+        </Select>
+        <Select placeholder="YEAR">
+          <option value="1">WITHDRAWN</option>
+          <option value="2">CANCELLED REVENUE</option>
+          <option value="3">PENDING CLEARANCE</option>
+        </Select>
+        <Select placeholder="MONTH">
+          <option value="1">WITHDRAWN</option>
+          <option value="2">CANCELLED REVENUE</option>
+          <option value="3">PENDING CLEARANCE</option>
+        </Select>
+      </Grid>
 
       <div className="resTable">
         <table cellPadding={0} cellSpacing={0}>

@@ -30,12 +30,11 @@ const pieData = [
   }
 ];
 
-
 export default function Deliveries() {
   return (
     <Container>
-      <Card className='card'>
-        <div className='header'>
+      <Card className="card">
+        <div className="header">
           <h4>Deliveries</h4>
         </div>
         <div className="cardBody">
@@ -58,11 +57,8 @@ export default function Deliveries() {
         </div>
       </Card>
     </Container>
-  )
+  );
 }
-
-
-
 
 const Container = styled.div`
   .card {
@@ -82,4 +78,4 @@ const Container = styled.div`
       }
     }
   }
-`
+`;

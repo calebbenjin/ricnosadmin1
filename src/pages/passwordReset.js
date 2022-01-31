@@ -5,11 +5,9 @@ import FooterComp from '@/components/atoms/Footer';
 import { LogoOne } from '@/components/atoms/Logo';
 import { useForm } from 'react-hook-form';
 import { BsEye } from 'react-icons/bs';
+import Button from '@/components/atoms/Button';
 import Link from 'next/link';
 import {
-  Heading,
-  Flex,
-  Button,
   FormControl,
   FormErrorMessage,
   Input,
@@ -22,18 +20,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import FormInput from '@/components/atoms/FormInput';
 import AuthContext from '@/context/AuthContext';
 
-export default function LoginPage() {
+export default function PasswordResetPage() {
   const [show, setShow] = useState(false);
-  const { login, isError, isLoading } = useContext(AuthContext);
-  // const { isLoading, setIsLoading } = useState(false);
-
-  const notify = () => toast.error(isError);
-
-  useEffect(() => {
-    if (isError) {
-      notify();
-    }
-  }, [isError, notify]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
 
@@ -46,13 +35,44 @@ export default function LoginPage() {
 
   const handleClick = () => setShow(!show);
 
-  const onSubmit = (data, e) => {
-    // setIsLoading={true}
+  const onSubmit = async (data, e) => {
     e.preventDefault();
-    const { email, password } = data;
-    login({ email, password });
+
+    setIsLoading(true);
+    var myHeaders = new Headers();
+    myHeaders.append('Accept', 'application/json');
+
+    var formdata = new FormData();
+    formdata.append('email', data.email);
+    formdata.append('token', data.token);
+    formdata.append('password', data.password);
+    formdata.append('password_confirmation', data.confirmPassword);
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: formdata,
+      redirect: 'follow',
+    };
+
+    const request = await fetch(
+      'https://alpha.ricnoslogistics.com/api/admin/reset_password',
+      requestOptions
+    );
+
+    const response = await request.json();
+
+    if (response.success) {
+      toast.success(response.message);
+      router.push('/');
+    } else {
+      toast.error(response.message);
+    }
+
+    setIsLoading(false);
   };
-  
+
+  return (
     <Box>
       <ToastContainer
         position="top-center"
@@ -72,12 +92,13 @@ export default function LoginPage() {
         <div className="imgBg"></div>
         <div className="formContainer">
           <div className="form">
-            <Heading mb="6" color="white">Portal</Heading>
-            {isLoading ? (
-              <div className="modal">
-                <p>Pls Wait the system is verifing your account</p>
-              </div>
-            ) : null}
+            <h3 className="loginTitle">Admin Dashboard</h3>
+            <h3 className="loginTitle">Password Reset</h3>
+
+            {/* <div className="modal">
+              <p>A reset Password token will be sent to your email.</p>
+            </div> */}
+
             <form onSubmit={handleSubmit(onSubmit)}>
               <FormControl isInvalid={errors.email}>
                 <FormLabel fontWeight="normal">Email</FormLabel>
@@ -92,61 +113,57 @@ export default function LoginPage() {
                   {errors.email && errors.email.message}
                 </FormErrorMessage>
               </FormControl>
-              <FormControl isInvalid={errors.password} my="5">
-                <FormLabel fontWeight="normal">Password</FormLabel>
-                <InputGroup>
-                  <Input
-                    borderColor="grey"
-                    pr="2rem"
-                    type={show ? 'text' : 'password'}
-                    placeholder="Enter password"
-                    {...register('password', {
-                      required: 'Password is Required',
-                    })}
-                  />
-                  <InputRightElement>
-                    <BsEye onClick={handleClick}>
-                      {show ? 'Hide' : 'Show'}
-                    </BsEye>
-                  </InputRightElement>
-                </InputGroup>
+              <FormControl isInvalid={errors.token}>
+                <FormLabel fontWeight="normal">Reset Code</FormLabel>
+                <Input
+                  type="text"
+                  id="token"
+                  placeholder="Enter Reset code"
+                  borderColor="grey"
+                  {...register('token', { required: 'Reset Code is required' })}
+                />
+                <FormErrorMessage>
+                  {errors.token && errors.token.message}
+                </FormErrorMessage>
+              </FormControl>
+              <FormControl isInvalid={errors.password}>
+                <FormLabel fontWeight="normal">New Password</FormLabel>
+                <Input
+                  type="password"
+                  id="password"
+                  placeholder="Enter Password"
+                  borderColor="grey"
+                  {...register('password', {
+                    required: 'Password is required',
+                  })}
+                />
                 <FormErrorMessage>
                   {errors.password && errors.password.message}
                 </FormErrorMessage>
               </FormControl>
+              <FormControl isInvalid={errors.confirmPassword}>
+                <FormLabel fontWeight="normal">Confirm Password</FormLabel>
+                <Input
+                  type="password"
+                  id="confirmPassword"
+                  placeholder="Confirm Password"
+                  borderColor="grey"
+                  {...register('confirmPassword', {
+                    required: 'Password is required',
+                  })}
+                />
+                <FormErrorMessage>
+                  {errors.confirmPassword && errors.confirmPassword.message}
+                </FormErrorMessage>
+              </FormControl>
               <hr />
-              <Flex justify='space-between' alignItems='center' mb="4">
-                <p className="term">Terms of service</p>
-                <Link href="/forgotPassword">
-                <p
-                  style={{ cursor: 'pointer', margin: '5px 0' }}
-                  className="term"
-                >
-                  Forgot Password?
-                </p>
-              </Link>
-              </Flex>
-              <div className="btnContainer">
-              <Button
-                type="submit"
-                isLoading={isLoading}
-                loadingText='Submitting'
-                colorScheme='red'
-                size="lg"
-                px="20"
-              >
-                LOG IN
-              </Button>
-              </div>
-              <Link href="/forgotPassword">
-                <p
-                  style={{ cursor: 'pointer', margin: '5px 0' }}
-                  className="term"
-                >
-                  Forgot Password?
-                </p>
-              </Link>
 
+              <p className="term">Terms of service</p>
+              <div className="btnContainer">
+                <Button type="submit" loading={isLoading} title="LOADING">
+                  Send
+                </Button>
+              </div>
             </form>
           </div>
         </div>
@@ -156,10 +173,7 @@ export default function LoginPage() {
   );
 }
 
-const BoxContainer = styled.div`
-
 const Box = styled.div`
-
   height: 100vh;
   overflow: hidden;
   position: relative;

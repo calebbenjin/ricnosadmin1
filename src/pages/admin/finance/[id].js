@@ -191,8 +191,8 @@ export default function UserPage({ data, token }) {
               </Text>
               <Heading size="md">{data.amount}</Heading>
             </Flex>
-
             {/* {data.integer_status === '0' && user.role === '1' && (
+
               <div className="actionsBtns">
                 <div>
                   <Button

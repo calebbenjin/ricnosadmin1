@@ -54,7 +54,13 @@ export default function DataTable({ data }) {
               )}
               <td>NGN {order.amount}</td>
               <td>
-                <Link href={`orders/${order.id}`}>
+                <Link
+                  href={
+                    order.is_online === '1'
+                      ? `orders/${order.id}`
+                      : `offline/${order.id}`
+                  }
+                >
                   <a>View</a>
                 </Link>
               </td>

@@ -3,6 +3,11 @@ import styled from 'styled-components'
 import { Progress, Flex, Text, Box } from "@chakra-ui/react"
 
 export default function Payout({ notify, value, amount, types }) {
+
+  const formatMoney = (n) => {
+    return "NGN " + (Math.round(n * 100) / 100).toLocaleString();
+  }
+
   return (
     <PayoutContainer>
       <Card className='card'>
@@ -35,7 +40,7 @@ export default function Payout({ notify, value, amount, types }) {
                 {value}%
               </div>
              </div>
-            <Text>NGN {amount}</Text>
+            <Text>{formatMoney(amount)}</Text>
           </div>
         </div>
       </Card>

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Container from '@/components/atoms/Container';
 import Card from '@/components/atoms/Card';
+import { API_URL } from '@/lib/index';
 import {
   Button,
   Heading,
@@ -24,22 +25,22 @@ import {
   FormLabel,
 } from '@chakra-ui/react';
 import Layout from '@/components/organisms/Layout';
-import { FaShareAlt, FaLongArrowAltRight, FaUser } from 'react-icons/fa';
+import { FaLongArrowAltRight } from 'react-icons/fa';
 import { AiOutlinePrinter } from 'react-icons/ai';
 import { VscCalendar } from 'react-icons/vsc';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Header from '@/components/atoms/Heading';
 import Link from 'next/link';
 import { parseCookies } from '@/helpers/index';
 
-export default function OfflineOrderPage({ data, token }) {
+export default function OfflineOrderPage({ data, token, user }) {
   const [email, setEmail] = useState();
   const [phone, setPhone] = useState();
   const [loadingCreateCustomer, setLoadingCreateCustomer] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const router = useRouter();
+
 
   const handleCreateCustomer = async () => {
     setLoadingCreateCustomer(true);
@@ -74,7 +75,7 @@ export default function OfflineOrderPage({ data, token }) {
   };
 
   return (
-    <Layout>
+    <Layout data={user}>
       <Container>
         <ToastContainer
           position="top-center"
@@ -89,7 +90,7 @@ export default function OfflineOrderPage({ data, token }) {
         />
         <Flex>
           <Box width={['100%', '65%']} p="1rem">
-            <Header title="Users" icon={<FaUser />} />
+          <Heading color="gray" mb="4" fontSize="lg">GENERAL USER</Heading>
             <Card>
               <Box textAlign="center" my="5">
                 <Avatar
@@ -210,71 +211,6 @@ export default function OfflineOrderPage({ data, token }) {
                 </Box>
               </Flex>
             </Card>
-            <Box mt="10">
-              <Card>
-                <Heading color="gray" size="md">
-                  Order History
-                </Heading>
-                <Flex alignItems="center" my="5">
-                  <Text color="grey" mr="4">
-                    Sort:
-                  </Text>
-                  <Grid gridTemplateColumns="repeat(3, 1fr)" gap="5">
-                    <Select placeholder="EVERYTHING">
-                      <option value="1">WITHDRAWN</option>
-                      <option value="2">CANCELLED REVENUE</option>
-                      <option value="3">PENDING CLEARANCE</option>
-                    </Select>
-                    <Select placeholder="YEAR">
-                      <option value="1">WITHDRAWN</option>
-                      <option value="2">CANCELLED REVENUE</option>
-                      <option value="3">PENDING CLEARANCE</option>
-                    </Select>
-                    <Select placeholder="MONTH">
-                      <option value="1">WITHDRAWN</option>
-                      <option value="2">CANCELLED REVENUE</option>
-                      <option value="3">PENDING CLEARANCE</option>
-                    </Select>
-                  </Grid>
-                </Flex>
-                <Box>
-                  <table cellPadding={0} cellSpacing={0}>
-                    <thead>
-                      <tr>
-                        <th data-label="Date" scope="col"></th>
-                        <th data-label="Date" scope="col">
-                          Tracking ID
-                        </th>
-                        <th data-label="Date" scope="col">
-                          To
-                        </th>
-                        <th data-label="Track No" scope="col">
-                          Amount
-                        </th>
-                        <th data-label="Track No" scope="col">
-                          View
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {data.orders.map((item) => (
-                        <tr key={item.id}>
-                          <td></td>
-                          <td>{item.tracking_id}</td>
-                          <td>{item.address}</td>
-                          <td style={{ color: 'green' }}>NGN{item.amount}</td>
-                          <td>
-                            <Link href={`/admin/orders/${data.id}`}>
-                              <Button>View</Button>
-                            </Link>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </Box>
-              </Card>
-            </Box>
           </Box>
           <Box width={['100%', '35%']} p="1rem">
             <Card style={{ textAlign: 'center' }}>
@@ -403,10 +339,20 @@ export async function getServerSideProps({ req, query }) {
 
   const result = await response.json();
 
+  const res = await fetch(`${API_URL}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+  
+  const userData = await res.json()
+
   return {
     props: {
       data: result.data.user,
       token,
+      user: userData.data.user
     },
   };
 }

@@ -1,5 +1,3 @@
-
-
 import { useState } from 'react';
 import Container from '@/components/atoms/Container';
 import Layout from '@/components/organisms/Layout';
@@ -9,13 +7,14 @@ import UserCardInfo from '@/components/molecules/UserCardInfo';
 import Logs from '@/components/molecules/Logs';
 import { Button, Flex, Box, Heading, Text, Select } from '@chakra-ui/react';
 import Link from 'next/link';
+import { API_URL } from '@/lib/index'
 import Logo from '@/components/atoms/Logo';
 import logo from '@/assets/logo1.svg';
 import Image from 'next/image';
 import { parseCookies } from '@/helpers/index';
 import { useRouter } from 'next/router';
 
-export default function OrdersPage({ data, token }) {
+export default function OrdersPage({ data, token, user }) {
   const [selectedRider, setSelectedRider] = useState(null);
   const [loadingDrop, setLoadingDrop] = useState(false);
   const [loadingDelivery, setLoadingDelivery] = useState(false);
@@ -103,9 +102,8 @@ export default function OrdersPage({ data, token }) {
     }
   };
 
-
   return (
-    <Layout>
+    <Layout data={user}>
       <Container>
         <Header>
           <h2 className="orderId">Orders #{data.order.tracking_id}</h2>
@@ -118,9 +116,9 @@ export default function OrdersPage({ data, token }) {
               <h2>Status</h2>
               <p>{data.order.status}</p>
             </div>
-            <Button colorScheme="red">Print Invoice</Button>
+            {/* <Button colorScheme="red">Print Invoice</Button> */}
           </div>
-          <div className="pickupContainer">
+          {/* <div className="pickupContainer">
             <div className="box">
               <div className="card">
                 <h6 className="card-title">
@@ -188,7 +186,7 @@ export default function OrdersPage({ data, token }) {
                 <Button colorScheme="green">Deliver</Button>
               </div>
             </div>
-          </div>
+          </div> */}
         </OrderStatus>
         <SectionLayout>
           <Flex>
@@ -435,17 +433,7 @@ export default function OrdersPage({ data, token }) {
             </Box>
 
             <Box width="30%" pl="4">
-              <Card>
-                <Flex alignItems="center" mt="4">
-                  <Box p="4" borderRadius="md" mr="10" boxShadow="md">
-                    <Logo src={logo} />
-                  </Box>
-                  <Box>
-                    <Text fontSize="lg">Ricno Logistics</Text>
-                    <Text>Premium</Text>
-                  </Box>
-                </Flex>
-              </Card>
+             
               <Box my="4">
                 {data.order.integer_status === '4' && (
                   <>
@@ -494,6 +482,17 @@ export default function OrdersPage({ data, token }) {
               </Box>
 
               <Logs trackerData={data.order.trackers} />
+              <Card>
+                <Flex alignItems="center" mt="4">
+                  <Box p="4" borderRadius="md" mr="10" boxShadow="md">
+                    <Logo src={logo} />
+                  </Box>
+                  <Box>
+                    <Text fontSize="lg">Ricno Logistics</Text>
+                    <Text>Premium</Text>
+                  </Box>
+                </Flex>
+              </Card>
             </Box>
           </Flex>
         </SectionLayout>
@@ -614,10 +613,20 @@ export async function getServerSideProps({ req, query }) {
 
   const result = await response.json();
 
+  const res = await fetch(`${API_URL}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
+  const userData = await res.json()
+
   return {
     props: {
       data: result.data,
       token,
+      user: userData.data.user,
     },
   };
 }

@@ -2,6 +2,7 @@ import Container from '@/components/atoms/Container';
 import Layout from '@/components/organisms/Layout';
 import styled from 'styled-components';
 import Card from '@/components/atoms/Card';
+import { API_URL } from '@/lib/index';
 import {
   Button,
   Flex,
@@ -12,19 +13,19 @@ import {
   FormLabel,
   Input,
 } from '@chakra-ui/react';
-import Link from 'next/link';
-import Logo from '@/components/atoms/Logo';
-import logo from '@/assets/logo1.svg';
-import Image from 'next/image';
+// import Link from 'next/link';
+// import Logo from '@/components/atoms/Logo';
+// import logo from '@/assets/logo1.svg';
+// import Image from 'next/image';
 import { parseCookies } from '@/helpers/index';
 
-export default function SingleQuotePage({ data }) {
+export default function SingleQuotePage({ data, user }) {
   const handleClick = () => {
     alert('Hello Coder');
   };
 
   return (
-    <Layout>
+    <Layout data={user}>
       <Container>
         <Header>
           <h2 className="orderId">#{data.id}</h2>
@@ -323,10 +324,20 @@ export async function getServerSideProps({ req, query }) {
 
   const result = await response.json();
 
+  const res = await fetch(`${API_URL}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+  
+  const userData = await res.json()
+
   return {
     props: {
       data: result.data.quote,
       token,
+      user: userData.data.user
     },
   };
 }

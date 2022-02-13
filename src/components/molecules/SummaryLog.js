@@ -1,11 +1,7 @@
-import { useContext } from 'react';
 import styled from 'styled-components';
-import { BsThreeDots, BsArrowUp, BsArrowDown } from 'react-icons/bs';
 import Card from '../atoms/Card';
-import AuthContext from '@/context/AuthContext';
 
-export default function SummaryLog() {
-  const { user } = useContext(AuthContext);
+export default function SummaryLog({ data}) {
 
   return (
     <Box>
@@ -16,36 +12,22 @@ export default function SummaryLog() {
       <div className="flex">
         <Card className="card">
           <h4>Total users</h4>
-          <h3>{user.user_count}</h3>
-          <p className="text">
-            <BsArrowUp className="icon" />
-            2.3 less than week{' '}
-          </p>
+          <h3>{data?.user_count}</h3>
         </Card>
         <Card className="card">
           <h4>Total Agent</h4>
-          <h3>{user.agent_count}</h3>
-          <p className="text">
-            <BsArrowUp className="icon" />
-            1.4 less than week
-          </p>
+          <h3>{data?.agent_count}</h3>
         </Card>
       </div>
 
       <TotalOrder>
-        <h4>Total Orders</h4> <h3>{user.order_count}</h3>{' '}
-        <p className="text">
-          <BsArrowUp className="icon" /> 1.4
-        </p>
-        less than week
+        <h4>Total Orders</h4> <h3>{data?.order_count}</h3>{' '}
+        
       </TotalOrder>
 
       <TotalOrder>
-        <h4>Total Delivery</h4> <h3>{user.total_delivery}</h3>{' '}
-        <p className="text">
-          <BsArrowUp className="icon" /> 1.4
-        </p>
-        less than week
+        <h4>Total Delivery</h4> <h3>{data?.total_delivery}</h3>{' '}
+        
       </TotalOrder>
     </Box>
   );

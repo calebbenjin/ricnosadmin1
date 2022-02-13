@@ -98,7 +98,7 @@ export default function TicketChatPage({ openTickets, closedTickets, token }) {
             <h4 className="title">Category</h4>
             <p>{selectedTicket.subject}</p>
 
-            <h4 className="title">Item collected for this ticket</h4>
+            {/* <h4 className="title">Item collected for this ticket</h4> */}
 
             <h4 className="title">Message</h4>
             <div className={styles.messageBox}>
@@ -133,7 +133,6 @@ export default function TicketChatPage({ openTickets, closedTickets, token }) {
                             alt="User"
                             width="100"
                             height="100"
-                            placeholder="blur"
                           />
                         </li>
                       )}
@@ -161,7 +160,7 @@ export default function TicketChatPage({ openTickets, closedTickets, token }) {
                   <div className={styles.container}>
                     <div className="fileInput">
                       <input type="file" className="custom-file-input" />
-                      <MdAttachFile className="file" />
+                      {/* <MdAttachFile className="file" /> */}
                     </div>
                     <button>
                       <RiSendPlaneFill className={styles.send} />
@@ -170,8 +169,8 @@ export default function TicketChatPage({ openTickets, closedTickets, token }) {
                 </div>
               </form>
             </div>
-            <h4 className="title">Attached file</h4>
-            <div className={styles.attachedFile}>
+            {/* <h4 className="title">Attached file</h4> */}
+            {/* <div className={styles.attachedFile}>
               <Link href="/">
                 <a>
                   <AiOutlineFileZip className={styles.icon} />
@@ -190,9 +189,9 @@ export default function TicketChatPage({ openTickets, closedTickets, token }) {
                   <p>View</p>
                 </a>
               </Link>
-            </div>
+            </div> */}
 
-            <h4 className="title">Comment</h4>
+            {/* <h4 className="title">Comment</h4>
             <div className={styles.comment}>
               <form>
                 <textarea
@@ -203,7 +202,7 @@ export default function TicketChatPage({ openTickets, closedTickets, token }) {
                   placeholder="Add comment..."
                 ></textarea>
               </form>
-            </div>
+            </div> */}
           </>
         ) : (
           <p>Select a Ticket to View its content</p>

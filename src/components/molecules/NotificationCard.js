@@ -1,10 +1,9 @@
-import React, { useState } from 'react'
 import Card from '../atoms/Card'
 import styled from 'styled-components'
-import { BsThreeDots, BsArrowUp, BsArrowDown } from 'react-icons/bs'
+import { BsThreeDots } from 'react-icons/bs'
+import { Heading } from "@chakra-ui/react"
 
-export default function NotificationCard({ title, number, greaterThen, icon }) {
-  const [greater, setGreater] = useState(false)
+export default function NotificationCard({ title, number,  icon }) {
 
 
   return (
@@ -18,13 +17,8 @@ export default function NotificationCard({ title, number, greaterThen, icon }) {
           <div className='iconCap'>
             {icon}
           </div>
-          <div className='notice'>
-            <h4>{number}</h4>
-            {greater ? <><BsArrowUp className='icon' />
-            <p className="text">{greaterThen}% </p></> : <><BsArrowDown className='icon-red' />
-            <p className="text-red">{greaterThen}% </p></>}
-            <p className="week"> than last week</p>
-          </div>
+          <Heading>{number}</Heading>
+          
         </div>
       </Card>
     </NotificationCardStyle>
@@ -47,7 +41,7 @@ const NotificationCardStyle = styled.div`
         padding-bottom: 1rem;
       }
       .icon {
-        font-size: ${(props) => props.theme.fontSize.medium};
+        font-size: ${(props) => props.theme.fontSize.large};
         font-weight: ${(props) => props.theme.fontWeight.bold};
         color: ${(props) => props.theme.colors.grey};
       }
@@ -59,8 +53,8 @@ const NotificationCardStyle = styled.div`
       align-items: center;
       /* justify-content: cente */
       .iconCap {
-        width: 35px;
-        height: 35px;
+        width: 45px;
+        height: 45px;
         /* padding: 10px; */
         border-radius: 50%;
         box-shadow: ${(props) => props.theme.shadows.shadow2};

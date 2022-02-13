@@ -36,7 +36,8 @@ const login = async (req, res) => {
 
       res.setHeader('access-control-allow-credentials', true);
 
-      res.status(200).json({ user: apiData.user });
+      res.status(200).json({ user: apiData.data.user });
+      // console.log(apiData.data.user)
     } else {
       res.status(500).json({ message: apiData.message });
     }

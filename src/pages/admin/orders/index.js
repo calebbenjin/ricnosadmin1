@@ -1,40 +1,35 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { API_URL } from '@/lib/index';
 import { BsPlus } from 'react-icons/bs';
 import { BiPrinter, BiSearchAlt } from 'react-icons/bi';
 import { FaListUl } from 'react-icons/fa';
-
-import { Button, Spinner } from '@chakra-ui/react';
-// import Button from '@/components/atoms/Button';
-import ButtonGreen from '@/components/atoms/ButtonGreen';
-
 import Container from '@/components/atoms/Container';
 import Heading from '@/components/atoms/Heading';
 import DataTable from '@/components/atoms/DataTable';
 import Layout from '@/components/organisms/Layout';
-import { Flex, Stack, Button, Input, InputLeftElement, InputGroup } from '@chakra-ui/react'
-import styled from 'styled-components';
+import { Flex, Stack, Button, Input, InputLeftElement, InputGroup, Spinner } from '@chakra-ui/react'
+import Link from "next/link"
 import { parseCookies } from '@/helpers/index';
-import { useRouter } from 'next/router';
-import AuthContext from '@/context/AuthContext';
 import { adminOrders, staffOrders } from '@/helpers/orders';
 
-export default function OrdersPage({ token }) {
-  const { user } = useContext(AuthContext);
-  const [loading, setLoading] = useState(true);
-
-
-
-export default function OrdersPage() {
-
+export default function OrdersPage({ token, user }) {
   const [q, setQ] = useState('');
+  const [loading, setLoading] = useState(true);
   const [filterBtn, setFilterBtn] = useState('all');
-  const [orderData, setOrderData] = useState();
-
+  
   useEffect(() => {
     setLoading(true);
     if (user.role === '1') {
       adminOrders(token).then((data) => {
-        setOrderData(data);
+        if (filterBtn === 'all') {
+          setOrderData(data);
+        } else if (filterBtn === 'pending') {
+          setOrderData(data.filter((order) => order.status === 'pending'));
+        } else if (filterBtn === 'locked down') {
+          setOrderData(data.filter((order) => order.status === 'locked down'));
+        } else if (filterBtn === 'Pending/Paid') {
+          (data.filter((order) => order.status === 'Pending/Paid'));
+        }
         setLoading(false);
       });
     } else if (user.role === '2') {
@@ -45,43 +40,33 @@ export default function OrdersPage() {
     }
   }, []);
 
-  const router = useRouter();
+  const [orderData, setOrderData] = useState();
+  
+
+  console.log(orderData)
 
   // useEffect(() => {
   //   if (filterBtn === 'all') {
   //     setOrderData(data);
   //   } else if (filterBtn === 'pending') {
-  //     setOrderData(data.filter((order) => order.integer_status == '-1'));
+  //     setOrderData(data.filter((order) => order.status === 'pending'));
   //   } else if (filterBtn === 'locked down') {
-  //     setOrderData(data.filter((order) => order.integer_status === '2'));
-  //   } else if (filterBtn === 'paid') {
-  //     setOrderData(data.filter((order) => order.integer_status === '0'));
-  //   } else if (filterBtn === 'accepted') {
-  //     setOrderData(data.filter((order) => order.integer_status === '3'));
-  //   } else if (filterBtn === 'dropped') {
-  //     setOrderData(data.filter((order) => order.integer_status === '6'));
-  //   } else if (filterBtn === 'for shipment') {
-  //     setOrderData(data.filter((order) => order.integer_status === '4'));
-  //   } else if (filterBtn === 'assigned for delivery') {
-  //     setOrderData(data.filter((order) => order.integer_status === '5'));
-  //   } else if (filterBtn === 'delivered') {
-  //     setOrderData(data.filter((order) => order.integer_status === '7'));
-  //   } else if (filterBtn === 'done') {
-  //     setOrderData(data.filter((order) => order.integer_status === '1'));
+  //     setOrderData(data.filter((order) => order.status === 'locked down'));
+  //   } else if (filterBtn === 'Pending/Paid') {
+  //     (data.filter((order) => order.status === 'Pending/Paid'));
   //   }
   // }, [filterBtn]);
 
   return (
-    <Layout>
+    <Layout data={user}>
       <Container>
         <Heading title="My Orders" icon={<FaListUl />}>
           <Stack spacing={4} direction='row' align='center'>
-            <Button type="submit" colorScheme="red" leftIcon={<BiPrinter />}>
-              Print
-            </Button>
-            <Button type="submit" colorScheme="green" leftIcon={<BsPlus />}>
-              Create Order
-            </Button>
+            <Link href="/admin/offline/">
+              <Button type="submit" colorScheme="green" leftIcon={<BsPlus />}>
+                Create Order
+              </Button>
+            </Link>
           </Stack>
         </Heading>
 
@@ -102,102 +87,6 @@ export default function OrdersPage() {
           </Stack>
         </Flex>
       </Container>
-
-      {/* <BtnContainer className="btnContainer">
-        <Button
-          colorScheme={filterBtn === 'all' ? 'red' : 'blackAlpha'}
-          mt="4"
-          ml="8"
-          mr="4"
-          size="sm"
-          onClick={() => setFilterBtn('all')}
-        >
-          All
-        </Button>
-        <Button
-          colorScheme={filterBtn === 'pending' ? 'red' : 'blackAlpha'}
-          mt="4"
-          size="sm"
-          mr="4"
-          onClick={() => setFilterBtn('pending')}
-        >
-          Pending
-        </Button>
-        <Button
-          colorScheme={filterBtn === 'paid' ? 'red' : 'blackAlpha'}
-          mt="4"
-          size="sm"
-          mr="4"
-          onClick={() => setFilterBtn('paid')}
-        >
-          Paid
-        </Button>
-        <Button
-          colorScheme={filterBtn === 'locked down' ? 'red' : 'blackAlpha'}
-          mt="4"
-          size="sm"
-          mr="4"
-          onClick={() => setFilterBtn('locked down')}
-        >
-          Locked down
-        </Button>
-        <Button
-          colorScheme={filterBtn === 'accepted' ? 'red' : 'blackAlpha'}
-          mt="4"
-          size="sm"
-          mr="4"
-          onClick={() => setFilterBtn('accepted')}
-        >
-          Accepted
-        </Button>
-        <Button
-          colorScheme={filterBtn === 'dropped' ? 'red' : 'blackAlpha'}
-          mt="4"
-          size="sm"
-          mr="4"
-          onClick={() => setFilterBtn('dropped')}
-        >
-          Dropped
-        </Button>
-        <Button
-          colorScheme={filterBtn === 'for shipment' ? 'red' : 'blackAlpha'}
-          mt="4"
-          size="sm"
-          mr="4"
-          onClick={() => setFilterBtn('for shipment')}
-        >
-          For Shipment
-        </Button>
-        <Button
-          colorScheme={
-            filterBtn === 'assigned for delivery' ? 'red' : 'blackAlpha'
-          }
-          mt="4"
-          size="sm"
-          mr="4"
-          onClick={() => setFilterBtn('assigned for delivery')}
-        >
-          Assigned for Delivery
-        </Button>
-        <Button
-          colorScheme={filterBtn === 'delivered' ? 'red' : 'blackAlpha'}
-          mt="4"
-          size="sm"
-          mr="4"
-          onClick={() => setFilterBtn('delivered')}
-        >
-          Delivered
-        </Button>
-        <Button
-          colorScheme={filterBtn === 'done' ? 'red' : 'blackAlpha'}
-          mt="4"
-          size="sm"
-          mr="4"
-          onClick={() => setFilterBtn('done')}
-        >
-          Done
-        </Button>
-      </BtnContainer> */}
       {loading ? (
         <div
           style={{
@@ -217,34 +106,32 @@ export default function OrdersPage() {
   );
 }
 
-const BtnContainer = styled.div`
-  display: flex;
-  align-items: center;
-`;
 
-const SubHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 1rem 0;
-`;
+export async function getServerSideProps({ req }) {
+  const { token } = parseCookies(req);
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
 
-// export async function getServerSideProps({ req }) {
-//   const { token } = parseCookies(req);
-//   if (!token) {
-//     return {
-//       redirect: {
-//         destination: '/',
-//         permanent: false,
-//       },
-//     };
-//   }
 
+  const res = await fetch(`${API_URL}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+  
+  const data = await res.json()
 
   return {
     props: {
-      token,
+      user: data.data.user, 
+      token
     },
   };
 }
-

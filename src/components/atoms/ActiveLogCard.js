@@ -1,28 +1,28 @@
 import Link from 'next/link'
 import styled from 'styled-components'
+import { Flex, Text, Box, Grid } from "@chakra-ui/react"
 
 export default function ActivityLogCard({trackCode, status, date}) {
   return (
       <Card className="card">
         <div className="cardHead">
-          <div className="code">
-            <p>{trackCode}</p>
-            <span>{status}</span>
-          </div>
-          <p className="date">{date}</p>
+          <Grid gridTemplateColumns="repeat(2, 1fr)" gap="4">
+            <div className="code">
+              <p>{trackCode}</p>
+              <span>{status}</span>
+            </div>
+            <p className="date">{date}</p>
+          </Grid>
         </div>
         <div className="cardBody">
           <h4>Payment Request</h4>
-          <Link href={`/dashboard/logs/${23}`}>
-            <a>View</a>
-          </Link>
         </div>
       </Card>
   )
 }
 
 const Card = styled.div`
-    padding: 20px;
+    padding: 10px;
     border: solid 1px #333;
     border-radius: 6px;
     margin-top: 1rem;
@@ -34,7 +34,7 @@ const Card = styled.div`
       padding-bottom: 10px;
       text-transform: capitalize;
       .date {
-        text-transform: uppercase;
+        /* font-size: 0.4rem; */
       }
       .code {
         display: flex;
@@ -45,7 +45,8 @@ const Card = styled.div`
         span {
           background: #333;
           color: #fff;
-          padding: 1px 6px;
+          padding: 1px 3px;
+          white-space: nowrap;
           border-radius: 2px;
           margin-left: 6px;
           font-size: 0.7rem;

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Container from '@/components/atoms/Container';
 import Card from '@/components/atoms/Card';
+import { API_URL } from '@/lib/index';
 import {
   Button,
   Heading,
@@ -29,11 +30,11 @@ import Layout from '@/components/organisms/Layout';
 import { FaShareAlt, FaLongArrowAltRight, FaUser } from 'react-icons/fa';
 import { AiOutlinePrinter } from 'react-icons/ai';
 import { VscCalendar } from 'react-icons/vsc';
-import Header from '@/components/atoms/Heading';
+// import Header from '@/components/atoms/Heading';
 import Link from 'next/link';
 import { parseCookies } from '@/helpers/index';
 
-export default function OfflineOrderPage({ data, token }) {
+export default function OfflineOrderPage({ data, token, user }) {
   const [loadingActivationToggle, setLoadingActivationToggle] = useState(false);
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
@@ -103,7 +104,7 @@ export default function OfflineOrderPage({ data, token }) {
   };
 
   return (
-    <Layout>
+    <Layout data={user}>
       <Container>
         <ToastContainer
           position="top-center"
@@ -118,14 +119,14 @@ export default function OfflineOrderPage({ data, token }) {
         />
         <Flex>
           <Box width={['100%', '65%']} p="1rem">
-            <Header title="Users" icon={<FaUser />} />
+          <Heading color="gray" mb="4">Staff</Heading>
             <Card>
               <Box textAlign="center" my="5">
                 <Avatar
                   name={data.name}
                   size="2xl"
                   style={{ border: 'solid 2px red' }}
-                  // src={data.passport}
+                  src={data.passport}
                 ></Avatar>
               </Box>
 
@@ -145,118 +146,13 @@ export default function OfflineOrderPage({ data, token }) {
                   </Heading>
                   <Text>{data.email}</Text>
                 </Box>
-                {/* <Box>
+                <Box>
                   <Heading size="sm" color="red">
                     Phone Number
                   </Heading>
                   <Text>{data.phone}</Text>
-                </Box> */}
+                </Box>
               </Flex>
-
-              {/* <Flex alignItems="center" justifyContent="space-between" mt="4">
-                <Box width="33%">
-                  <Heading size="sm" color="red">
-                    Alternative Phone Number
-                  </Heading>
-                  <Text>John Doe</Text>
-                </Box>
-                <Box width="33%">
-                  <Heading size="sm" color="red">
-                    Date of Birth
-                  </Heading>
-                  <Text>{data.profile.dob}</Text>
-                </Box>
-                <Box>
-                  <Heading size="sm" color="red">
-                    State of Origin
-                  </Heading>
-                  <Text>{data.profile.state_of_origin}</Text>
-                </Box>
-              </Flex> */}
-
-              {/* <Flex alignItems="center" justifyContent="space-between" mt="4">
-                <Box width="33%">
-                  <Heading size="sm" color="red">
-                    Local Gov Area
-                  </Heading>
-                  <Text>{data.profile.lga}</Text>
-                </Box>
-                <Box width="33%">
-                  <Heading size="sm" color="red">
-                    Nationality
-                  </Heading>
-                  <Text>{data.profile.nationality}</Text>
-                </Box>
-              </Flex> */}
-
-              {/* <Heading size="md" mt="10">
-                Education Data
-              </Heading>
-              {data.qualifications.map((edu) => (
-                <Flex alignItems="center" justifyContent="space-between" mt="4">
-                  <Box width="33%">
-                    <Heading size="sm" color="red">
-                      Instution Attended
-                    </Heading>
-                    <Text>{edu.institude}</Text>
-                  </Box>
-                  <Box width="33%">
-                    <Heading size="sm" color="red">
-                      Qualification
-                    </Heading>
-                    <Text>{edu.qualification}</Text>
-                  </Box>
-                </Flex>
-              ))} */}
-
-              {/* <Heading size="md" mt="10">
-                Residential Details
-              </Heading>
-              <Flex alignItems="center" justifyContent="space-between" mt="4">
-                <Box width="33%">
-                  <Heading size="sm" color="red">
-                    Present Address
-                  </Heading>
-                  <Text>{data.profile.current_address}</Text>
-                </Box>
-                <Box width="33%">
-                  <Heading size="sm" color="red">
-                    Permanet Address
-                  </Heading>
-                  <Text>{data.profile.permanent_address}</Text>
-                </Box>
-                <Box width="33%">
-                  <Heading size="sm" color="red">
-                    Zip Code
-                  </Heading>
-                  <Text>{data.profile.post_code}</Text>
-                </Box>
-              </Flex> */}
-              {/* <Flex
-                alignItems="center"
-                justifyContent="space-between"
-                mt="4"
-                mb="10"
-              >
-                <Box width="33%">
-                  <Heading size="sm" color="red">
-                    State
-                  </Heading>
-                  <Text>{data.profile.state}</Text>
-                </Box>
-                <Box width="33%">
-                  <Heading size="sm" color="red">
-                    Local Gov Area{' '}
-                  </Heading>
-                  <Text>{data.profile.lg}</Text>
-                </Box>
-                <Box width="33%">
-                  <Heading size="sm" color="red">
-                    Region
-                  </Heading>
-                  <Text>{data.profile.region}</Text>
-                </Box>
-              </Flex> */}
             </Card>
             <Box mt="10">
               <Card>
@@ -265,7 +161,7 @@ export default function OfflineOrderPage({ data, token }) {
                 </Heading>
                 {data.active_orders.length > 0 ? (
                   <>
-                    <Flex alignItems="center" my="5">
+                    {/* <Flex alignItems="center" my="5">
                       <Text color="grey" mr="4">
                         Sort:
                       </Text>
@@ -286,8 +182,8 @@ export default function OfflineOrderPage({ data, token }) {
                           <option value="3">PENDING CLEARANCE</option>
                         </Select>
                       </Grid>
-                    </Flex>
-                    <Box>
+                    </Flex> */}
+                    <Box mt="10">
                       <table cellPadding={0} cellSpacing={0}>
                         <thead>
                           <tr>
@@ -352,7 +248,7 @@ export default function OfflineOrderPage({ data, token }) {
                     <Text ml="2">{data.active_orders.length} Orders</Text>
                   </Flex>
                 </Box>
-                <Link href="/orders" passHref>
+                <Link href="/admin/orders" passHref>
                   <a>
                     <FaLongArrowAltRight className="icon" />
                   </a>
@@ -360,18 +256,18 @@ export default function OfflineOrderPage({ data, token }) {
               </Flex>
               <hr />
 
-              <Grid gridTemplateColumns="repeat(2, 1fr)" gap="10" my="5">
-                <Link href="/settings" passHref>
+              {/* <Grid gridTemplateColumns="repeat(2, 1fr)" gap="10" my="5">
+                <Link href="/admin/settings" passHref>
                   <Button colorScheme="green" py="6">
                     Edit
                   </Button>
                 </Link>
-                <Link href="/support" passHref>
+                <Link href="/admin/support" passHref>
                   <Button colorScheme="green" py="6">
                     Send Mail
                   </Button>
                 </Link>
-              </Grid>
+              </Grid> */}
 
               <Button
                 onClick={onOpen}
@@ -488,10 +384,20 @@ export async function getServerSideProps({ req, query }) {
 
   const result = await response.json();
 
+  const res = await fetch(`${API_URL}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+  
+  const userData = await res.json()
+
   return {
     props: {
       data: result.data.staff,
       token,
+      user: userData.data.user
     },
   };
 }

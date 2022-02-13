@@ -1,12 +1,12 @@
-import { useContext, useEffect } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import Container from '@/components/atoms/Container';
+import { API_URL } from '@/lib/index';
 import Layout from '@/components/organisms/Layout';
 import styled from 'styled-components';
 import Card from '@/components/atoms/Card';
 import UserCardInfo from '@/components/molecules/UserCardInfo';
 import Logs from '@/components/molecules/Logs';
 import { Button, Flex, Box, Heading, Text, Select } from '@chakra-ui/react';
-import Link from 'next/link';
 import Logo from '@/components/atoms/Logo';
 import logo from '@/assets/logo1.svg';
 import Image from 'next/image';
@@ -103,10 +103,10 @@ export default function OrdersPage({ data, token }) {
   };
 
   return (
-    <Layout>
+    <Layout data={data}>
       <Container>
         <Header>
-          <h2 className="orderId">Orders #{data.order.tracking_id}</h2>
+          <h2 className="orderId">Orders #{data?.order?.tracking_id}</h2>
           <h5 className="date">06.12.2021 at 10:14am</h5>
         </Header>
 
@@ -114,80 +114,12 @@ export default function OrdersPage({ data, token }) {
           <div className="header">
             <div className="status">
               <h2>Status</h2>
-              <p>{data.order.status}</p>
+              <p>{data?.order?.status}</p>
             </div>
-            <Button colorScheme="red">Print Invoice</Button>
-          </div>
-          <div className="pickupContainer">
-            <div className="box">
-              <div className="card">
-                <h6 className="card-title">
-                  Planned Pickup
-                  <Link href="/">
-                    <a className="edit"> Edit</a>
-                  </Link>
-                </h6>
-                <p>
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                  Molestiae, aperiam?
-                </p>
-              </div>
-              <div className="card">
-                <h6 className="card-title">
-                  Office Pickup
-                  <Link href="/">
-                    <a className="edit"> Edit</a>
-                  </Link>
-                </h6>
-                <p>
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                  Molestiae, aperiam?
-                </p>
-              </div>
-            </div>
-            <div className="box">
-              <div className="card">
-                <h6 className="card-title">
-                  Airport Delivery
-                  <Link href="/">
-                    <a className="edit"> Edit</a>
-                  </Link>
-                </h6>
-                <p>
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                  Molestiae, aperiam?
-                </p>
-              </div>
-              <div className="card">
-                <h6 className="card-title">
-                  Airport Up
-                  <Link href="/">
-                    <a className="edit"> Edit</a>
-                  </Link>
-                </h6>
-                <p>
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                  Molestiae, aperiam?
-                </p>
-              </div>
-            </div>
-            <div className="box">
-              <div className="card">
-                <h6 className="card-title">
-                  Planned Delivery
-                  <Link href="/">
-                    <a className="edit"> Edit</a>
-                  </Link>
-                </h6>
-                <p>
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                  Molestiae, aperiam?
-                </p>
-                <Button colorScheme="green">Deliver</Button>
-              </div>
-            </div>
+            {/* <Button type="submit" colorScheme="red">Print Invoice</Button> */}
           </div>
         </OrderStatus>
+
         <SectionLayout>
           <Flex>
             <Box width="70%" pr="4">
@@ -434,7 +366,7 @@ export default function OrdersPage({ data, token }) {
 
             <Box width="30%" pl="4">
               <Box my="4">
-                {data.order.admins.pickup_agent === null && (
+                {data?.order?.admins?.pickup_agent === null && (
                   <p>No pickup agent assigned</p>
                 )}
 
@@ -447,44 +379,32 @@ export default function OrdersPage({ data, token }) {
                   data.order.integer_status === '1') && (
                   <UserCardInfo
                     title="Pickup Agent"
-                    img={data.order.admins.pickup_agent.passport}
-                    username={data.order.admins.pickup_agent.name}
-                    orders={data.order.admins.pickup_agent.orders}
+                    img={data?.order?.admins?.pickup_agent?.passport}
+                    username={data?.order?.admins?.pickup_agent?.name}
+                    orders={data?.order?.admins?.pickup_agent?.orders}
                     url="/"
-                    phone={data.order.admins.pickup_agent.contact_info.phone}
+                    phone={data?.order?.admins?.pickup_agent?.contact_info?.phone}
                     address={
-                      data.order.admins.pickup_agent.contact_info.address
+                      data?.order?.admins?.pickup_agent?.contact_info?.address
                     }
-                    status={data.order.integer_status}
+                    status={data?.order?.integer_status}
                     handleClick={handleOfficeDrop}
                     loading={loadingDrop}
                     type="pickup"
                   />
                 )}
               </Box>
-
-              <Card>
-                <Flex alignItems="center" mt="4">
-                  <Box p="4" borderRadius="md" mr="10" boxShadow="md">
-                    <Logo src={logo} />
-                  </Box>
-                  <Box>
-                    <Text fontSize="lg">Ricno Logistics</Text>
-                    <Text>Premium</Text>
-                  </Box>
-                </Flex>
-              </Card>
               <Box my="4">
-                {data.order.integer_status === '4' && (
+                {data?.order?.integer_status === '4' && (
                   <>
                     <Select
                       value={selectedRider}
                       onChange={(e) => setSelectedRider(e.target.value)}
                       placeholder="Select Delivery Agent"
                     >
-                      {data.riders.map((rider) => (
-                        <option key={rider.id} value={rider.id}>
-                          {rider.name}
+                      {data?.riders.map((rider) => (
+                        <option key={rider?.id} value={rider?.id}>
+                          {rider?.name}
                         </option>
                       ))}
                     </Select>
@@ -500,20 +420,20 @@ export default function OrdersPage({ data, token }) {
                   </>
                 )}
 
-                {(data.order.integer_status === '5' ||
-                  data.order.integer_status === '7' ||
-                  data.order.integer_status === '1') && (
+                {(data?.order?.integer_status === '5' ||
+                  data?.order?.integer_status === '7' ||
+                  data?.order?.integer_status === '1') && (
                   <UserCardInfo
                     title="Delivery Agent"
-                    img={data.order.admins.delivery_agent.passport}
-                    username={data.order.admins.delivery_agent.name}
-                    orders={data.order.admins.delivery_agent.orders}
+                    img={data?.order?.admins?.delivery_agent?.passport}
+                    username={data?.order.admins.delivery_agent.name}
+                    orders={data?.order.admins.delivery_agent.orders}
                     url="/"
-                    phone={data.order.admins.delivery_agent.contact_info.phone}
+                    phone={data?.order.admins.delivery_agent.contact_info.phone}
                     address={
-                      data.order.admins.delivery_agent.contact_info.address
+                      data?.order.admins.delivery_agent.contact_info.address
                     }
-                    status={data.order.integer_status}
+                    status={data?.order.integer_status}
                     handleClick={handleConfirmDelivery}
                     loading={loadingConfirmDelivery}
                     type="delivery"
@@ -521,7 +441,21 @@ export default function OrdersPage({ data, token }) {
                 )}
               </Box>
 
-              <Logs trackerData={data.order.trackers} />
+              <Logs trackerData={data?.order?.trackers} />
+              
+              <Box mt="10">
+                <Card>
+                  <Flex alignItems="center" mt="4">
+                    <Box p="4" borderRadius="md" mr="10" boxShadow="md">
+                      <Logo src={logo} />
+                    </Box>
+                    <Box>
+                      <Text fontSize="lg">Ricno Logistics</Text>
+                      <Text>Premium</Text>
+                    </Box>
+                  </Flex>
+                </Card>
+              </Box>
             </Box>
           </Flex>
         </SectionLayout>
@@ -642,10 +576,12 @@ export async function getServerSideProps({ req, query }) {
 
   const result = await response.json();
 
+  console.log(result.data)
+
   return {
     props: {
       data: result.data,
-      token,
+      token
     },
   };
 }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { FaListUl } from 'react-icons/fa'
+import { API_URL } from '@/lib/index';
 import Container from '@/components/atoms/Container'
 import Heading from '@/components/atoms/Heading'
 import QuoteTable from '@/components/atoms/QuoteTable'
@@ -9,22 +10,12 @@ import { Flex, Stack, Button, Input, InputLeftElement, InputGroup } from '@chakr
 import { parseCookies } from '@/helpers/index';
 
 
-const data = [
-  { id: 1, fullname: "Mark Golden", quoteNumber: "QR12397", email: "example@gmail.com", phone: '+776769799987', date: "May 2020" },
-  { id: 1, fullname: "Mark Golden", quoteNumber: "QR12397", email: "example@gmail.com", phone: '+776769799987', date: "May 2020" },
-  { id: 1, fullname: "Mark Golden", quoteNumber: "QR12397", email: "example@gmail.com", phone: '+776769799987', date: "May 2020" },
-  { id: 1, fullname: "Mark Golden", quoteNumber: "QR12397", email: "example@gmail.com", phone: '+776769799987', date: "May 2020" },
-  { id: 1, fullname: "Mark Golden", quoteNumber: "QR12397", email: "example@gmail.com", phone: '+776769799987', date: "May 2020" },
-  { id: 1, fullname: "Mark Golden", quoteNumber: "QR12397", email: "example@gmail.com", phone: '+776769799987', date: "May 2020" },
-  { id: 1, fullname: "Mark Golden", quoteNumber: "QR12397", email: "example@gmail.com", phone: '+776769799987', date: "May 2020" },
-];
-
-
-export default function QuoteRequestPage() {
+export default function QuoteRequestPage({ data, user }) {
   const [q, setQ] = useState('');
   const [filterBtn, setFilterBtn] = useState(['all']);
   const [quoteData, setQuoteData] = useState(data);
 
+  console.log(data)
 
   useEffect(() => {
     if (filterBtn === 'all') {
@@ -39,7 +30,7 @@ export default function QuoteRequestPage() {
   }, [filterBtn]);
 
   return (
-    <Layout>
+    <Layout data={user}>
       <Container>
         <Heading title="Quote Requests" icon={<FaListUl />} />
         <Flex>
@@ -96,9 +87,19 @@ export async function getServerSideProps({ req }) {
 
   const result = await response.json();
 
+  const res = await fetch(`${API_URL}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+  
+  const userData = await res.json()
+
   return {
     props: {
       data: result.data.quotes,
+      user: userData.data.user
     },
   };
 }

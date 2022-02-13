@@ -3,9 +3,8 @@ import { useRouter } from 'next/router';
 import Layout from '@/components/organisms/Layout';
 import Container from '@/components/atoms/Container';
 import UpdateCategoryModal from '@/components/organisms/UpdateCategoryModal';
-import { AiOutlinePlus } from 'react-icons/ai';
+import { API_URL } from '@/lib/index';
 import { FaTh } from 'react-icons/fa';
-import { BiSearchAlt2, BiTrash } from 'react-icons/bi';
 import Header from '@/components/atoms/Heading';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -27,7 +26,7 @@ import {
 import Link from 'next/link';
 import { parseCookies } from '@/helpers/index';
 
-export default function ManageSite({ supportCategory, siteSettings, token }) {
+export default function ManageSite({ supportCategory, siteSettings, token, user }) {
   const [categoryName, setCategoryName] = useState();
   const [categoryDescription, setCategoryDescription] = useState();
   const [categoryRank, setCategoryRank] = useState();
@@ -145,7 +144,7 @@ export default function ManageSite({ supportCategory, siteSettings, token }) {
   };
 
   return (
-    <Layout>
+    <Layout data={user}>
       <Container>
         <ToastContainer
           position="top-center"
@@ -181,7 +180,7 @@ export default function ManageSite({ supportCategory, siteSettings, token }) {
               >
                 <Link href="/admin/manage/upload">Upload Data</Link>
               </Button>
-              <Button
+              {/* <Button
                 _focus={{ color: 'red' }}
                 color="gray"
                 fontWeight="bold"
@@ -189,12 +188,110 @@ export default function ManageSite({ supportCategory, siteSettings, token }) {
                 variant="ghost"
               >
                 <Link href="/admin/manage/sendEmail">Email Message</Link>
-              </Button>
+              </Button> */}
             </Flex>
           </Stack>
         </Flex>
         <hr />
 
+        <Box>
+          <Heading size="md" mt="4">
+            Manage Support Categories
+          </Heading>
+          <Text color="gray" mb="5">
+            Categories availbale for support
+          </Text>
+          <form>
+            <Flex bg="white" p="5">
+              <Grid gridTemplateColumns="repeat(3, 1fr)" gap="5" width="80%">
+                <FormControl>
+                  <FormLabel>Name of Category</FormLabel>
+                  <Input
+                    type="text"
+                    bg="white"
+                    id="categoryName"
+                    name="categoryName"
+                    value={categoryName}
+                    onChange={(e) => setCategoryName(e.target.value)}
+                    placeholder="Enter Category Name"
+                  />
+                </FormControl>
+                <FormControl>
+                  <FormLabel>Category Description</FormLabel>
+                  <Input
+                    type="text"
+                    bg="white"
+                    id="description"
+                    name="description"
+                    value={categoryDescription}
+                    onChange={(e) => setCategoryDescription(e.target.value)}
+                    placeholder="Enter Description"
+                  />
+                </FormControl>
+                <FormControl>
+                  <FormLabel>Rank</FormLabel>
+                  <Select
+                    placeholder="Select Rank"
+                    value={categoryRank}
+                    onChange={(e) => setCategoryRank(e.target.value)}
+                  >
+                    <option value="1">Severe</option>
+                    <option value="2">Medium</option>
+                    <option value="3">Normal</option>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Button
+                isLoading={loadingNewCategory}
+                colorScheme="green"
+                px="10"
+                ml="8"
+                mt="7"
+                onClick={handleNewCategoryUpload}
+              >
+                Save
+              </Button>
+            </Flex>
+          </form>
+        </Box>
+
+        <Box mb="4">
+          <div className="resTable">
+            <table cellPadding={0} cellSpacing={0}>
+              <thead>
+                <tr>
+                  <th data-label="Date" scope="col"></th>
+                  <th data-label="Date" scope="col">
+                    Name
+                  </th>
+                  <th data-label="Date" scope="col">
+                    Description
+                  </th>
+                  <th data-label="Date" scope="col">
+                    Rank
+                  </th>
+                  <th data-label="Items" scope="col">
+                    Edit
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {supportCategory.map((category) => (
+                  <tr key={category.id}>
+                    <td></td>
+                    <td>{category.name}</td>
+                    <td>{category.description}</td>
+                    <td>{category.rank}</td>
+                    <td>
+                      <UpdateCategoryModal token={token} data={category} />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </Box>
+        <hr />
         <ChakraContainer maxWidth="container.md" mb="20">
           <Text color="grey" fontSize="2xl" mb="5" mt="10">
             Site Settings
@@ -511,105 +608,6 @@ export default function ManageSite({ supportCategory, siteSettings, token }) {
             </Button>
           </Box>
         </ChakraContainer>
-
-        <Box>
-          <Heading size="md" mt="4">
-            Manage Support Categories
-          </Heading>
-          <Text color="gray" mb="5">
-            Categories availbale for support
-          </Text>
-          <form>
-            <Flex bg="white" p="5">
-              <Grid gridTemplateColumns="repeat(3, 1fr)" gap="5" width="80%">
-                <FormControl>
-                  <FormLabel>Name of Category</FormLabel>
-                  <Input
-                    type="text"
-                    bg="white"
-                    id="categoryName"
-                    name="categoryName"
-                    value={categoryName}
-                    onChange={(e) => setCategoryName(e.target.value)}
-                    placeholder="Enter Category Name"
-                  />
-                </FormControl>
-                <FormControl>
-                  <FormLabel>Category Description</FormLabel>
-                  <Input
-                    type="text"
-                    bg="white"
-                    id="description"
-                    name="description"
-                    value={categoryDescription}
-                    onChange={(e) => setCategoryDescription(e.target.value)}
-                    placeholder="Enter Description"
-                  />
-                </FormControl>
-                <FormControl>
-                  <FormLabel>Rank</FormLabel>
-                  <Select
-                    placeholder="Select Rank"
-                    value={categoryRank}
-                    onChange={(e) => setCategoryRank(e.target.value)}
-                  >
-                    <option value="1">Severe</option>
-                    <option value="2">Medium</option>
-                    <option value="3">Normal</option>
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Button
-                isLoading={loadingNewCategory}
-                colorScheme="green"
-                px="10"
-                ml="8"
-                mt="7"
-                onClick={handleNewCategoryUpload}
-              >
-                Save
-              </Button>
-            </Flex>
-          </form>
-        </Box>
-
-        <Box mb="4">
-          <div className="resTable">
-            <table cellPadding={0} cellSpacing={0}>
-              <thead>
-                <tr>
-                  <th data-label="Date" scope="col"></th>
-                  <th data-label="Date" scope="col">
-                    Name
-                  </th>
-                  <th data-label="Date" scope="col">
-                    Description
-                  </th>
-                  <th data-label="Date" scope="col">
-                    Rank
-                  </th>
-                  <th data-label="Items" scope="col">
-                    Edit
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {supportCategory.map((category) => (
-                  <tr key={category.id}>
-                    <td></td>
-                    <td>{category.name}</td>
-                    <td>{category.description}</td>
-                    <td>{category.rank}</td>
-                    <td>
-                      <UpdateCategoryModal token={token} data={category} />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </Box>
-        <hr />
       </Container>
     </Layout>
   );
@@ -649,11 +647,21 @@ export async function getServerSideProps({ req }) {
   const result = await response.json();
   const resultSetting = await responseSettings.json();
 
+  const res = await fetch(`${API_URL}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+  
+  const userData = await res.json()
+
   return {
     props: {
       supportCategory: result.data.support_categories,
       siteSettings: resultSetting.data.setting,
       token,
+      user: userData.data.user
     },
   };
 }

@@ -5,11 +5,8 @@ import { FaBell, FaEnvelope } from 'react-icons/fa';
 import Link from 'next/link';
 import UserAvatar from './UserAvatar';
 import Dropdown from './Dropdown';
-import AuthContext from '@/context/AuthContext';
 
-export default function Navbar() {
-  const [notification, setNotification] = useState(true);
-  const { user } = useContext(AuthContext);
+export default function Navbar({ data }) {
 
   return (
     <Nav>
@@ -17,27 +14,25 @@ export default function Navbar() {
         <div className="flex">
           <h3></h3>
           <nav className="nav">
-            <Link href="/">
+            {/* <Link href="/">
               <a className="bell link">
                 <FaBell className="icon" />
-                {notification ? <div className="notification">5</div> : null}
+                <div className="notification">5</div>
               </a>
-            </Link>
-            <Link href="/">
+            </Link> */}
+            <Link href="/admin/message">
               <a className="bell link">
                 <FaEnvelope className="icon" />
-                {notification ? <div className="notification">4</div> : null}
+                <div className="notification">4</div>
               </a>
             </Link>
             <div className="avatar">
               <div className="userInfo">
-                {/* <h4>{user.name}</h4>
-                <p>{user.email}</p> */}
+                <h4>{data?.name || data?.order?.sender_detail?.name}</h4>
+                <p>{data?.email || data?.order?.sender_detail?.email}</p>
               </div>
               <UserAvatar
-                userTitle={user.name}
-                userName={user.name}
-                image={user.passport}
+                image={data?.passport || data?.order?.sender_detail?.passport}
                 size="md"
               />
               <Dropdown />

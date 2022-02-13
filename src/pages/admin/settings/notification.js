@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import SideNav from '@/components/molecules/SideNav'
 import Layout from '@/components/organisms/Layout'
+import { API_URL } from '@/lib/index';
+import { parseCookies } from '@/helpers/index';
 import {
   Box,
   Checkbox,
@@ -13,18 +15,18 @@ import {
   FormLabel,
   Heading,
   Switch,
+  Button
 } from '@chakra-ui/react'
 import styles from '@/styles/Settings.module.css'
-import Button from '@/components/atoms/Button'
 import { FaBell } from 'react-icons/fa'
 import Header from '@/components/atoms/Heading'
 
-export default function NotificationPage() {
+export default function NotificationPage({user }) {
   const [loading, setLoading] = useState(false)
 
 
   return (
-    <Layout>
+    <Layout data={user}>
       <div className={styles.flexContainer}>
         <SideNav />
 
@@ -149,4 +151,32 @@ export default function NotificationPage() {
       </div>
     </Layout>
   )
+}
+
+export async function getServerSideProps({ req }) {
+  const { token } = parseCookies(req);
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
+
+  const res = await fetch(`${API_URL}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+  
+  const userData = await res.json()
+
+  return {
+    props: {
+      token,
+      user: userData.data.user
+    },
+  };
 }

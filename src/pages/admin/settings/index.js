@@ -4,6 +4,7 @@ import SideNav from '@/components/molecules/SideNav';
 import Heading from '@/components/atoms/Heading';
 import Layout from '@/components/organisms/Layout';
 import { FaUserCog } from 'react-icons/fa';
+import { API_URL } from '@/lib/index';
 import {
   Button,
   Select,
@@ -16,14 +17,11 @@ import {
 } from '@chakra-ui/react';
 import styles from '@/styles/Settings.module.css';
 import { BsPencil, BsUser } from 'react-icons/bs';
-// import Button from '@/components/atoms/Button';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import AuthContext from '@/context/AuthContext';
 import { parseCookies } from '@/helpers/index';
 
-export default function SettingsPage({ token, branches }) {
-  const { user } = useContext(AuthContext);
+export default function SettingsPage({ token, branches, user }) {
 
   const [firstName, setFirstName] = useState(user.first_name);
   const [lastName, setLastName] = useState(user.last_name);
@@ -110,7 +108,7 @@ export default function SettingsPage({ token, branches }) {
   };
 
   return (
-    <Layout>
+    <Layout data={user}>
       <div className={styles.flexContainer}>
         <SideNav />
         <div className={styles.profileSetting}>
@@ -146,7 +144,7 @@ export default function SettingsPage({ token, branches }) {
                     boxSize="0.8em"
                     borderRadius="md"
                     bg="red.500"
-                    // onClick={() => setShowModal(true)}
+                    onClick={() => setShowModal(true)}
                   >
                     {' '}
                     <input
@@ -295,10 +293,20 @@ export async function getServerSideProps({ req }) {
 
   const result = await response.json();
 
+  const res = await fetch(`${API_URL}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+  
+  const userData = await res.json()
+
   return {
     props: {
       branches: result.data.branches,
       token,
+      user: userData.data.user
     },
   };
 }

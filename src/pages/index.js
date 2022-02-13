@@ -1,13 +1,65 @@
-
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import FooterComp from '@/components/atoms/Footer';
 import { LogoOne } from '@/components/atoms/Logo';
+import { useForm } from 'react-hook-form';
+import { BsEye } from 'react-icons/bs';
 import Link from 'next/link';
-import { Box, Heading, Button } from '@chakra-ui/react';
+import {
+  Heading,
+  Flex,
+  Button,
+  FormControl,
+  FormErrorMessage,
+  Input,
+  FormLabel,
+  InputGroup,
+  InputRightElement,
+} from '@chakra-ui/react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import AuthContext from '@/context/AuthContext';
 
-export default function HomePage() {
+export default function LoginPage() {
+  const [show, setShow] = useState(false);
+  const { login, isError, isLoading } = useContext(AuthContext);
+
+  const notify = () => toast.error(isError);
+
+  useEffect(() => {
+    if (isError) {
+      notify();
+    }
+  }, [isError, notify]);
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  const handleClick = () => setShow(!show);
+
+  const onSubmit = (data, e) => {
+    e.preventDefault();
+    const { email, password } = data;
+    login({ email, password });
+  };
+
   return (
-    <BoxContainer>
+    <Box>
+      <ToastContainer
+        position="top-center"
+        autoClose={8000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <div className="logo">
         <LogoOne />
       </div>
@@ -15,31 +67,26 @@ export default function HomePage() {
         <div className="imgBg"></div>
         <div className="formContainer">
           <div className="form">
-            <h3 className="loginTitle">Admin Dashboard</h3>
-            <h3 className="loginTitle">Log in</h3>
+            <Heading mb="6" color="white">Portal</Heading>
             {isLoading ? (
               <div className="modal">
-
                 <p>Pls Wait the system is verifing your account</p>
               </div>
             ) : null}
             <form onSubmit={handleSubmit(onSubmit)}>
               <FormControl isInvalid={errors.email}>
-
                 <FormLabel fontWeight="normal">Email</FormLabel>
                 <Input
                   type="email"
                   id="email"
                   placeholder="Enter Email"
                   borderColor="grey"
-
                   {...register('email', { required: 'Email is required' })}
                 />
                 <FormErrorMessage>
                   {errors.email && errors.email.message}
                 </FormErrorMessage>
               </FormControl>
-
               <FormControl isInvalid={errors.password} my="5">
                 <FormLabel fontWeight="normal">Password</FormLabel>
                 <InputGroup>
@@ -48,7 +95,6 @@ export default function HomePage() {
                     pr="2rem"
                     type={show ? 'text' : 'password'}
                     placeholder="Enter password"
-
                     {...register('password', {
                       required: 'Password is Required',
                     })}
@@ -65,13 +111,9 @@ export default function HomePage() {
               </FormControl>
               <hr />
 
-              <p className="term">Terms of service</p>
-              <div className="btnContainer">
-                <Button type="submit" loading={isLoading} title="LOADING">
-                  LOGIN
-                </Button>
-              </div>
-              <Link href="/forgotPassword">
+              <Flex justify='space-between' alignItems='center' mb="4">
+                <p className="term">Terms of service</p>
+                <Link href="/forgotPassword">
                 <p
                   style={{ cursor: 'pointer', margin: '5px 0' }}
                   className="term"
@@ -79,20 +121,29 @@ export default function HomePage() {
                   Forgot Password?
                 </p>
               </Link>
-
+              </Flex>
+              <div className="btnContainer">
+              <Button
+                type="submit"
+                isLoading={isLoading}
+                loadingText='Submitting'
+                colorScheme='red'
+                size="lg"
+                px="20"
+              >
+                LOG IN
+              </Button>
+              </div>
             </form>
           </div>
         </div>
       </div>
       <FooterComp className="footer" />
-    </BoxContainer>
+    </Box>
   );
 }
 
-const BoxContainer = styled.div`
-
 const Box = styled.div`
-
   height: 100vh;
   overflow: hidden;
   position: relative;
@@ -173,4 +224,4 @@ const Box = styled.div`
     bottom: 0;
     width: 100%;
   }
-`
+`;

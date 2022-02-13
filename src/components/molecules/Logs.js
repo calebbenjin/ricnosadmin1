@@ -15,8 +15,6 @@ export default function ActiveLog({ trackerData }) {
     return obj;
   });
 
-  // console.log(trackers[0].tracker_data[0][0]);
-
   return (
     <Box mt="4">
       <Card>
@@ -32,19 +30,13 @@ export default function ActiveLog({ trackerData }) {
               <Heading size="sm">
                 {tracker.tracker_data[0][0].order_status}
               </Heading>
-              <Link href="/">
+              {/* <Link href="/">
                 <a className="link">Edit</a>
-              </Link>
+              </Link> */}
             </Flex>
             <Text mt="2">{tracker.tracker_data[0][0].location}</Text>
           </ActiveLogCard>
         ))}
-
-        <EditButton>
-          <Link href="/">
-            <a>Edit active log</a>
-          </Link>
-        </EditButton>
       </Card>
     </Box>
   );

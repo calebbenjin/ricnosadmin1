@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { API_URL } from '@/lib/index';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Button } from '@chakra-ui/react';
@@ -6,13 +6,9 @@ import Layout from '@/components/organisms/Layout';
 import styles from '@/styles/support/Support.module.css';
 import { AiOutlinePlus } from 'react-icons/ai';
 import TicketChat from '@/components/organisms/TicketChat';
-import LiveChat from '@/components/organisms/LiveChat';
 import { parseCookies } from '@/helpers/index';
 
-export default function SupportPage({ openTickets, closedTickets, token }) {
-  const [attachedFile, setAttachedFile] = useState();
-  const [showTicket, setShowTicket] = useState(true);
-  const [showLiveChat, setShowLiveChat] = useState(false);
+export default function SupportPage({ openTickets, closedTickets, token, user }) {
 
   const handleTicket = () => {
     setShowLiveChat(false);
@@ -24,8 +20,10 @@ export default function SupportPage({ openTickets, closedTickets, token }) {
     setShowLiveChat(true);
   };
 
+  console.log(user)
+
   return (
-    <Layout>
+    <Layout data={user}>
       <ToastContainer
         position="top-center"
         autoClose={8000}
@@ -40,20 +38,16 @@ export default function SupportPage({ openTickets, closedTickets, token }) {
       <header className={styles.header}>
         <div className={styles.leftSide}>
           <button onClick={handleTicket}>Tickets</button>
-          <button onClick={handleLiveChat}>Live Chats</button>
         </div>
         <Button colorScheme="red" leftIcon={<AiOutlinePlus />}>
           Create ticket
         </Button>
       </header>
-      {showTicket && (
-        <TicketChat
-          openTickets={openTickets}
-          closedTickets={closedTickets}
-          token={token}
-        />
-      )}
-      {showLiveChat && <LiveChat />}
+      <TicketChat
+        openTickets={openTickets}
+        closedTickets={closedTickets}
+        token={token}
+      />
     </Layout>
   );
 }
@@ -92,11 +86,21 @@ export async function getServerSideProps({ req }) {
   const resultOpenTickets = await openTicketsResponse.json();
   const resultClosedTickets = await closedTicketsResponse.json();
 
+  const res = await fetch(`${API_URL}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+  
+  const data = await res.json()
+
   return {
     props: {
       openTickets: resultOpenTickets.data.supports,
       closedTickets: resultClosedTickets.data.supports,
       token,
+      user: data.data.user
     },
   };
 }

@@ -1,8 +1,9 @@
-
 import React, { useState, useEffect, useContext } from 'react';
-import { filter, Grid, Select, Button } from '@chakra-ui/react';
-import { FaListUl, FaUsers } from 'react-icons/fa';
-import { BsPlus } from 'react-icons/bs';
+import { Grid, Select, Flex, Stack, Button, Input, InputLeftElement, InputGroup } from '@chakra-ui/react';
+import { FaUsers } from 'react-icons/fa';
+import { API_URL } from '@/lib/index';
+import { BiPrinter, BiSearchAlt } from 'react-icons/bi';
+import * as dayjs from 'dayjs';
 import { ToastContainer } from 'react-toastify';
 import NewCustomerModal from '@/components/organisms/NewCustomerModal';
 import NewStaffModal from '@/components/organisms/NewStaffModal';
@@ -12,11 +13,9 @@ import Heading from '@/components/atoms/Heading';
 import Layout from '@/components/organisms/Layout';
 import styled from 'styled-components';
 import Link from 'next/link';
-
 import { parseCookies } from '@/helpers/index';
-import AuthContext from '@/context/AuthContext';
 
-export default function UsersPage({ data, branches, token }) {
+export default function UsersPage({ data, branches, token, user }) {
   const [q, setQ] = useState('');
   const [filterBtn, setFilterBtn] = useState('All');
   const [usersData, setUsersData] = useState([
@@ -24,10 +23,6 @@ export default function UsersPage({ data, branches, token }) {
     ...data.users,
     ...data.staffs,
   ]);
-
-  const { user } = useContext(AuthContext);
-
-  const columns = data[0] && Object.keys(data[0]);
 
   useEffect(() => {
     if (filterBtn === 'All') {
@@ -42,9 +37,8 @@ export default function UsersPage({ data, branches, token }) {
   }, [filterBtn]);
 
   return (
-    <Layout>
+    <Layout data={user}>
       <Container>
-
         <ToastContainer
           position="top-center"
           autoClose={8000}
@@ -66,37 +60,23 @@ export default function UsersPage({ data, branches, token }) {
           </BtnContainer>
         </Heading>
 
-        <input
-          style={{ background: '#fff !important', width: '50%;' }}
-          type="text"
-          placeholder="Search for Items"
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-        />
-
+        <Flex>
+          <InputGroup mr="4" bg="white">
+            <InputLeftElement pointerEvents='none'>
+            <BiSearchAlt style={{ fontSize: "1.2rem", color: "gray"}} />
+            </InputLeftElement>
+            <Input type='text' _focus={{paddingLeft: "2.2rem"}} value={filterBtn} onChange={(e) => setFilterBtn(e.target.value)} placeholder='Search' />
+          </InputGroup>
+          <Stack spacing={0} direction='row' align='center'>
+            <Button borderRadius='0' variant='outline' bg="white" leftIcon={<BiPrinter />} onClick={() => setFilterBtn('all')}>All</Button>
+            <Button borderRadius='0' variant='outline' bg="white" leftIcon={<BiPrinter />} onClick={() => setFilterBtn('User')}>Customers</Button>
+            <Button borderRadius='0' variant='outline' bg="white" leftIcon={<BiPrinter />} onClick={() => setFilterBtn('Logistic')}>Riders</Button>
+            <Button borderRadius='0' variant='outline' bg="white" leftIcon={<BiPrinter />} onClick={() => setFilterBtn('Deskstop officer')}>
+              Staff
+            </Button>
+          </Stack>
+        </Flex>
       </Container>
-
-      <Grid p={5} gridTemplateColumns="repeat(3, 1fr)" gap="5">
-        <Select
-          value={filterBtn}
-          onChange={(e) => setFilterBtn(e.target.value)}
-          placeholder="ALL USERS"
-        >
-          <option value="User">CUSTOMERS</option>
-          <option value="Logistics">RIDERS</option>
-          <option value="Deskstop officer">STAFFS</option>
-        </Select>
-        <Select placeholder="YEAR">
-          <option value="1">WITHDRAWN</option>
-          <option value="2">CANCELLED REVENUE</option>
-          <option value="3">PENDING CLEARANCE</option>
-        </Select>
-        <Select placeholder="MONTH">
-          <option value="1">WITHDRAWN</option>
-          <option value="2">CANCELLED REVENUE</option>
-          <option value="3">PENDING CLEARANCE</option>
-        </Select>
-      </Grid>
 
       <div className="resTable">
         <table cellPadding={0} cellSpacing={0}>
@@ -133,7 +113,7 @@ export default function UsersPage({ data, branches, token }) {
                 <td>{user.full_name}</td>
                 <td>{user.department}</td>
                 <td>{user.email}</td>
-                <td>{user.reg_date}</td>
+                <td>{dayjs(user.reg_date).format('DD/MM/YYYY h:m')}</td>
                 <td>{user.last_activity}</td>
                 {user.status === 'active' ? (
                   <td style={{ color: 'green' }}>{user.status}</td>
@@ -165,13 +145,6 @@ export default function UsersPage({ data, branches, token }) {
 const BtnContainer = styled.div`
   display: flex;
   align-items: center;
-`;
-
-const SubHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 1rem 0;
 `;
 
 export async function getServerSideProps({ req }) {
@@ -208,11 +181,21 @@ export async function getServerSideProps({ req }) {
   const result = await response.json();
   const resultBranch = await responseBranch.json();
 
+  const res = await fetch(`${API_URL}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+  
+  const userData = await res.json()
+
   return {
     props: {
       data: result.data,
       branches: resultBranch.data.branches,
       token,
+      user: userData.data.user
     },
   };
 }

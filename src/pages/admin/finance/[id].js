@@ -4,6 +4,7 @@ import Header from '@/components/atoms/Heading';
 import Container from '@/components/atoms/Container';
 import Layout from '@/components/organisms/Layout';
 import { FaUser } from 'react-icons/fa';
+import { API_URL } from '@/lib/index';
 import styled from 'styled-components';
 import { Button, Flex, Box, Heading, Text, Avatar } from '@chakra-ui/react';
 import Image from 'next/image';
@@ -16,14 +17,11 @@ import logo from '@/assets/logo1.svg';
 import { parseCookies } from '@/helpers/index';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import AuthContext from '@/context/AuthContext';
 
-export default function UserPage({ data, token }) {
+export default function UserPage({ data, token, user }) {
   const [loadingManualRequest, setLoadingManualRequest] = useState(false);
   const [loadingCancelRequest, setLoadingCancelRequest] = useState(false);
   const [loadingApprovalRequest, setLoadingApprovalRequest] = useState(false);
-
-  const { user } = useContext(AuthContext);
 
   const router = useRouter();
 
@@ -109,7 +107,7 @@ export default function UserPage({ data, token }) {
   };
 
   return (
-    <Layout title="User Details">
+    <Layout title="User Details" data={user}>
       <ToastContainer
         position="top-center"
         autoClose={8000}
@@ -134,7 +132,7 @@ export default function UserPage({ data, token }) {
                 >
                   Active
                 </Button> */}
-                <Button color={data.status === 'paid' ? 'green' : 'gold'}>
+                <Button colorScheme={data.status === 'paid' ? 'green' : 'gold'}>
                   {data.status}
                 </Button>
               </Box>
@@ -192,7 +190,7 @@ export default function UserPage({ data, token }) {
               <Heading size="md">{data.amount}</Heading>
             </Flex>
 
-            {data.integer_status === '0' && user.role === '1' && (
+            {/* {data.integer_status === '0' && user.role === '1' && (
               <div className="actionsBtns">
                 <div>
                   <Button
@@ -219,9 +217,36 @@ export default function UserPage({ data, token }) {
                   Approve Manually
                 </Button>
               </div>
-            )}
+            )} */}
 
-            {data.integer_status === '2' && user.role === '1' && (
+            <div className="actionsBtns">
+                <div>
+                  <Button
+                    onClick={handleApprovalRequest}
+                    colorScheme="green"
+                    mr="4"
+                    isLoading={loadingApprovalRequest}
+                  >
+                    Approve request
+                  </Button>
+                  <Button
+                    isLoading={loadingCancelRequest}
+                    onClick={handleCancelRequest}
+                    colorScheme="red"
+                  >
+                    Cancel request
+                  </Button>
+                </div>
+                <Button
+                  isLoading={loadingManualRequest}
+                  onClick={handleManualRequest}
+                  colorScheme="yellow"
+                >
+                  Approve Manually
+                </Button>
+              </div>
+
+            {/* {data.integer_status === '2' && user.role === '1' && (
               <div className="actionsBtns">
                 <div>
                   <Button
@@ -241,7 +266,7 @@ export default function UserPage({ data, token }) {
                   Approve Manually
                 </Button>
               </div>
-            )}
+            )} */}
           </Profile>
 
           <ProfileCard>
@@ -542,10 +567,20 @@ export async function getServerSideProps({ req, query }) {
 
   const result = await response.json();
 
+  const res = await fetch(`${API_URL}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+  
+  const userData = await res.json()
+
   return {
     props: {
       data: result.data.withdrawal_request,
       token,
+      user: userData.data.user
     },
   };
 }

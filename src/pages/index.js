@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
-import { useRouter } from 'next/router';
 import FooterComp from '@/components/atoms/Footer';
 import { LogoOne } from '@/components/atoms/Logo';
 import { useForm } from 'react-hook-form';
@@ -19,13 +18,11 @@ import {
 } from '@chakra-ui/react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import FormInput from '@/components/atoms/FormInput';
 import AuthContext from '@/context/AuthContext';
 
 export default function LoginPage() {
   const [show, setShow] = useState(false);
   const { login, isError, isLoading } = useContext(AuthContext);
-  // const { isLoading, setIsLoading } = useState(false);
 
   const notify = () => toast.error(isError);
 
@@ -34,8 +31,6 @@ export default function LoginPage() {
       notify();
     }
   }, [isError, notify]);
-
-  const router = useRouter();
 
   const {
     register,
@@ -47,7 +42,6 @@ export default function LoginPage() {
   const handleClick = () => setShow(!show);
 
   const onSubmit = (data, e) => {
-    // setIsLoading={true}
     e.preventDefault();
     const { email, password } = data;
     login({ email, password });

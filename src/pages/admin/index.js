@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import { API_URL } from '@/lib/index';
 import Container from '@/components/atoms/Container';
 import Layout from '@/components/organisms/Layout';
 import Heading from '@/components/atoms/Heading';
@@ -14,27 +15,30 @@ import ShipmentCard from '@/components/atoms/ShipmentCard';
 import ActivityLog from '@/components/molecules/ActivityLog';
 import SummaryLog from '@/components/molecules/SummaryLog';
 import { parseCookies } from '@/helpers/index';
-import AuthContext from '@/context/AuthContext';
+import PageLoader from '@/components/organisms/PageLoader'
 
 
-export default function HomePage() {
-  const { user } = useContext(AuthContext);
+export default function HomePage({user}) {
+
+  if(!user) {
+    return <PageLoader />
+  }
 
   return (
-    <Layout>
+    <Layout data={user}>
       <Container>
-        <Heading title={`Hello ${user.name}`}></Heading>
+        <Heading title={`Hello ${user?.name}`}></Heading>
 
         <Section>
           <Grid2>
             <NotificationCard
               title="REQUEST FOR QUOTATION"
-              number={user.quote_requests}
+              number={user?.quote_requests}
               icon={<HiOutlinePencilAlt className="icon" />}
             />
             <NotificationCard
               title="SHIPMENTS"
-              number={user.active_orders.length}
+              number={user?.active_orders?.length}
               icon={<IoCalendarOutline className="icon" />}
             />
           </Grid2>
@@ -45,17 +49,17 @@ export default function HomePage() {
             <Payout
               notify="0"
               value="10"
-              amount={user.payouts.riders}
+              amount={user?.payouts?.riders}
             />
-            <Deliveries />
+            {/* <Deliveries /> */}
           </Grid2>
         </Section>
 
         <Section>
           <ActiveShipments>
-            {user.active_orders.length > 0 ? (
-              user.active_orders.map((order) => (
-                <ShipmentCard key={order.id} data={order} />
+            {user?.active_orders?.length > 0 ? (
+              user?.active_orders.map((order) => (
+                <ShipmentCard key={order?.id} data={order} />
               ))
             ) : (
               <p>No active orders</p>
@@ -85,9 +89,18 @@ export async function getServerSideProps({ req }) {
     };
   }
 
+  const res = await fetch(`${API_URL}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+  
+  const data = await res.json()
+
   return {
     props: {
-      data: null,
+      user: data.data.user
     },
   };
 }

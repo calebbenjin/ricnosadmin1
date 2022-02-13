@@ -2,6 +2,7 @@ import { useState, useContext } from 'react';
 import { useRouter } from 'next/router';
 import Container from '@/components/atoms/Container';
 import Card from '@/components/atoms/Card';
+import { API_URL } from '@/lib/index';
 import {
   Button,
   Heading,
@@ -31,10 +32,8 @@ import { AiOutlinePrinter } from 'react-icons/ai';
 import { VscCalendar } from 'react-icons/vsc';
 import Link from 'next/link';
 import { parseCookies } from '@/helpers/index';
-import AuthContext from '@/context/AuthContext';
 
-export default function OfflineOrderPage({ data, token }) {
-  const { user } = useContext(AuthContext);
+export default function OfflineOrderPage({ data, token, user }) {
   const [loadingActivationToggle, setLoadingActivationToggle] = useState(false);
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
@@ -104,7 +103,7 @@ export default function OfflineOrderPage({ data, token }) {
   };
 
   return (
-    <Layout>
+    <Layout data={user}>
       <Container>
         <ToastContainer
           position="top-center"
@@ -194,7 +193,7 @@ export default function OfflineOrderPage({ data, token }) {
                 Education Data
               </Heading>
               {data.qualifications.map((edu) => (
-                <Flex alignItems="center" justifyContent="space-between" mt="4">
+                <Flex key={edu.id} alignItems="center" justifyContent="space-between" mt="4">
                   <Box width="33%">
                     <Heading size="sm" color="red">
                       Instution Attended
@@ -493,10 +492,20 @@ export async function getServerSideProps({ req, query }) {
 
   const result = await response.json();
 
+  const res = await fetch(`${API_URL}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+  
+  const userData = await res.json()
+
   return {
     props: {
       data: result.data.rider,
       token,
+      user: userData.data.user
     },
   };
 }

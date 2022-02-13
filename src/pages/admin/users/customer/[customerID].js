@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Container from '@/components/atoms/Container';
 import Card from '@/components/atoms/Card';
+import { API_URL } from '@/lib/index';
 import {
   Button,
   Heading,
@@ -32,7 +33,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Link from 'next/link';
 import { parseCookies } from '@/helpers/index';
 
-export default function OfflineOrderPage({ data, token }) {
+export default function OfflineOrderPage({ data, token, user }) {
   const [email, setEmail] = useState();
   const [phone, setPhone] = useState();
   const [loadingCreateCustomer, setLoadingCreateCustomer] = useState(false);
@@ -40,7 +41,6 @@ export default function OfflineOrderPage({ data, token }) {
 
   const router = useRouter();
 
-  console.log(data)
 
   const handleCreateCustomer = async () => {
     setLoadingCreateCustomer(true);
@@ -75,7 +75,7 @@ export default function OfflineOrderPage({ data, token }) {
   };
 
   return (
-    <Layout>
+    <Layout data={user}>
       <Container>
         <ToastContainer
           position="top-center"
@@ -90,7 +90,7 @@ export default function OfflineOrderPage({ data, token }) {
         />
         <Flex>
           <Box width={['100%', '65%']} p="1rem">
-          <Heading color="gray" mb="4">GENERAL USER</Heading>
+          <Heading color="gray" mb="4" fontSize="lg">GENERAL USER</Heading>
             <Card>
               <Box textAlign="center" my="5">
                 <Avatar
@@ -339,10 +339,20 @@ export async function getServerSideProps({ req, query }) {
 
   const result = await response.json();
 
+  const res = await fetch(`${API_URL}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+  
+  const userData = await res.json()
+
   return {
     props: {
       data: result.data.user,
       token,
+      user: userData.data.user
     },
   };
 }

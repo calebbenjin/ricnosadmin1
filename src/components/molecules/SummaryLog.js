@@ -12,21 +12,21 @@ export default function SummaryLog({ data}) {
       <div className="flex">
         <Card className="card">
           <h4>Total users</h4>
-          <h3>{data.user_count}</h3>
+          <h3>{data?.user_count}</h3>
         </Card>
         <Card className="card">
           <h4>Total Agent</h4>
-          <h3>{data.agent_count}</h3>
+          <h3>{data?.agent_count}</h3>
         </Card>
       </div>
 
       <TotalOrder>
-        <h4>Total Orders</h4> <h3>{data.order_count}</h3>{' '}
+        <h4>Total Orders</h4> <h3>{data?.order_count}</h3>{' '}
         
       </TotalOrder>
 
       <TotalOrder>
-        <h4>Total Delivery</h4> <h3>{data.total_delivery}</h3>{' '}
+        <h4>Total Delivery</h4> <h3>{data?.total_delivery}</h3>{' '}
         
       </TotalOrder>
     </Box>

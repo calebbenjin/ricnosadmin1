@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Container from '@/components/atoms/Container';
 import Card from '@/components/atoms/Card';
+import { API_URL } from '@/lib/index';
 import {
   Button,
   Heading,
@@ -29,18 +30,16 @@ import Layout from '@/components/organisms/Layout';
 import { FaShareAlt, FaLongArrowAltRight, FaUser } from 'react-icons/fa';
 import { AiOutlinePrinter } from 'react-icons/ai';
 import { VscCalendar } from 'react-icons/vsc';
-import Header from '@/components/atoms/Heading';
+// import Header from '@/components/atoms/Heading';
 import Link from 'next/link';
 import { parseCookies } from '@/helpers/index';
 
-export default function OfflineOrderPage({ data, token }) {
+export default function OfflineOrderPage({ data, token, user }) {
   const [loadingActivationToggle, setLoadingActivationToggle] = useState(false);
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
   const [loadingPasswordReset, setLoadingPasswordReset] = useState();
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-  console.log(data)
 
   const router = useRouter();
 
@@ -105,7 +104,7 @@ export default function OfflineOrderPage({ data, token }) {
   };
 
   return (
-    <Layout>
+    <Layout data={user}>
       <Container>
         <ToastContainer
           position="top-center"
@@ -385,10 +384,20 @@ export async function getServerSideProps({ req, query }) {
 
   const result = await response.json();
 
+  const res = await fetch(`${API_URL}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+  
+  const userData = await res.json()
+
   return {
     props: {
       data: result.data.staff,
       token,
+      user: userData.data.user
     },
   };
 }

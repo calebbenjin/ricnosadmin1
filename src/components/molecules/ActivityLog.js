@@ -8,13 +8,13 @@ export default function ActivityLogCard({data}) {
       <div className="header">
         <h4>Activity Log</h4>
       </div>
-      {data.Activity_logs.length > 0 ? (
+      {data?.Activity_logs?.length > 0 ? (
         data.Activity_logs.map((log) => (
           <ActiveLogCard
-            key={log.reference_id}
-            trackCode={log.reference_id}
-            status={log.action}
-            date={log.date}
+            key={log?.reference_id}
+            trackCode={log?.reference_id}
+            status={log?.action}
+            date={log?.date}
           />
         ))
       ) : (

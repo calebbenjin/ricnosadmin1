@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { API_URL } from '@/lib/index';
 import { BsPlus } from 'react-icons/bs';
 import { BiPrinter, BiSearchAlt } from 'react-icons/bi';
 import { FaListUl } from 'react-icons/fa';
@@ -10,22 +11,25 @@ import { Flex, Stack, Button, Input, InputLeftElement, InputGroup, Spinner } fro
 import Link from "next/link"
 import { parseCookies } from '@/helpers/index';
 import { adminOrders, staffOrders } from '@/helpers/orders';
-import AuthContext from "@/context/AuthContext"
 
-export default function OrdersPage({ token }) {
-  const { user } = useContext(AuthContext)
-  console.log(user)
+export default function OrdersPage({ token, user }) {
   const [q, setQ] = useState('');
   const [loading, setLoading] = useState(true);
   const [filterBtn, setFilterBtn] = useState('all');
-  const [orderData, setOrderData] = useState();
-
   
   useEffect(() => {
     setLoading(true);
     if (user.role === '1') {
       adminOrders(token).then((data) => {
-        setOrderData(data);
+        if (filterBtn === 'all') {
+          setOrderData(data);
+        } else if (filterBtn === 'pending') {
+          setOrderData(data.filter((order) => order.status === 'pending'));
+        } else if (filterBtn === 'locked down') {
+          setOrderData(data.filter((order) => order.status === 'locked down'));
+        } else if (filterBtn === 'Pending/Paid') {
+          (data.filter((order) => order.status === 'Pending/Paid'));
+        }
         setLoading(false);
       });
     } else if (user.role === '2') {
@@ -36,20 +40,25 @@ export default function OrdersPage({ token }) {
     }
   }, []);
 
+  const [orderData, setOrderData] = useState();
+  
+
+  console.log(orderData)
+
   // useEffect(() => {
   //   if (filterBtn === 'all') {
-  //     setQuoteData(data);
+  //     setOrderData(data);
   //   } else if (filterBtn === 'pending') {
-  //     setQuoteData(data.filter((order) => order.status === 'pending'));
+  //     setOrderData(data.filter((order) => order.status === 'pending'));
   //   } else if (filterBtn === 'locked down') {
-  //     setQuoteData(data.filter((order) => order.status === 'locked down'));
+  //     setOrderData(data.filter((order) => order.status === 'locked down'));
   //   } else if (filterBtn === 'Pending/Paid') {
   //     (data.filter((order) => order.status === 'Pending/Paid'));
   //   }
   // }, [filterBtn]);
 
   return (
-    <Layout>
+    <Layout data={user}>
       <Container>
         <Heading title="My Orders" icon={<FaListUl />}>
           <Stack spacing={4} direction='row' align='center'>
@@ -109,9 +118,20 @@ export async function getServerSideProps({ req }) {
     };
   }
 
+
+  const res = await fetch(`${API_URL}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+  
+  const data = await res.json()
+
   return {
     props: {
-      token,
+      user: data.data.user, 
+      token
     },
   };
 }

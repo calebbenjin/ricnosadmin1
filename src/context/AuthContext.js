@@ -32,8 +32,9 @@ export const AuthProvider = ({ children }) => {
 
     if (res.ok) {
       setUser(data);
-      setIsLoading(false);
-      router.push('/admin/');
+      // console.log(data)
+      router.push('/admin');
+      // setIsLoading(false);
     } else {
       setIsLoading(false);
       setIsError(data.message);
@@ -45,22 +46,27 @@ export const AuthProvider = ({ children }) => {
   // ================================================
   const checkUserLoggedIn = async () => {
     setInitialLoading(true);
-
-    try {
-      const res = await fetch(`${NEXT_URL}/api/admin`);
+      const res = await fetch(`${NEXT_URL}/api/user`);
       const data = await res.json();
-      setUser(data.user.data.user);
-      setInitialLoading(false);
-    } catch (error) {
-      fetch(`${NEXT_URL}/api/logout`, {
-        method: 'POST',
-      })
-        .then((res) => {
-          setUser(null);
-          setInitialLoading(false);
-        })
-        .catch((err) => console.error('Error removing bad token'));
-    }
+
+      // console.log(data)
+
+      if(res.ok) {
+        setUser(data.user.data.user);
+      } else {
+
+        setUser(null);
+      }
+
+      // setInitialLoading(false);
+      // fetch(`${NEXT_URL}/api/logout`, {
+      //   method: 'POST',
+      // })
+      //   .then((res) => {
+      //     setInitialLoading(false);
+      //   })
+      //   .catch((err) => console.error('Error removing bad token'));
+  
   };
 
   // Logout user
@@ -90,7 +96,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{ user, isError, isStaff, isLoading, login, logout }}>
-      {initialLoading ? <PageLoader /> : children}
+      {children}
     </AuthContext.Provider>
   );
 };

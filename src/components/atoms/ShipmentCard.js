@@ -22,10 +22,10 @@ export default function ShipmentCard({ data }) {
             <h4>Pick up</h4>
           </div>
           <div className="body">
-            <h4>{data.display_item}</h4>
-            <h4>{data.quantity}</h4>
-            <h4>NGN{data.amount}</h4>
-            <h4>{data.destination}</h4>
+            <h4>{data?.display_item}</h4>
+            <h4>{data?.quantity}</h4>
+            <h4>NGN{data?.amount}</h4>
+            <h4>{data?.destination}</h4>
           </div>
         </div>
         <ButtonLink href='/admin/orders'>View</ButtonLink>

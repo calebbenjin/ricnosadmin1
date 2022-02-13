@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { API_URL } from '@/lib/index';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Button } from '@chakra-ui/react';
@@ -8,7 +8,7 @@ import { AiOutlinePlus } from 'react-icons/ai';
 import TicketChat from '@/components/organisms/TicketChat';
 import { parseCookies } from '@/helpers/index';
 
-export default function SupportPage({ openTickets, closedTickets, token }) {
+export default function SupportPage({ openTickets, closedTickets, token, user }) {
 
   const handleTicket = () => {
     setShowLiveChat(false);
@@ -20,8 +20,10 @@ export default function SupportPage({ openTickets, closedTickets, token }) {
     setShowLiveChat(true);
   };
 
+  console.log(user)
+
   return (
-    <Layout>
+    <Layout data={user}>
       <ToastContainer
         position="top-center"
         autoClose={8000}
@@ -84,11 +86,21 @@ export async function getServerSideProps({ req }) {
   const resultOpenTickets = await openTicketsResponse.json();
   const resultClosedTickets = await closedTicketsResponse.json();
 
+  const res = await fetch(`${API_URL}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+  
+  const data = await res.json()
+
   return {
     props: {
       openTickets: resultOpenTickets.data.supports,
       closedTickets: resultClosedTickets.data.supports,
       token,
+      user: data.data.user
     },
   };
 }

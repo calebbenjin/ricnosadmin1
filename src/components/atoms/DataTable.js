@@ -4,6 +4,10 @@ import Link from 'next/link';
 export default function DataTable({ data }) {
   const columns = data[0] && Object.keys(data[0]);
 
+  const formatMoney = (n) => {
+    return "NGN " + (Math.round(n * 100) / 100).toLocaleString();
+  }
+
   return (
     <div className="resTable">
       <table cellPadding={0} cellSpacing={0}>
@@ -52,7 +56,8 @@ export default function DataTable({ data }) {
               ) : (
                 <td style={{ color: 'green' }}>{order.status}</td>
               )}
-              <td>NGN {order.amount}</td>
+              {/* <td>NGN {order.amount}</td> */}
+              <td>{formatMoney(order.amount )}</td>
               <td>
                 <Link href={`orders/${order.id}`}>
                   <a>View</a>

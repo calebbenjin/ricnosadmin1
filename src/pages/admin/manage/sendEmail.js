@@ -76,19 +76,16 @@ export default function ManageSite() {
         <hr />
 
         <Flex my="10" h="60vh">
-          <Box width="30%">
-            <Box px="5"  style={{overflowX: "scroll", borderRight: "solid 1px #cccc"}}>
-              <Heading size="sm" color="gray">Send email</Heading>
-              <Heading size="md" my="5">Recipients</Heading>
+          <Box width="30%" px="5"  style={{overflowX: "scroll", borderRight: "solid 1px #cccc"}}>
+            <Heading size="sm" color="gray">Send email</Heading>
+            <Heading size="md" my="5">Recipients</Heading>
 
-              {data.map(users => (
-                <Box key={users.id} bg="white" mb="4" _focus={{paddingLeft: "solid 10px red"}} borderRadius="lg" shadow="lg" p="4" style={{borderLeft: "solid 10px #cccc", cursor: "pointer"}}>
-                  <Heading size="sm">{users.user}</Heading>
-                  <Text color="gray">{users.number} user</Text>
-                </Box>
-              ))}
-            </Box>
-            <Button colorScheme="red" mt="6" mb="10" size="md" px="10">Preview Email</Button>
+            {data.map(users => (
+              <Box key={users.id} bg="white" mb="4" _focus={{paddingLeft: "solid 10px red"}} borderRadius="lg" shadow="lg" p="4" style={{borderLeft: "solid 10px #cccc", cursor: "pointer"}}>
+                <Heading size="sm">{users.user}</Heading>
+                <Text color="gray">{users.number} user</Text>
+              </Box>
+            ))}
           </Box>
           <Box width="70%" px="5">
             <Heading size="md" mb="5">Content</Heading>

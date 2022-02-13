@@ -5,10 +5,8 @@ import { FaBell, FaEnvelope } from 'react-icons/fa';
 import Link from 'next/link';
 import UserAvatar from './UserAvatar';
 import Dropdown from './Dropdown';
-import AuthContext from '@/context/AuthContext';
 
-export default function Navbar() {
-  const { user } = useContext(AuthContext);
+export default function Navbar({ data }) {
 
   return (
     <Nav>
@@ -30,13 +28,11 @@ export default function Navbar() {
             </Link>
             <div className="avatar">
               <div className="userInfo">
-                <h4>{user.name}</h4>
-                <p>{user.email}</p>
+                <h4>{data?.name || data?.order?.sender_detail?.name}</h4>
+                <p>{data?.email || data?.order?.sender_detail?.email}</p>
               </div>
               <UserAvatar
-                // userTitle={user.name}
-                // userName={user.name}
-                image="https://bit.ly/ryan-florence"
+                image={data?.passport || data?.order?.sender_detail?.passport}
                 size="md"
               />
               <Dropdown />

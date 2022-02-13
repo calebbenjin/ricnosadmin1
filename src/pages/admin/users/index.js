@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Grid, Select, Flex, Stack, Button, Input, InputLeftElement, InputGroup } from '@chakra-ui/react';
 import { FaUsers } from 'react-icons/fa';
+import { API_URL } from '@/lib/index';
 import { BiPrinter, BiSearchAlt } from 'react-icons/bi';
+import * as dayjs from 'dayjs';
 import { ToastContainer } from 'react-toastify';
 import NewCustomerModal from '@/components/organisms/NewCustomerModal';
 import NewStaffModal from '@/components/organisms/NewStaffModal';
@@ -12,9 +14,8 @@ import Layout from '@/components/organisms/Layout';
 import styled from 'styled-components';
 import Link from 'next/link';
 import { parseCookies } from '@/helpers/index';
-import AuthContext from '@/context/AuthContext';
 
-export default function UsersPage({ data, branches, token }) {
+export default function UsersPage({ data, branches, token, user }) {
   const [q, setQ] = useState('');
   const [filterBtn, setFilterBtn] = useState('All');
   const [usersData, setUsersData] = useState([
@@ -22,10 +23,6 @@ export default function UsersPage({ data, branches, token }) {
     ...data.users,
     ...data.staffs,
   ]);
-
-  const { user } = useContext(AuthContext);
-
-  const columns = data[0] && Object.keys(data[0]);
 
   useEffect(() => {
     if (filterBtn === 'All') {
@@ -40,7 +37,7 @@ export default function UsersPage({ data, branches, token }) {
   }, [filterBtn]);
 
   return (
-    <Layout>
+    <Layout data={user}>
       <Container>
         <ToastContainer
           position="top-center"
@@ -116,7 +113,7 @@ export default function UsersPage({ data, branches, token }) {
                 <td>{user.full_name}</td>
                 <td>{user.department}</td>
                 <td>{user.email}</td>
-                <td>{user.reg_date}</td>
+                <td>{dayjs(user.reg_date).format('DD/MM/YYYY h:m')}</td>
                 <td>{user.last_activity}</td>
                 {user.status === 'active' ? (
                   <td style={{ color: 'green' }}>{user.status}</td>
@@ -184,11 +181,21 @@ export async function getServerSideProps({ req }) {
   const result = await response.json();
   const resultBranch = await responseBranch.json();
 
+  const res = await fetch(`${API_URL}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+  
+  const userData = await res.json()
+
   return {
     props: {
       data: result.data,
       branches: resultBranch.data.branches,
       token,
+      user: userData.data.user
     },
   };
 }

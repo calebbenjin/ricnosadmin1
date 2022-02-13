@@ -1,10 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
+import * as dayjs from 'dayjs';
 
 export default function QuoteTable({ data }) {
   const columns = data[0] && Object.keys(data[0]);
-
-  console.log(data)
 
   return (
     <div className="resTable">
@@ -36,11 +35,11 @@ export default function QuoteTable({ data }) {
           {data.map((quote) => (
             <tr key={quote.id}>
               <td></td>
-              {/* <td>{quote.quoteNumber}</td> */}
-              <td>{quote.name}</td>
-              <td>{quote.email}</td>
-              <td>{quote.phone}</td>
-              <td>{quote.created_at}</td>
+              <td>{quote.quoteNumber}</td>
+              <td>{quote?.name}</td>
+              <td>{quote?.email}</td>
+              <td>{quote?.phone}</td>
+              <td>{dayjs(quote.created_at).format('DD/MM/YYYY')}</td>
               <td>
                 <Link href={`quote/${quote.id}`}>
                   <a>View</a>

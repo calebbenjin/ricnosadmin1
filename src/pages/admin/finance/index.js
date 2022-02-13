@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_URL } from '@/lib/index';
 import { FaListUl } from 'react-icons/fa';
 import { BiPrinter, BiSearchAlt } from 'react-icons/bi';
 import Container from '@/components/atoms/Container';
@@ -8,7 +9,7 @@ import Layout from '@/components/organisms/Layout';
 import { parseCookies } from '@/helpers/index';
 import { Flex, Stack, Button, Input, InputLeftElement, InputGroup } from "@chakra-ui/react"
 
-export default function FinancePage({ data }) {
+export default function FinancePage({ data, user }) {
   const [q, setQ] = useState('');
   const [filterBtn, setFilterBtn] = useState(['all']);
   const [orderData, setOrderData] = useState(data);
@@ -27,7 +28,7 @@ export default function FinancePage({ data }) {
 
 
   return (
-    <Layout>
+    <Layout data={user}>
       <Container>
       <Heading title="My Finance" icon={<FaListUl />} />
         <Flex>
@@ -80,9 +81,19 @@ export async function getServerSideProps({ req }) {
 
   const result = await response.json();
 
+  const res = await fetch(`${API_URL}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+  
+  const userData = await res.json()
+
   return {
     props: {
       data: result.data.withdrawal_requests,
+      user: userData.data.user
     },
   };
 }

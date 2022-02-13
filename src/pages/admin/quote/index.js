@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { FaListUl } from 'react-icons/fa'
+import { API_URL } from '@/lib/index';
 import Container from '@/components/atoms/Container'
 import Heading from '@/components/atoms/Heading'
 import QuoteTable from '@/components/atoms/QuoteTable'
@@ -9,11 +10,12 @@ import { Flex, Stack, Button, Input, InputLeftElement, InputGroup } from '@chakr
 import { parseCookies } from '@/helpers/index';
 
 
-export default function QuoteRequestPage({ data }) {
+export default function QuoteRequestPage({ data, user }) {
   const [q, setQ] = useState('');
   const [filterBtn, setFilterBtn] = useState(['all']);
   const [quoteData, setQuoteData] = useState(data);
 
+  console.log(data)
 
   useEffect(() => {
     if (filterBtn === 'all') {
@@ -28,7 +30,7 @@ export default function QuoteRequestPage({ data }) {
   }, [filterBtn]);
 
   return (
-    <Layout>
+    <Layout data={user}>
       <Container>
         <Heading title="Quote Requests" icon={<FaListUl />} />
         <Flex>
@@ -85,9 +87,19 @@ export async function getServerSideProps({ req }) {
 
   const result = await response.json();
 
+  const res = await fetch(`${API_URL}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+  
+  const userData = await res.json()
+
   return {
     props: {
       data: result.data.quotes,
+      user: userData.data.user
     },
   };
 }

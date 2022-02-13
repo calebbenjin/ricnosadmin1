@@ -9,11 +9,12 @@ import UpdateVehicleModal from '@/components/organisms/UpdateVehicleModal';
 import UpdateItemWeightModal from '@/components/organisms/UpdateItemWeightModal';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { AiOutlinePlus } from 'react-icons/ai';
-import { FaTh } from 'react-icons/fa';
-import { BiSearchAlt2, BiPencil } from 'react-icons/bi';
-import { BsArrowLeftRight } from 'react-icons/bs';
-import Header from '@/components/atoms/Heading';
+// import { AiOutlinePlus } from 'react-icons/ai';
+import { API_URL } from '@/lib/index';
+// import { FaTh } from 'react-icons/fa';
+// import { BiSearchAlt2, BiPencil } from 'react-icons/bi';
+// import { BsArrowLeftRight } from 'react-icons/bs';
+// import Header from '@/components/atoms/Heading';
 import {
   Heading,
   Box,
@@ -37,6 +38,7 @@ export default function ManageSite({
   vehicles,
   itemWeights,
   token,
+  user
 }) {
   const [branchName, setBranchName] = useState();
   const [branchAddress, setBranchAddress] = useState();
@@ -403,7 +405,7 @@ export default function ManageSite({
   };
 
   return (
-    <Layout>
+    <Layout data={user}>
       <Container>
         <ToastContainer
           position="top-center"
@@ -441,7 +443,7 @@ export default function ManageSite({
               >
                 <Link href="/admin/manage/upload">Upload Data</Link>
               </Button>
-              <Button
+              {/* <Button
                 _focus={{ color: 'red' }}
                 color="gray"
                 fontWeight="bold"
@@ -449,7 +451,7 @@ export default function ManageSite({
                 variant="ghost"
               >
                 <Link href="/admin/manage/sendEmail">Email Message</Link>
-              </Button>
+              </Button> */}
             </Flex>
           </Stack>
         </Flex>
@@ -1192,6 +1194,17 @@ export async function getServerSideProps({ req }) {
   const resultVehicles = await responseVehicles.json();
   const resultItemWeights = await responseItemWeights.json();
 
+
+  const res = await fetch(`${API_URL}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+  
+  const userData = await res.json()
+
+
   return {
     props: {
       routes: result.data.shipment_routes,
@@ -1200,6 +1213,7 @@ export async function getServerSideProps({ req }) {
       vehicles: resultVehicles.data.vehicles,
       itemWeights: resultItemWeights.data.item_weights,
       token,
+      user: userData.data.user
     },
   };
 }

@@ -21,13 +21,7 @@ const admin = async (req, res) => {
     };
 
 
-    const apiRes = await fetch(`${API_URL}`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: 'application/json'
-      },
-    });
+    const apiRes = await fetch(`${API_URL}`, requestOptions);
 
     const user = await apiRes.json();
 

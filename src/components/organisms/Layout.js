@@ -13,7 +13,7 @@ export default function Layout({ data, keywords, description, title, children })
         <meta name='keywords' content={keywords} />
       </Head>
       <Main>
-        <Sidebar />
+        <Sidebar data={data} />
         <MainView>
           <Navbar data={data} />
           {children}

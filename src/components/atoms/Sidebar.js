@@ -11,7 +11,8 @@ import { RiWifiOffLine } from 'react-icons/ri'
 
 
 
-export default function Sidebar() {
+export default function Sidebar({data}) {
+
   return (
     <SideView>
       <Container>
@@ -45,6 +46,7 @@ export default function Sidebar() {
             <FaUserTie className='icon' /> Quote Request
           </a>
         </Link>
+        <hr />
         <Link href='/admin/offline'>
           <a className='navLink'>
             <RiWifiOffLine className='icon' /> Offline Order
@@ -55,12 +57,11 @@ export default function Sidebar() {
             <FaUsers className='icon' /> Users
           </a>
         </Link>
-        <hr />
-        <Link href='/admin/manage'>
+        {data.role === '1' ? <Link href='/admin/manage'>
           <a className='navLink'>
             <FaTh className='icon' /> Manage site
           </a>
-        </Link>
+        </Link> : null}
         <Link href='/admin/settings'>
           <a className='navLink'>
             <FiSettings className='icon' /> Settings

@@ -57,16 +57,6 @@ export const AuthProvider = ({ children }) => {
 
         setUser(null);
       }
-
-      // setInitialLoading(false);
-      // fetch(`${NEXT_URL}/api/logout`, {
-      //   method: 'POST',
-      // })
-      //   .then((res) => {
-      //     setInitialLoading(false);
-      //   })
-      //   .catch((err) => console.error('Error removing bad token'));
-  
   };
 
   // Logout user

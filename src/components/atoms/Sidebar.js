@@ -57,7 +57,7 @@ export default function Sidebar({data}) {
             <FaUsers className='icon' /> Users
           </a>
         </Link>
-        {data.role === '1' ? <Link href='/admin/manage'>
+        {data?.role === '1' ? <Link href='/admin/manage'>
           <a className='navLink'>
             <FaTh className='icon' /> Manage site
           </a>

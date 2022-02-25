@@ -8,6 +8,8 @@ const admin = async (req, res) => {
       return;
     }
 
+    const { token } = cookie.parse(req.headers.cookie);
+
     var myHeaders = new Headers();
     myHeaders.append('Accept', 'application/json');
     myHeaders.append('Authorization', `Bearer ${token}`);
@@ -18,9 +20,14 @@ const admin = async (req, res) => {
       redirect: 'follow',
     };
 
-    const { token } = cookie.parse(req.headers.cookie);
 
-    const apiRes = await fetch(`${API_URL}`, requestOptions);
+    const apiRes = await fetch(`${API_URL}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json'
+      },
+    });
 
     const user = await apiRes.json();
 

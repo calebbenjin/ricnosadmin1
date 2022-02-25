@@ -10,10 +10,22 @@ const admin = async (req, res) => {
 
     const { token } = cookie.parse(req.headers.cookie);
 
+    var myHeaders = new Headers();
+    myHeaders.append('Accept', 'application/json');
+    myHeaders.append('Authorization', `Bearer ${token}`);
+
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow',
+    };
+
+
     const apiRes = await fetch(`${API_URL}`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,
+        Accept: 'application/json'
       },
     });
 

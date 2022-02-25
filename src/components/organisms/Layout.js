@@ -24,34 +24,6 @@ export default function Layout({ data, keywords, description, title, children })
   )
 }
 
-
-// export async function getServerSideProps({ req }) {
-//   const { token } = parseCookies(req);
-//   if (!token) {
-//     return {
-//       redirect: {
-//         destination: '/',
-//         permanent: false,
-//       },
-//     };
-//   }
-
-//   const res = await fetch(`${API_URL}`, {
-//     method: 'GET',
-//     headers: {
-//       Authorization: `Bearer ${token}`
-//     }
-//   })
-  
-//   const data = await res.json()
-
-//   return {
-//     props: {
-//       user: data.data.user
-//     },
-//   };
-// }
-
 Layout.defaultProps = {
   title: 'Ricnos Logistic',
   description: 'Ricnos Logistic',

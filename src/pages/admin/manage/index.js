@@ -643,12 +643,7 @@ export async function getServerSideProps({ req }) {
   const result = await response.json();
   const resultSetting = await responseSettings.json();
 
-  const res = await fetch(`${API_URL}`, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  })
+  const res = await fetch(`${API_URL}`, requestOptions)
   
   const userData = await res.json()
 

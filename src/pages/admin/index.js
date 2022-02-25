@@ -89,12 +89,16 @@ export async function getServerSideProps({ req }) {
     };
   }
 
-  const res = await fetch(`${API_URL}`, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  })
+  var myHeaders = new Headers();
+    myHeaders.append('Accept', 'application/json');
+    myHeaders.append('Authorization', `Bearer ${token}`);
+
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+    };
+
+  const res = await fetch(`${API_URL}`, requestOptions)
   
   const data = await res.json()
 

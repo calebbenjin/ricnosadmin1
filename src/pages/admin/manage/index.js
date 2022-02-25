@@ -90,8 +90,7 @@ export default function ManageSite({ supportCategory, siteSettings, token, user 
       redirect: 'follow',
     };
 
-    const request = await fetch(
-      'https://alpha.ricnoslogistics.com/api/admin/update_settings',
+    const request = await fetch(`${API_URL}/update_settings`,
       requestOptions
     );
 
@@ -126,8 +125,7 @@ export default function ManageSite({ supportCategory, siteSettings, token, user 
       redirect: 'follow',
     };
 
-    const request = await fetch(
-      'https://alpha.ricnoslogistics.com/api/admin/create_support_category',
+    const request = await fetch(`${API_URL}/create_support_category`,
       requestOptions
     );
 
@@ -634,13 +632,11 @@ export async function getServerSideProps({ req }) {
     redirect: 'follow',
   };
 
-  const response = await fetch(
-    'https://alpha.ricnoslogistics.com/api/admin/support_categories',
+  const response = await fetch(`${API_URL}/support_categories`,
     requestOptions
   );
 
-  const responseSettings = await fetch(
-    'https://alpha.ricnoslogistics.com/api/admin/site_setting',
+  const responseSettings = await fetch(`${API_URL}/site_setting`,
     requestOptions
   );
 

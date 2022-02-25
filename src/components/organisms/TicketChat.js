@@ -1,18 +1,18 @@
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { toast } from 'react-toastify';
-import { AiOutlineFileZip } from 'react-icons/ai';
-import { FaRegUser } from 'react-icons/fa';
-import Link from 'next/link';
-import Image from 'next/image';
-import userImg from '@/assets/user4.jpg';
-import { MdAttachFile } from 'react-icons/md';
-import { RiSendPlaneFill } from 'react-icons/ri';
-import styles from '@/styles/support/Support.module.css';
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import { toast } from "react-toastify";
+import { AiOutlineFileZip } from "react-icons/ai";
+import { FaRegUser } from "react-icons/fa";
+import Link from "next/link";
+import Image from "next/image";
+import userImg from "@/assets/user4.jpg";
+import { MdAttachFile } from "react-icons/md";
+import { RiSendPlaneFill } from "react-icons/ri";
+import styles from "@/styles/support/Support.module.css";
 
 export default function TicketChatPage({ openTickets, closedTickets, token }) {
   const [ticketsData, setTicketsData] = useState(openTickets);
-  const [ticketStatus, setTicketStatus] = useState('open');
+  const [ticketStatus, setTicketStatus] = useState("open");
   const [selectedTicket, setSelectedTicket] = useState(null);
   const [sendingMessage, setSendingMessage] = useState(false);
   const [messageBody, setMessageBody] = useState();
@@ -20,27 +20,28 @@ export default function TicketChatPage({ openTickets, closedTickets, token }) {
   const router = useRouter();
 
   useEffect(() => {
-    if (ticketStatus === 'open') {
+    if (ticketStatus === "open") {
       setTicketsData(openTickets);
-    } else if (ticketStatus === 'closed') {
+    } else if (ticketStatus === "closed") {
       setTicketsData(closedTickets);
     }
   }, [ticketStatus]);
 
-  const handleTicketResponse = async (ticketNo) => {
+  const handleTicketResponse = async (e, ticketNo) => {
+    e.preventDefault();
     setSendingMessage(true);
     var myHeaders = new Headers();
-    myHeaders.append('Accept', 'application/json');
-    myHeaders.append('Authorization', `Bearer ${token}`);
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Authorization", `Bearer ${token}`);
 
     var formdata = new FormData();
-    formdata.append('body', messageBody);
+    formdata.append("body", messageBody);
 
     var requestOptions = {
-      method: 'POST',
+      method: "POST",
       headers: myHeaders,
       body: formdata,
-      redirect: 'follow',
+      redirect: "follow",
     };
 
     const request = await fetch(
@@ -51,8 +52,9 @@ export default function TicketChatPage({ openTickets, closedTickets, token }) {
     const response = await request.json();
 
     if (response.success) {
+      setMessageBody("");
       toast.success(response.message);
-      router.reload(window.location.pathname);
+      // router.reload(window.location.pathname);
     } else {
       toast.error(response.message);
     }
@@ -109,7 +111,7 @@ export default function TicketChatPage({ openTickets, closedTickets, token }) {
                 <ul>
                   {selectedTicket.discussions.map((discuss) => (
                     <div key={discuss.id}>
-                      {discuss.from === '0' ? (
+                      {discuss.from === "0" ? (
                         <li className={styles.chatContainer}>
                           <Image
                             src={discuss.photo ? discuss.photo : userImg}
@@ -145,7 +147,9 @@ export default function TicketChatPage({ openTickets, closedTickets, token }) {
             </div>
             <div className={styles.messageChat}>
               <form
-                onSubmit={() => handleTicketResponse(selectedTicket.ticket_no)}
+                onSubmit={(e) =>
+                  handleTicketResponse(e, selectedTicket.ticket_no)
+                }
               >
                 <textarea
                   value={messageBody}

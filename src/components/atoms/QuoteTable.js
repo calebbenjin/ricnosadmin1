@@ -1,6 +1,6 @@
-import React from 'react';
-import Link from 'next/link';
-import * as dayjs from 'dayjs';
+import React from "react";
+import Link from "next/link";
+// import * as dayjs from 'dayjs';
 
 export default function QuoteTable({ data }) {
   const columns = data[0] && Object.keys(data[0]);
@@ -11,9 +11,9 @@ export default function QuoteTable({ data }) {
         <thead>
           <tr>
             <th data-label="Date" scope="col"></th>
-            {/* <th data-label='Date' scope='col'>
+            <th data-label="Date" scope="col">
               Quote Number
-            </th> */}
+            </th>
             <th data-label="Date" scope="col">
               Fullname
             </th>
@@ -39,7 +39,7 @@ export default function QuoteTable({ data }) {
               <td>{quote?.name}</td>
               <td>{quote?.email}</td>
               <td>{quote?.phone}</td>
-              <td>{dayjs(quote.created_at).format('DD/MM/YYYY')}</td>
+              <td>{quote.created_at}</td>
               <td>
                 <Link href={`quote/${quote.id}`}>
                   <a>View</a>

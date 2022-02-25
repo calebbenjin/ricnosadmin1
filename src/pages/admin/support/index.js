@@ -1,15 +1,19 @@
-import { API_URL } from '@/lib/index';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { Button } from '@chakra-ui/react';
-import Layout from '@/components/organisms/Layout';
-import styles from '@/styles/support/Support.module.css';
-import { AiOutlinePlus } from 'react-icons/ai';
-import TicketChat from '@/components/organisms/TicketChat';
-import { parseCookies } from '@/helpers/index';
+import { API_URL } from "@/lib/index";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Button } from "@chakra-ui/react";
+import Layout from "@/components/organisms/Layout";
+import styles from "@/styles/support/Support.module.css";
+import { AiOutlinePlus } from "react-icons/ai";
+import TicketChat from "@/components/organisms/TicketChat";
+import { parseCookies } from "@/helpers/index";
 
-export default function SupportPage({ openTickets, closedTickets, token, user }) {
-
+export default function SupportPage({
+  openTickets,
+  closedTickets,
+  token,
+  user,
+}) {
   const handleTicket = () => {
     setShowLiveChat(false);
     setShowTicket(true);
@@ -20,7 +24,7 @@ export default function SupportPage({ openTickets, closedTickets, token, user })
     setShowLiveChat(true);
   };
 
-  console.log(user)
+  // console.log(user)
 
   return (
     <Layout data={user}>
@@ -57,29 +61,29 @@ export async function getServerSideProps({ req }) {
   if (!token) {
     return {
       redirect: {
-        destination: '/',
+        destination: "/",
         permanent: false,
       },
     };
   }
 
   var myHeaders = new Headers();
-  myHeaders.append('Accept', 'application/json');
-  myHeaders.append('Authorization', `Bearer ${token}`);
+  myHeaders.append("Accept", "application/json");
+  myHeaders.append("Authorization", `Bearer ${token}`);
 
   var requestOptions = {
-    method: 'GET',
+    method: "GET",
     headers: myHeaders,
-    redirect: 'follow',
+    redirect: "follow",
   };
 
   const openTicketsResponse = await fetch(
-    'https://alpha.ricnoslogistics.com/api/support/all_open_tickets',
+    "https://alpha.ricnoslogistics.com/api/support/all_open_tickets",
     requestOptions
   );
 
   const closedTicketsResponse = await fetch(
-    'https://alpha.ricnoslogistics.com/api/support/all_closed_tickets',
+    "https://alpha.ricnoslogistics.com/api/support/all_closed_tickets",
     requestOptions
   );
 
@@ -87,20 +91,20 @@ export async function getServerSideProps({ req }) {
   const resultClosedTickets = await closedTicketsResponse.json();
 
   const res = await fetch(`${API_URL}`, {
-    method: 'GET',
+    method: "GET",
     headers: {
-      Authorization: `Bearer ${token}`
-    }
-  })
-  
-  const data = await res.json()
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const data = await res.json();
 
   return {
     props: {
       openTickets: resultOpenTickets.data.supports,
       closedTickets: resultClosedTickets.data.supports,
       token,
-      user: data.data.user
+      user: data.data.user,
     },
   };
 }

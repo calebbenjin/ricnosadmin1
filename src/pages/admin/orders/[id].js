@@ -1,19 +1,21 @@
-import { useContext, useState, useEffect } from 'react'
-import Container from '@/components/atoms/Container';
-import { API_URL } from '@/lib/index';
-import Layout from '@/components/organisms/Layout';
-import styled from 'styled-components';
-import Card from '@/components/atoms/Card';
-import UserCardInfo from '@/components/molecules/UserCardInfo';
-import Logs from '@/components/molecules/Logs';
-import { Button, Flex, Box, Heading, Text, Select } from '@chakra-ui/react';
-import Logo from '@/components/atoms/Logo';
-import logo from '@/assets/logo1.svg';
-import Image from 'next/image';
-import { parseCookies } from '@/helpers/index';
-import { useRouter } from 'next/router';
+import { useContext, useState, useEffect } from "react";
+import Container from "@/components/atoms/Container";
+import { API_URL } from "@/lib/index";
+import Layout from "@/components/organisms/Layout";
+import styled from "styled-components";
+import Card from "@/components/atoms/Card";
+import UserCardInfo from "@/components/molecules/UserCardInfo";
+import Logs from "@/components/molecules/Logs";
+import { Button, Flex, Box, Heading, Text, Select } from "@chakra-ui/react";
+import Logo from "@/components/atoms/Logo";
+import logo from "@/assets/logo1.svg";
+import Image from "next/image";
+import { parseCookies } from "@/helpers/index";
+import { useRouter } from "next/router";
+import AuthContext from "@/context/AuthContext";
 
 export default function OrdersPage({ data, token }) {
+  const { user } = useContext(AuthContext);
   const [selectedRider, setSelectedRider] = useState(null);
   const [loadingDrop, setLoadingDrop] = useState(false);
   const [loadingDelivery, setLoadingDelivery] = useState(false);
@@ -24,13 +26,13 @@ export default function OrdersPage({ data, token }) {
   const handleOfficeDrop = async () => {
     setLoadingDrop(true);
     var myHeaders = new Headers();
-    myHeaders.append('Accept', 'application/json');
-    myHeaders.append('Authorization', `Bearer ${token}`);
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Authorization", `Bearer ${token}`);
 
     var requestOptions = {
-      method: 'GET',
+      method: "GET",
       headers: myHeaders,
-      redirect: 'follow',
+      redirect: "follow",
     };
 
     const response = await fetch(
@@ -51,13 +53,13 @@ export default function OrdersPage({ data, token }) {
   const handleConfirmDelivery = async () => {
     setLoadingConfirmDelivery(true);
     var myHeaders = new Headers();
-    myHeaders.append('Accept', 'application/json');
-    myHeaders.append('Authorization', `Bearer ${token}`);
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Authorization", `Bearer ${token}`);
 
     var requestOptions = {
-      method: 'GET',
+      method: "GET",
       headers: myHeaders,
-      redirect: 'follow',
+      redirect: "follow",
     };
 
     const response = await fetch(
@@ -78,13 +80,13 @@ export default function OrdersPage({ data, token }) {
   const handleAssignDeliveryAgent = async () => {
     setLoadingDelivery(false);
     var myHeaders = new Headers();
-    myHeaders.append('Accept', '');
-    myHeaders.append('Authorization', `Bearer ${token}`);
+    myHeaders.append("Accept", "");
+    myHeaders.append("Authorization", `Bearer ${token}`);
 
     var requestOptions = {
-      method: 'GET',
+      method: "GET",
       headers: myHeaders,
-      redirect: 'follow',
+      redirect: "follow",
     };
 
     const response = await fetch(
@@ -103,7 +105,7 @@ export default function OrdersPage({ data, token }) {
   };
 
   return (
-    <Layout data={data}>
+    <Layout data={user}>
       <Container>
         <Header>
           <h2 className="orderId">Orders #{data?.order?.tracking_id}</h2>
@@ -370,20 +372,22 @@ export default function OrdersPage({ data, token }) {
                   <p>No pickup agent assigned</p>
                 )}
 
-                {(data.order.integer_status === '2' ||
-                  data.order.integer_status === '3' ||
-                  data.order.integer_status === '6' ||
-                  data.order.integer_status === '5' ||
-                  data.order.integer_status === '7' ||
-                  data.order.integer_status === '4' ||
-                  data.order.integer_status === '1') && (
+                {(data.order.integer_status === "2" ||
+                  data.order.integer_status === "3" ||
+                  data.order.integer_status === "6" ||
+                  data.order.integer_status === "5" ||
+                  data.order.integer_status === "7" ||
+                  data.order.integer_status === "4" ||
+                  data.order.integer_status === "1") && (
                   <UserCardInfo
                     title="Pickup Agent"
                     img={data?.order?.admins?.pickup_agent?.passport}
                     username={data?.order?.admins?.pickup_agent?.name}
                     orders={data?.order?.admins?.pickup_agent?.orders}
                     url="/"
-                    phone={data?.order?.admins?.pickup_agent?.contact_info?.phone}
+                    phone={
+                      data?.order?.admins?.pickup_agent?.contact_info?.phone
+                    }
                     address={
                       data?.order?.admins?.pickup_agent?.contact_info?.address
                     }
@@ -395,7 +399,7 @@ export default function OrdersPage({ data, token }) {
                 )}
               </Box>
               <Box my="4">
-                {data?.order?.integer_status === '4' && (
+                {data?.order?.integer_status === "4" && (
                   <>
                     <Select
                       value={selectedRider}
@@ -420,9 +424,9 @@ export default function OrdersPage({ data, token }) {
                   </>
                 )}
 
-                {(data?.order?.integer_status === '5' ||
-                  data?.order?.integer_status === '7' ||
-                  data?.order?.integer_status === '1') && (
+                {(data?.order?.integer_status === "5" ||
+                  data?.order?.integer_status === "7" ||
+                  data?.order?.integer_status === "1") && (
                   <UserCardInfo
                     title="Delivery Agent"
                     img={data?.order?.admins?.delivery_agent?.passport}
@@ -442,7 +446,7 @@ export default function OrdersPage({ data, token }) {
               </Box>
 
               <Logs trackerData={data?.order?.trackers} />
-              
+
               <Box mt="10">
                 <Card>
                   <Flex alignItems="center" mt="4">
@@ -553,20 +557,20 @@ export async function getServerSideProps({ req, query }) {
   if (!token) {
     return {
       redirect: {
-        destination: '/',
+        destination: "/",
         permanent: false,
       },
     };
   }
 
   var myHeaders = new Headers();
-  myHeaders.append('Accept', 'application/json');
-  myHeaders.append('Authorization', `Bearer ${token}`);
+  myHeaders.append("Accept", "application/json");
+  myHeaders.append("Authorization", `Bearer ${token}`);
 
   var requestOptions = {
-    method: 'GET',
+    method: "GET",
     headers: myHeaders,
-    redirect: 'follow',
+    redirect: "follow",
   };
 
   const response = await fetch(
@@ -576,12 +580,12 @@ export async function getServerSideProps({ req, query }) {
 
   const result = await response.json();
 
-  console.log(result.data)
+  console.log(result.data);
 
   return {
     props: {
       data: result.data,
-      token
+      token,
     },
   };
 }

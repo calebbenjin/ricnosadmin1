@@ -18,7 +18,7 @@ const login = async (req, res) => {
 
     const apiData = await apiRes.json();
 
-    // console.log(apiData);
+    // console.log(apiData)
 
     if (apiRes.ok) {
       // Set Cookie

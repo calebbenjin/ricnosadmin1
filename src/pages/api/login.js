@@ -11,7 +11,7 @@ const login = async (req, res) => {
         "Content-Type": "application/json",
         "Accept": "application/json",
       },
-      body: JSON.parse({
+      body: JSON.stringify({
         email,
         password,
       }),

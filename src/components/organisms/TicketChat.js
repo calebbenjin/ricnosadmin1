@@ -9,6 +9,7 @@ import userImg from "@/assets/user4.jpg";
 import { MdAttachFile } from "react-icons/md";
 import { RiSendPlaneFill } from "react-icons/ri";
 import styles from "@/styles/support/Support.module.css";
+import { fullDateTime } from "@/lib/dateFormatter";
 
 export default function TicketChatPage({ openTickets, closedTickets, token }) {
   const [ticketsData, setTicketsData] = useState(openTickets);
@@ -76,7 +77,7 @@ export default function TicketChatPage({ openTickets, closedTickets, token }) {
           {ticketsData.map((ticket) => (
             <li key={ticket.id} onClick={() => setSelectedTicket(ticket)}>
               <h4 className={styles.userName}>{ticket.subject}</h4>
-              <p>{ticket.date}</p>
+              <p>{fullDateTime(ticket.date)}</p>
               <h2>
                 <Image
                   src={

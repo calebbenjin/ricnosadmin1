@@ -1,8 +1,8 @@
-import styled from 'styled-components';
-import ActiveLogCard from '../atoms/ActiveLogCard';
+import styled from "styled-components";
+import ActiveLogCard from "../atoms/ActiveLogCard";
+import { fullDateTime } from "@/lib/dateFormatter";
 
-export default function ActivityLogCard({data}) {
-
+export default function ActivityLogCard({ data }) {
   return (
     <Box>
       <div className="header">
@@ -14,7 +14,7 @@ export default function ActivityLogCard({data}) {
             key={i}
             trackCode={log?.reference_id}
             status={log?.action}
-            date={log?.date}
+            date={fullDateTime(log?.date)}
           />
         ))
       ) : (

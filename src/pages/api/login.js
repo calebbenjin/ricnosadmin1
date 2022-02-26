@@ -10,15 +10,13 @@ const login = async (req, res) => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
+      body: JSON.parse({
         email,
         password,
       }),
     });
 
     const apiData = await apiRes.json();
-
-    // console.log(apiData)
 
     if (apiRes.ok) {
       // Set Cookie
@@ -37,7 +35,6 @@ const login = async (req, res) => {
       res.setHeader('access-control-allow-credentials', true);
 
       res.status(200).json({ user: apiData.data.user });
-      // console.log(apiData.data.user)
     } else {
       res.status(500).json({ message: apiData.message });
     }

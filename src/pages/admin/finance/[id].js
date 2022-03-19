@@ -1,22 +1,22 @@
-import { useState, useContext } from 'react';
-import { useRouter } from 'next/router';
-import Header from '@/components/atoms/Heading';
-import Container from '@/components/atoms/Container';
-import Layout from '@/components/organisms/Layout';
-import { FaUser } from 'react-icons/fa';
-import { API_URL } from '@/lib/index';
-import styled from 'styled-components';
-import { Button, Flex, Box, Heading, Text, Avatar } from '@chakra-ui/react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { BsThreeDotsVertical } from 'react-icons/bs';
-import { FaLongArrowAltRight } from 'react-icons/fa';
-import { VscCalendar } from 'react-icons/vsc';
-import Logo from '@/components/atoms/Logo';
-import logo from '@/assets/logo1.svg';
-import { parseCookies } from '@/helpers/index';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { useState, useContext } from "react";
+import { useRouter } from "next/router";
+import Header from "@/components/atoms/Heading";
+import Container from "@/components/atoms/Container";
+import Layout from "@/components/organisms/Layout";
+import { FaUser } from "react-icons/fa";
+import { API_URL } from "@/lib/index";
+import styled from "styled-components";
+import { Button, Flex, Box, Heading, Text, Avatar } from "@chakra-ui/react";
+import Image from "next/image";
+import Link from "next/link";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { FaLongArrowAltRight } from "react-icons/fa";
+import { VscCalendar } from "react-icons/vsc";
+import Logo from "@/components/atoms/Logo";
+import logo from "@/assets/logo1.svg";
+import { parseCookies } from "@/helpers/index";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function UserPage({ data, token, user }) {
   const [loadingManualRequest, setLoadingManualRequest] = useState(false);
@@ -28,13 +28,13 @@ export default function UserPage({ data, token, user }) {
   const handleManualRequest = async () => {
     setLoadingManualRequest(true);
     var myHeaders = new Headers();
-    myHeaders.append('Accept', 'application/json');
-    myHeaders.append('Authorization', `Bearer ${token}`);
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Authorization", `Bearer ${token}`);
 
     var requestOptions = {
-      method: 'GET',
+      method: "GET",
       headers: myHeaders,
-      redirect: 'follow',
+      redirect: "follow",
     };
 
     const request = await fetch(
@@ -55,13 +55,13 @@ export default function UserPage({ data, token, user }) {
   const handleApprovalRequest = async () => {
     setLoadingApprovalRequest(true);
     var myHeaders = new Headers();
-    myHeaders.append('Accept', 'application/json');
-    myHeaders.append('Authorization', `Bearer ${token}`);
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Authorization", `Bearer ${token}`);
 
     var requestOptions = {
-      method: 'GET',
+      method: "GET",
       headers: myHeaders,
-      redirect: 'follow',
+      redirect: "follow",
     };
 
     const request = await fetch(
@@ -82,13 +82,13 @@ export default function UserPage({ data, token, user }) {
   const handleCancelRequest = async () => {
     setLoadingCancelRequest(true);
     var myHeaders = new Headers();
-    myHeaders.append('Accept', 'application/json');
-    myHeaders.append('Authorization', `Bearer ${token}`);
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Authorization", `Bearer ${token}`);
 
     var requestOptions = {
-      method: 'GET',
+      method: "GET",
       headers: myHeaders,
-      redirect: 'follow',
+      redirect: "follow",
     };
 
     const request = await fetch(
@@ -132,7 +132,7 @@ export default function UserPage({ data, token, user }) {
                 >
                   Active
                 </Button> */}
-                <Button colorScheme={data.status === 'paid' ? 'green' : 'gold'}>
+                <Button colorScheme={data.status === "paid" ? "green" : "gold"}>
                   {data.status}
                 </Button>
               </Box>
@@ -190,7 +190,7 @@ export default function UserPage({ data, token, user }) {
               <Heading size="md">{data.amount}</Heading>
             </Flex>
 
-            {/* {data.integer_status === '0' && user.role === '1' && (
+            {data.integer_status === "0" && user.role === "1" && (
               <div className="actionsBtns">
                 <div>
                   <Button
@@ -217,9 +217,9 @@ export default function UserPage({ data, token, user }) {
                   Approve Manually
                 </Button>
               </div>
-            )} */}
+            )}
 
-            <div className="actionsBtns">
+            {/* <div className="actionsBtns">
                 <div>
                   <Button
                     onClick={handleApprovalRequest}
@@ -244,9 +244,9 @@ export default function UserPage({ data, token, user }) {
                 >
                   Approve Manually
                 </Button>
-              </div>
+              </div> */}
 
-            {/* {data.integer_status === '2' && user.role === '1' && (
+            {data.integer_status === "2" && user.role === "1" && (
               <div className="actionsBtns">
                 <div>
                   <Button
@@ -266,7 +266,7 @@ export default function UserPage({ data, token, user }) {
                   Approve Manually
                 </Button>
               </div>
-            )} */}
+            )}
           </Profile>
 
           <ProfileCard>
@@ -544,20 +544,20 @@ export async function getServerSideProps({ req, query }) {
   if (!token) {
     return {
       redirect: {
-        destination: '/',
+        destination: "/",
         permanent: false,
       },
     };
   }
 
   var myHeaders = new Headers();
-  myHeaders.append('Accept', 'application/json');
-  myHeaders.append('Authorization', `Bearer ${token}`);
+  myHeaders.append("Accept", "application/json");
+  myHeaders.append("Authorization", `Bearer ${token}`);
 
   var requestOptions = {
-    method: 'GET',
+    method: "GET",
     headers: myHeaders,
-    redirect: 'follow',
+    redirect: "follow",
   };
 
   const response = await fetch(
@@ -568,19 +568,19 @@ export async function getServerSideProps({ req, query }) {
   const result = await response.json();
 
   const res = await fetch(`${API_URL}`, {
-    method: 'GET',
+    method: "GET",
     headers: {
-      Authorization: `Bearer ${token}`
-    }
-  })
-  
-  const userData = await res.json()
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const userData = await res.json();
 
   return {
     props: {
       data: result.data.withdrawal_request,
       token,
-      user: userData.data.user
+      user: userData.data.user,
     },
   };
 }

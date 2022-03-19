@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import { useRouter } from 'next/router';
-import Container from '@/components/atoms/Container';
-import Card from '@/components/atoms/Card';
-import { API_URL } from '@/lib/index';
+import { useState } from "react";
+import { useRouter } from "next/router";
+import Container from "@/components/atoms/Container";
+import Card from "@/components/atoms/Card";
+import { API_URL } from "@/lib/index";
 import {
   Button,
   Heading,
@@ -23,16 +23,16 @@ import {
   ModalCloseButton,
   FormControl,
   FormLabel,
-} from '@chakra-ui/react';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import Layout from '@/components/organisms/Layout';
-import { FaShareAlt, FaLongArrowAltRight, FaUser } from 'react-icons/fa';
-import { AiOutlinePrinter } from 'react-icons/ai';
-import { VscCalendar } from 'react-icons/vsc';
+} from "@chakra-ui/react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Layout from "@/components/organisms/Layout";
+import { FaShareAlt, FaLongArrowAltRight, FaUser } from "react-icons/fa";
+import { AiOutlinePrinter } from "react-icons/ai";
+import { VscCalendar } from "react-icons/vsc";
 // import Header from '@/components/atoms/Heading';
-import Link from 'next/link';
-import { parseCookies } from '@/helpers/index';
+import Link from "next/link";
+import { parseCookies } from "@/helpers/index";
 
 export default function OfflineOrderPage({ data, token, user }) {
   const [loadingActivationToggle, setLoadingActivationToggle] = useState(false);
@@ -46,17 +46,17 @@ export default function OfflineOrderPage({ data, token, user }) {
   const handleAccountToggle = async () => {
     setLoadingActivationToggle(true);
     var myHeaders = new Headers();
-    myHeaders.append('Accept', 'application/json');
-    myHeaders.append('Authorization', `Bearer ${token}`);
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Authorization", `Bearer ${token}`);
 
     var requestOptions = {
-      method: 'GET',
+      method: "GET",
       headers: myHeaders,
-      redirect: 'follow',
+      redirect: "follow",
     };
 
     const req = await fetch(
-      `https://alpha.ricnoslogistics.com/api/admin/rider/toggle_activation/${data.id}`,
+      `https://alpha.ricnoslogistics.com/api/admin/staff/toggle_activation/${data.id}`,
       requestOptions
     );
 
@@ -66,29 +66,29 @@ export default function OfflineOrderPage({ data, token, user }) {
       router.reload(window.location.pathname);
     } else {
       setLoadingActivationToggle(false);
-      toast.error('Something went wrong');
+      toast.error("Something went wrong");
     }
   };
 
   const handlePasswordChange = async () => {
     setLoadingPasswordReset(true);
     var myHeaders = new Headers();
-    myHeaders.append('Accept', 'application/json');
-    myHeaders.append('Authorization', `Bearer ${token}`);
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Authorization", `Bearer ${token}`);
 
     var formdata = new FormData();
-    formdata.append('password', password);
-    formdata.append('password_confirmation', confirmPassword);
+    formdata.append("password", password);
+    formdata.append("password_confirmation", confirmPassword);
 
     var requestOptions = {
-      method: 'POST',
+      method: "POST",
       headers: myHeaders,
       body: formdata,
-      redirect: 'follow',
+      redirect: "follow",
     };
 
     const req = await fetch(
-      `https://alpha.ricnoslogistics.com/api/admin/rider/update_password/${data.id}`,
+      `https://alpha.ricnoslogistics.com/api/admin/staff/update_password/${data.id}`,
       requestOptions
     );
 
@@ -118,14 +118,16 @@ export default function OfflineOrderPage({ data, token, user }) {
           pauseOnHover
         />
         <Flex>
-          <Box width={['100%', '65%']} p="1rem">
-          <Heading color="gray" mb="4">Staff</Heading>
+          <Box width={["100%", "65%"]} p="1rem">
+            <Heading color="gray" mb="4">
+              Staff
+            </Heading>
             <Card>
               <Box textAlign="center" my="5">
                 <Avatar
                   name={data.name}
                   size="2xl"
-                  style={{ border: 'solid 2px red' }}
+                  style={{ border: "solid 2px red" }}
                   src={data.passport}
                 ></Avatar>
               </Box>
@@ -206,7 +208,7 @@ export default function OfflineOrderPage({ data, token, user }) {
                               <td></td>
                               <td>{item.tracking_id}</td>
                               <td>{item.destination}</td>
-                              <td style={{ color: 'green' }}>
+                              <td style={{ color: "green" }}>
                                 NGN{item.amount}
                               </td>
                               <td>
@@ -221,14 +223,14 @@ export default function OfflineOrderPage({ data, token, user }) {
                     </Box>
                   </>
                 ) : (
-                  <p>No Earnings history</p>
+                  <p>No Active Orders</p>
                 )}
               </Card>
             </Box>
           </Box>
-          <Box width={['100%', '35%']} p="1rem">
-            <Card style={{ textAlign: 'center' }}>
-              <Link href="/message" passHref>
+          <Box width={["100%", "35%"]} p="1rem">
+            <Card style={{ textAlign: "center" }}>
+              {/* <Link href="/message" passHref>
                 <Button
                   colorScheme="red"
                   width="100%"
@@ -240,11 +242,11 @@ export default function OfflineOrderPage({ data, token, user }) {
                 </Button>
               </Link>
 
-              <hr />
+              <hr /> */}
               <Flex justify="space-between" alignItems="center">
                 <Box my="4">
                   <Flex alignItems="center">
-                    <VscCalendar style={{ fontSize: '1.5rem', color: 'red' }} />
+                    <VscCalendar style={{ fontSize: "1.5rem", color: "red" }} />
                     <Text ml="2">{data.active_orders.length} Orders</Text>
                   </Flex>
                 </Box>
@@ -279,7 +281,7 @@ export default function OfflineOrderPage({ data, token, user }) {
                 Reset Password
               </Button>
 
-              {data.status === '1' && (
+              {data.status === "1" ? (
                 <Button
                   colorScheme="red"
                   width="100%"
@@ -291,9 +293,7 @@ export default function OfflineOrderPage({ data, token, user }) {
                 >
                   Deactivate Account
                 </Button>
-              )}
-
-              {data.status === '0' && (
+              ) : (
                 <Button
                   colorScheme="green"
                   width="100%"
@@ -361,20 +361,20 @@ export async function getServerSideProps({ req, query }) {
   if (!token) {
     return {
       redirect: {
-        destination: '/',
+        destination: "/",
         permanent: false,
       },
     };
   }
 
   var myHeaders = new Headers();
-  myHeaders.append('Accept', 'application/json');
-  myHeaders.append('Authorization', `Bearer ${token}`);
+  myHeaders.append("Accept", "application/json");
+  myHeaders.append("Authorization", `Bearer ${token}`);
 
   var requestOptions = {
-    method: 'GET',
+    method: "GET",
     headers: myHeaders,
-    redirect: 'follow',
+    redirect: "follow",
   };
 
   const response = await fetch(
@@ -385,19 +385,19 @@ export async function getServerSideProps({ req, query }) {
   const result = await response.json();
 
   const res = await fetch(`${API_URL}`, {
-    method: 'GET',
+    method: "GET",
     headers: {
-      Authorization: `Bearer ${token}`
-    }
-  })
-  
-  const userData = await res.json()
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const userData = await res.json();
 
   return {
     props: {
       data: result.data.staff,
       token,
-      user: userData.data.user
+      user: userData.data.user,
     },
   };
 }

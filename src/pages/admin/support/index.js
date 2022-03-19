@@ -43,9 +43,9 @@ export default function SupportPage({
         <div className={styles.leftSide}>
           <button onClick={handleTicket}>Tickets</button>
         </div>
-        <Button colorScheme="red" leftIcon={<AiOutlinePlus />}>
+        {/* <Button colorScheme="red" leftIcon={<AiOutlinePlus />}>
           Create ticket
-        </Button>
+        </Button> */}
       </header>
       <TicketChat
         openTickets={openTickets}

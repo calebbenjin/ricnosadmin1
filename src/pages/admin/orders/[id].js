@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useRef } from "react";
 import Container from "@/components/atoms/Container";
 import { API_URL } from "@/lib/index";
 import Layout from "@/components/organisms/Layout";
@@ -13,6 +13,8 @@ import Image from "next/image";
 import { parseCookies } from "@/helpers/index";
 import { useRouter } from "next/router";
 import AuthContext from "@/context/AuthContext";
+import SelectRiderModal from "@/components/atoms/SelectRiderModal";
+import ReactToPrint from "react-to-print";
 
 export default function OrdersPage({ data, token }) {
   const { user } = useContext(AuthContext);
@@ -22,6 +24,8 @@ export default function OrdersPage({ data, token }) {
   const [loadingConfirmDelivery, setLoadingConfirmDelivery] = useState(false);
 
   const router = useRouter();
+
+  let printInvoiceRef = useRef();
 
   const handleOfficeDrop = async () => {
     setLoadingDrop(true);
@@ -78,7 +82,7 @@ export default function OrdersPage({ data, token }) {
   };
 
   const handleAssignDeliveryAgent = async () => {
-    setLoadingDelivery(false);
+    setLoadingDelivery(true);
     var myHeaders = new Headers();
     myHeaders.append("Accept", "");
     myHeaders.append("Authorization", `Bearer ${token}`);
@@ -100,7 +104,7 @@ export default function OrdersPage({ data, token }) {
       router.reload(window.location.pathname);
     } else {
       setLoadingDelivery(false);
-      console.log(result);
+      // console.log(result);
     }
   };
 
@@ -109,7 +113,7 @@ export default function OrdersPage({ data, token }) {
       <Container>
         <Header>
           <h2 className="orderId">Orders #{data?.order?.tracking_id}</h2>
-          <h5 className="date">06.12.2021 at 10:14am</h5>
+          {/* <h5 className="date">06.12.2021 at 10:14am</h5> */}
         </Header>
 
         <OrderStatus>
@@ -118,11 +122,14 @@ export default function OrdersPage({ data, token }) {
               <h2>Status</h2>
               <p>{data?.order?.status}</p>
             </div>
-            {/* <Button type="submit" colorScheme="red">Print Invoice</Button> */}
+            <ReactToPrint
+              trigger={() => <Button colorScheme="red">Print Invoice</Button>}
+              content={() => printInvoiceRef.current}
+            />
           </div>
         </OrderStatus>
 
-        <SectionLayout>
+        <SectionLayout ref={printInvoiceRef}>
           <Flex>
             <Box width="70%" pr="4">
               <Card>
@@ -367,60 +374,48 @@ export default function OrdersPage({ data, token }) {
             </Box>
 
             <Box width="30%" pl="4">
-              <Box my="4">
-                {data?.order?.admins?.pickup_agent === null && (
-                  <p>No pickup agent assigned</p>
-                )}
+              {data?.order?.is_online === "1" && (
+                <Box my="4">
+                  {data?.order?.admins?.pickup_agent === null && (
+                    <p>No pickup agent assigned</p>
+                  )}
 
-                {(data.order.integer_status === "2" ||
-                  data.order.integer_status === "3" ||
-                  data.order.integer_status === "6" ||
-                  data.order.integer_status === "5" ||
-                  data.order.integer_status === "7" ||
-                  data.order.integer_status === "4" ||
-                  data.order.integer_status === "1") && (
-                  <UserCardInfo
-                    title="Pickup Agent"
-                    img={data?.order?.admins?.pickup_agent?.passport}
-                    username={data?.order?.admins?.pickup_agent?.name}
-                    orders={data?.order?.admins?.pickup_agent?.orders}
-                    url="/"
-                    phone={
-                      data?.order?.admins?.pickup_agent?.contact_info?.phone
-                    }
-                    address={
-                      data?.order?.admins?.pickup_agent?.contact_info?.address
-                    }
-                    status={data?.order?.integer_status}
-                    handleClick={handleOfficeDrop}
-                    loading={loadingDrop}
-                    type="pickup"
-                  />
-                )}
-              </Box>
+                  {(data.order.integer_status === "2" ||
+                    data.order.integer_status === "3" ||
+                    data.order.integer_status === "6" ||
+                    data.order.integer_status === "5" ||
+                    data.order.integer_status === "7" ||
+                    data.order.integer_status === "4" ||
+                    data.order.integer_status === "1") && (
+                    <UserCardInfo
+                      title="Pickup Agent"
+                      img={data?.order?.admins?.pickup_agent?.passport}
+                      username={data?.order?.admins?.pickup_agent?.name}
+                      orders={data?.order?.admins?.pickup_agent?.orders}
+                      url="/"
+                      phone={
+                        data?.order?.admins?.pickup_agent?.contact_info?.phone
+                      }
+                      address={
+                        data?.order?.admins?.pickup_agent?.contact_info?.address
+                      }
+                      status={data?.order?.integer_status}
+                      handleClick={handleOfficeDrop}
+                      loading={loadingDrop}
+                      type="pickup"
+                    />
+                  )}
+                </Box>
+              )}
+
               <Box my="4">
                 {data?.order?.integer_status === "4" && (
                   <>
-                    <Select
-                      value={selectedRider}
-                      onChange={(e) => setSelectedRider(e.target.value)}
-                      placeholder="Select Delivery Agent"
-                    >
-                      {data?.riders.map((rider) => (
-                        <option key={rider?.id} value={rider?.id}>
-                          {rider?.name}
-                        </option>
-                      ))}
-                    </Select>
-                    <Button
-                      onClick={handleAssignDeliveryAgent}
-                      disabled={!selectedRider}
-                      colorScheme="teal"
-                      my="4"
-                      isLoading={loadingDelivery}
-                    >
-                      Assign Delivery Agent
-                    </Button>
+                    <SelectRiderModal
+                      orderID={data?.order.id}
+                      riders={data?.delivery_riders}
+                      token={token}
+                    />
                   </>
                 )}
 

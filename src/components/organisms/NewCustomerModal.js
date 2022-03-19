@@ -1,16 +1,18 @@
-import { useState } from 'react';
-import { useRouter } from 'next/router';
-import Modal from '@/components/molecules/Modal';
+import { useState } from "react";
+import { useRouter } from "next/router";
+import Modal from "@/components/molecules/Modal";
 import {
   useDisclosure,
   FormControl,
   FormLabel,
   Input,
   Button,
-} from '@chakra-ui/react';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { BsPlus } from 'react-icons/bs';
+  Heading,
+  Flex,
+} from "@chakra-ui/react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { BsPlus } from "react-icons/bs";
 
 function NewCustomerModal({ token }) {
   const [email, setEmail] = useState();
@@ -23,18 +25,18 @@ function NewCustomerModal({ token }) {
   const handleNewCustomer = async () => {
     setLoading(true);
     var myHeaders = new Headers();
-    myHeaders.append('Accept', 'application/json');
-    myHeaders.append('Authorization', `Bearer ${token}`);
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Authorization", `Bearer ${token}`);
 
     var formdata = new FormData();
-    formdata.append('email', email);
-    formdata.append('phone', phone);
+    formdata.append("email", email);
+    formdata.append("phone", phone);
 
     var requestOptions = {
-      method: 'POST',
+      method: "POST",
       headers: myHeaders,
       body: formdata,
-      redirect: 'follow',
+      redirect: "follow",
     };
 
     const req = await fetch(
@@ -72,26 +74,33 @@ function NewCustomerModal({ token }) {
         isOpen={isOpen}
         onClose={onClose}
       >
-        <FormControl my={3}>
-          <FormLabel>Customer Email</FormLabel>
-          <Input
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter Customer Email"
-            size="sm"
-            type="mail"
-          />
-        </FormControl>
-        <FormControl my={3}>
-          <FormLabel>Customer Phone Number</FormLabel>
-          <Input
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            placeholder="Enter Customer Phone"
-            size="sm"
-            type="text"
-          />
-        </FormControl>
+        <Flex flexDirection={"column"} m="3">
+          <Heading color={"gray"} textAlign={"center"}>
+            Add User
+          </Heading>
+        </Flex>
+        <Flex gap={"3"}>
+          <FormControl>
+            <FormLabel>User Email</FormLabel>
+            <Input
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter Customer Email"
+              size="lg"
+              type="mail"
+            />
+          </FormControl>
+          <FormControl>
+            <FormLabel>User Phone Number</FormLabel>
+            <Input
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              placeholder="Enter Customer Phone"
+              size="lg"
+              type="text"
+            />
+          </FormControl>
+        </Flex>
       </Modal>
     </>
   );

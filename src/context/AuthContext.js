@@ -14,7 +14,7 @@ export const AuthProvider = ({ children }) => {
 
   const router = useRouter();
 
-  useEffect(() => checkUserLoggedIn(), []);
+  // useEffect(() => checkUserLoggedIn(), []);
 
   // Login user
   // =====================================
@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }) => {
   const checkUserLoggedIn = async () => {
     setInitialLoading(true);
       const res = await fetch(`${NEXT_URL}/api/user`);
-      const data = await res.json();
+      const data = await res.json() ;
 
       console.log(data)
 

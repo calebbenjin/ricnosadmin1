@@ -9,18 +9,19 @@ const user = async (req, res) => {
     }
 
     const { token } = cookie.parse(req.headers.cookie);
-
-    // console.log(token)
-
+    
     const apiRes = await fetch(`${API_URL}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
-        Accept: "application/json",
+        Accept: 'application/json'
+
       },
     });
 
     const user = await apiRes.json();
+
+    console.log(user)
 
     if (apiRes.ok) {
       res.status(200).json({ user });

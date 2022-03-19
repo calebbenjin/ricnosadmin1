@@ -1,52 +1,56 @@
-import React, { useState, useContext } from 'react';
-import Container from './Container';
-import styled from 'styled-components';
-import { FaBell, FaEnvelope } from 'react-icons/fa';
-import Link from 'next/link';
-import UserAvatar from './UserAvatar';
-import Dropdown from './Dropdown';
+import React, { useState, useContext } from "react";
+import Container from "./Container";
+import styled from "styled-components";
+import { FaBell, FaEnvelope } from "react-icons/fa";
+import { BiSearchAlt } from "react-icons/bi";
+import Link from "next/link";
+import UserAvatar from "./UserAvatar";
+import Dropdown from "./Dropdown";
+import { Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
+import NotificationModal from "./NotificationModal";
 
 export default function Navbar({ data }) {
-
   return (
     <Nav>
-      <Container>
-        <div className="flex">
-          <h3></h3>
-          <nav className="nav">
-            {/* <Link href="/">
-              <a className="bell link">
-                <FaBell className="icon" />
-                <div className="notification">5</div>
-              </a>
-            </Link> */}
-            <Link href="/admin/message">
-              <a className="bell link">
-                <FaEnvelope className="icon" />
-                <div className="notification">4</div>
-              </a>
-            </Link>
-            <div className="avatar">
-              <div className="userInfo">
-                <h4>{data?.name || data?.order?.sender_detail?.name}</h4>
-                <p>{data?.email || data?.order?.sender_detail?.email}</p>
-              </div>
-              <UserAvatar
-                image={data?.passport || data?.order?.sender_detail?.passport}
-                size="md"
-              />
-              <Dropdown />
-            </div>
-          </nav>
+      <div className="search">
+        <InputGroup mr="4" w="100%">
+          <InputLeftElement pointerEvents="none">
+            <BiSearchAlt style={{ fontSize: "1.2rem", color: "gray" }} />
+          </InputLeftElement>
+          <Input
+            type="text"
+            _focus={{ paddingLeft: "2.2rem" }}
+            placeholder="Search"
+          />
+        </InputGroup>
+      </div>
+      <div className="flex">
+        <NotificationModal />
+        <div className="avatar">
+          <div className="userInfo">
+            <h4>{data?.name}</h4>
+            <p>{data?.email}</p>
+          </div>
+          <UserAvatar image={data?.passport} size="md" />
+          <Dropdown />
         </div>
-      </Container>
+      </div>
     </Nav>
   );
 }
 
 const Nav = styled.nav`
   background: ${(props) => props.theme.colors.black};
-  height: 10%;
+  height: 13%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 20px;
+
+  .search {
+    width: 50%;
+  }
 
   .flex {
     display: flex;

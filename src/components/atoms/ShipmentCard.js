@@ -1,8 +1,8 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import styled from 'styled-components';
-import Card from './Card';
-import ButtonLink from '@/components/atoms/ButtonLink';
+import Image from "next/image";
+import Link from "next/link";
+import styled from "styled-components";
+import Card from "./Card";
+import ButtonLink from "@/components/atoms/ButtonLink";
 
 export default function ShipmentCard({ data }) {
   return (
@@ -28,7 +28,7 @@ export default function ShipmentCard({ data }) {
             <h4>{data?.destination}</h4>
           </div>
         </div>
-        <ButtonLink href='/admin/orders'>View</ButtonLink>
+        <ButtonLink href="/admin/orders">View</ButtonLink>
       </Card>
     </Box>
   );
@@ -37,7 +37,7 @@ export default function ShipmentCard({ data }) {
 const Box = styled.div`
   margin-top: 1.5rem;
   .card {
-    padding: 20px;
+    padding: 40px;
     background: ${(props) => props.theme.colors.white};
     /* border: solid 1px ${(props) => props.theme.colors.grey}; */
     display: flex;

@@ -1,9 +1,9 @@
-import '@/styles/globals.css';
-import { ThemeProvider } from 'styled-components';
-import theme from '@/styles/theme';
-import { ChakraProvider, CSSReset } from '@chakra-ui/react';
-import { Global, css } from '@emotion/react';
-import { AuthProvider } from '@/context/AuthContext';
+import "@/styles/globals.css";
+import { ThemeProvider } from "styled-components";
+import theme from "@/styles/theme";
+import { ChakraProvider, CSSReset } from "@chakra-ui/react";
+import { Global, css } from "@emotion/react";
+import { AuthProvider } from "@/context/AuthContext";
 
 const GlobalStyle = ({ children }) => {
   return (
@@ -27,10 +27,22 @@ const GlobalStyle = ({ children }) => {
           ::-webkit-scrollbar-thumb:hover {
             background: #555;
           }
+          p {
+            font-family: "Open Sans", sans-serif;
+          }
+
+          h1,
+          h2,
+          h3,
+          h4,
+          h5,
+          h6 {
+            font-family: "Poppins", sans-serif;
+          }
           .selected {
-            background: #fafafa;
-            color: #333;
-            border-bottom: solid 6px #000;
+            background: rgba(80, 80, 80, 0.5);
+            color: #fff;
+            border-left: solid 2px #fff;
           }
           #__next {
             display: flex;
@@ -59,10 +71,15 @@ const GlobalStyle = ({ children }) => {
             border-right: solid 1px #333;
           }
 
-          .selected {
-            background: #fafafa;
-            color: #333;
-            border-bottom: solid 6px #000;
+          // .selected {
+          //   background: #fafafa;
+          //   color: #333;
+          //   border-left: solid 3px #fff;
+          // }
+          .userImage {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
           }
           select {
             outline: none;
@@ -138,6 +155,11 @@ const GlobalStyle = ({ children }) => {
             font-size: 0.85em;
             text-transform: uppercase;
             padding: 20px;
+          }
+
+          tbody tr:hover {
+            cursor: pointer;
+            background-color: #eee;
           }
 
           table td:nth-of-type(2) {

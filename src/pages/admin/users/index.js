@@ -23,27 +23,18 @@ import Layout from "@/components/organisms/Layout";
 import styled from "styled-components";
 import Link from "next/link";
 import { parseCookies } from "@/helpers/index";
+import DataGrid from "@/components/atoms/DataGrid";
+import { UsersTableFilter } from "@/components/atoms/TableFilter";
+import { UsersColumns } from "@/helpers/dataColumns";
+import BlankMessageLayout from "@/components/atoms/BlankMessageLayout";
+import router from "next/router";
 
 export default function UsersPage({ data, branches, token, user }) {
-  const [q, setQ] = useState("");
-  const [filterBtn, setFilterBtn] = useState("All");
   const [usersData, setUsersData] = useState([
     ...data.riders,
     ...data.users,
     ...data.staffs,
   ]);
-
-  useEffect(() => {
-    if (filterBtn === "All") {
-      setUsersData([...data.riders, ...data.users, ...data.staffs]);
-    } else if (filterBtn === "User") {
-      setUsersData([...data.users]);
-    } else if (filterBtn === "Logistics") {
-      setUsersData([...data.riders]);
-    } else if (filterBtn === "Deskstop officer") {
-      setUsersData([...data.staffs]);
-    }
-  }, [filterBtn]);
 
   return (
     <Layout data={user}>
@@ -68,121 +59,27 @@ export default function UsersPage({ data, branches, token, user }) {
             {user.role === "1" && <NewAdminModal token={token} />}
           </BtnContainer>
         </Heading>
-
-        <Flex>
-          <InputGroup mr="4" bg="white">
-            <InputLeftElement pointerEvents="none">
-              <BiSearchAlt style={{ fontSize: "1.2rem", color: "gray" }} />
-            </InputLeftElement>
-            <Input
-              type="text"
-              _focus={{ paddingLeft: "2.2rem" }}
-              value={filterBtn}
-              onChange={(e) => setFilterBtn(e.target.value)}
-              placeholder="Search"
-            />
-          </InputGroup>
-          <Stack spacing={0} direction="row" align="center">
-            <Button
-              borderRadius="0"
-              variant="outline"
-              bg="white"
-              leftIcon={<BiPrinter />}
-              onClick={() => setFilterBtn("all")}
-            >
-              All
-            </Button>
-            <Button
-              borderRadius="0"
-              variant="outline"
-              bg="white"
-              leftIcon={<BiPrinter />}
-              onClick={() => setFilterBtn("User")}
-            >
-              Customers
-            </Button>
-            <Button
-              borderRadius="0"
-              variant="outline"
-              bg="white"
-              leftIcon={<BiPrinter />}
-              onClick={() => setFilterBtn("Logistic")}
-            >
-              Riders
-            </Button>
-            <Button
-              borderRadius="0"
-              variant="outline"
-              bg="white"
-              leftIcon={<BiPrinter />}
-              onClick={() => setFilterBtn("Deskstop officer")}
-            >
-              Staff
-            </Button>
-          </Stack>
-        </Flex>
       </Container>
 
-      <div className="resTable">
-        <table cellPadding={0} cellSpacing={0}>
-          <thead>
-            <tr>
-              <th data-label="Date" scope="col"></th>
-              <th data-label="Date" scope="col">
-                Fullname
-              </th>
-              <th data-label="Date" scope="col">
-                Department
-              </th>
-              <th data-label="Track No" scope="col">
-                Email
-              </th>
-              <th data-label="Name" scope="col">
-                RegDate
-              </th>
-              <th data-label="From" scope="col">
-                Last Activity
-              </th>
-              <th data-label="Price" scope="col">
-                Status
-              </th>
-              <th data-label="Items" scope="col">
-                View
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {usersData.map((user) => (
-              <tr key={user.id}>
-                <td></td>
-                <td>{user.full_name}</td>
-                <td>{user.department}</td>
-                <td>{user.email}</td>
-                <td>{user.reg_date}</td>
-                <td>{user.last_activity}</td>
-                {user.status === "active" ? (
-                  <td style={{ color: "green" }}>{user.status}</td>
-                ) : (
-                  <td style={{ color: "red" }}>{user.status}</td>
-                )}
-                <td>
-                  <Link
-                    href={
-                      user.department === "Logistics"
-                        ? `users/rider/${user.id}`
-                        : user.department === "User"
-                        ? `users/customer/${user.id}`
-                        : `users/staff/${user.id}`
-                    }
-                  >
-                    <a>View</a>
-                  </Link>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      {usersData.length > 0 ? (
+        <DataGrid
+          FilterComponent={UsersTableFilter}
+          tableColumns={UsersColumns}
+          tableData={usersData}
+          callback={(id, department) => {
+            department === "Logistics"
+              ? router.push(`/admin/users/rider/${id}`)
+              : department === "User"
+              ? router.push(`/admin/users/customer/${id}`)
+              : router.push(`/admin/users/staff/${id}`);
+          }}
+        />
+      ) : (
+        <BlankMessageLayout
+          error={true}
+          message="No quote requests available"
+        />
+      )}
     </Layout>
   );
 }

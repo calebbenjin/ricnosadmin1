@@ -1,5 +1,4 @@
 import {
-  Button,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -7,7 +6,9 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-} from '@chakra-ui/react';
+  Flex,
+} from "@chakra-ui/react";
+import Button from "../atoms/Button";
 
 const ModalCard = ({
   isOpen,
@@ -19,20 +20,18 @@ const ModalCard = ({
   children,
 }) => {
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal size={"2xl"} isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>{title}</ModalHeader>
+        {/* <ModalHeader>{title}</ModalHeader> */}
         <ModalCloseButton />
         <ModalBody>{children}</ModalBody>
         <ModalFooter>
-          <Button
-            isLoading={loadingIndicator}
-            onClick={callback}
-            colorScheme="green"
-          >
-            {btnText}
-          </Button>
+          <Flex w={"full"} justifyContent={"center"} alignItems="center">
+            <Button loading={loadingIndicator} onClick={callback}>
+              Save
+            </Button>
+          </Flex>
         </ModalFooter>
       </ModalContent>
     </Modal>

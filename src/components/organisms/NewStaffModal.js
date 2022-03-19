@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { useRouter } from 'next/router';
-import Modal from '@/components/molecules/Modal';
+import { useState } from "react";
+import { useRouter } from "next/router";
+import Modal from "@/components/molecules/Modal";
 import {
   useDisclosure,
   FormControl,
@@ -8,10 +8,12 @@ import {
   Input,
   Button,
   Select,
-} from '@chakra-ui/react';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { BsPlus } from 'react-icons/bs';
+  Flex,
+  Heading,
+} from "@chakra-ui/react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { BsPlus } from "react-icons/bs";
 
 function NewStaffModal({ data, token }) {
   const [email, setEmail] = useState();
@@ -26,20 +28,20 @@ function NewStaffModal({ data, token }) {
   const handleNewStaff = async () => {
     setLoading(true);
     var myHeaders = new Headers();
-    myHeaders.append('Accept', 'application/json');
-    myHeaders.append('Authorization', `Bearer ${token}`);
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Authorization", `Bearer ${token}`);
 
     var formdata = new FormData();
-    formdata.append('email', email);
-    formdata.append('phone', phone);
-    formdata.append('name', name);
-    formdata.append('branch_id', branch);
+    formdata.append("email", email);
+    formdata.append("phone", phone);
+    formdata.append("name", name);
+    formdata.append("branch_id", branch);
 
     var requestOptions = {
-      method: 'POST',
+      method: "POST",
       headers: myHeaders,
       body: formdata,
-      redirect: 'follow',
+      redirect: "follow",
     };
 
     const req = await fetch(
@@ -77,46 +79,55 @@ function NewStaffModal({ data, token }) {
         isOpen={isOpen}
         onClose={onClose}
       >
-        <FormControl my={3}>
-          <FormLabel>Staff Name</FormLabel>
-          <Input
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Enter Staff Name"
-            size="sm"
-            type="text"
-          />
-        </FormControl>
-        <FormControl my={3}>
-          <FormLabel>Staff Email</FormLabel>
-          <Input
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter Staff Email"
-            size="sm"
-            type="mail"
-          />
-        </FormControl>
-        <FormControl my={3}>
-          <FormLabel>Staff Phone Number</FormLabel>
-          <Input
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            placeholder="Enter Staff Phone"
-            size="sm"
-            type="text"
-          />
-        </FormControl>
-        <FormControl my={3}>
-          <FormLabel>Branch</FormLabel>
-          <Select value={branch} onChange={(e) => setBranch(e.target.value)}>
-            {data.map((branch) => (
-              <option key={branch.id} value={branch.id}>
-                {branch.name}
-              </option>
-            ))}
-          </Select>
-        </FormControl>
+        <Flex flexDirection={"column"} m="3">
+          <Heading color={"gray"} textAlign={"center"}>
+            Add Staff
+          </Heading>
+        </Flex>
+        <Flex gap={"3"}>
+          <FormControl>
+            <FormLabel>Staff Name</FormLabel>
+            <Input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Enter Staff Name"
+              size="lg"
+              type="text"
+            />
+          </FormControl>
+          <FormControl>
+            <FormLabel>Staff Email</FormLabel>
+            <Input
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter Staff Email"
+              size="lg"
+              type="mail"
+            />
+          </FormControl>
+        </Flex>
+        <Flex gap={"3"}>
+          <FormControl my={3}>
+            <FormLabel>Staff Phone Number</FormLabel>
+            <Input
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              placeholder="Enter Staff Phone"
+              size="lg"
+              type="text"
+            />
+          </FormControl>
+          <FormControl my={3}>
+            <FormLabel>Branch</FormLabel>
+            <Select value={branch} onChange={(e) => setBranch(e.target.value)}>
+              {data.map((branch) => (
+                <option key={branch.id} value={branch.id}>
+                  {branch.name}
+                </option>
+              ))}
+            </Select>
+          </FormControl>
+        </Flex>
       </Modal>
     </>
   );
